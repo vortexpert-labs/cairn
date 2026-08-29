@@ -7,6 +7,9 @@ created_at: 2026-08-29T16:28:43Z
 claims:
   - "The published package must have zero runtime dependencies."
   - "Development and benchmark dependencies are permitted, but must not appear in the published files."
+verify:
+  command: "node -e \"const p=require('./package.json');process.exit(p.dependencies&&Object.keys(p.dependencies).length?1:0)\""
+  description: "package.json declares no runtime dependencies"
 rationale: >
   Cairn is run against repositories the user may not trust, and is installed via npx into
   other people's projects. Every transitive dependency is supply-chain surface that a tool

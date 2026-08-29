@@ -59,6 +59,9 @@ Usage: cairn <command> [options]
 
   check             Validate everything and report problems
     --strict        Treat warnings as errors
+    --allow-verify  Also run the shell checks attached to constraints.
+                    Never enabled by a file inside the repository being
+                    checked, so cloning a repository is not an act of trust.
     --json          Machine-readable output
 
   index             Compare INDEX.md against the anchors on disk
@@ -123,8 +126,16 @@ export function main(argv = process.argv.slice(2)) {
       return newAnchor({ dir, options: { ...v, revisit_if: v['revisit-if'] } });
     }
     case 'check': {
-      const parsed = parse(rest, { strict: { type: 'boolean' }, json: { type: 'boolean' } });
-      return parsed ? check({ dir, root, options: parsed.values }) : 2;
+      const parsed = parse(rest, {
+        strict: { type: 'boolean' },
+        json: { type: 'boolean' },
+        'allow-verify': { type: 'boolean' },
+      });
+      if (!parsed) return 2;
+      return check({
+        dir, root,
+        options: { ...parsed.values, allowVerify: parsed.values['allow-verify'] },
+      });
     }
     case 'lint': {
       // Kept as an alias so existing muscle memory and CI scripts keep working.

@@ -157,7 +157,9 @@ A conforming tool **MUST** refuse any other transition. Reopening a closed ancho
 
 Superseding changes two anchors at once — the new one gains `supersedes`, the old one becomes `SUPERSEDED` with `superseded_by` set. A tool **MUST** write both sides together, since writing only the new anchor leaves the old one still claiming to be binding.
 
-The `claims`, `rationale`, and `created_at` of an `ACTIVE` anchor **MUST NOT** be edited. A changed situation is recorded by writing a new anchor that supersedes the old one, not by rewriting history. Only `status`, `updated_at`, `superseded_by`, and `invalidated_by` may change on an existing anchor.
+What an `ACTIVE` anchor asserts **MUST NOT** be edited: `title`, `type`, `scope`, `created_at`, `claims`, `rationale`, `alternatives` and `revisit_if`. A changed situation is recorded by writing a new anchor that supersedes the old one, not by rewriting history.
+
+The fields that track an anchor rather than state it **MAY** change: `status`, `updated_at`, `superseded_by`, `invalidated_by`, `evidence` and `verify`. Evidence accumulates as more of it turns up, and attaching a machine check to a rule that already existed does not alter the rule.
 
 Anchors that transitively depend on an `INVALIDATED` anchor are reported as **suspect**. This is a derived condition computed at check time, not a stored status — an anchor's own status describes the anchor, not its ancestors.
 
@@ -216,8 +218,10 @@ This is the only part of Cairn that executes anything, and it is a code-executio
 Therefore a conforming tool:
 
 - **MUST NOT** execute `verify` commands by default.
-- **MUST** require opt-in from outside the repository being checked — a command-line flag, or configuration that is not committed to that repository.
-- **MUST NOT** allow a repository to enable execution of its own `verify` commands through any committed file.
+- **MUST** require opt-in given on the command line, or from configuration stored outside the repository being checked.
+- **MUST NOT** treat any file inside the repository as opt-in — **including one listed in `.gitignore`**. Ignoring a file does not stop it being committed, so a hostile repository could ship its own permission slip.
+
+Continuous integration is a different trust context and needs no exception: a workflow already runs the repository's code by design, so putting the flag in a workflow file is the operator's decision, not the repository's.
 
 ## Format versioning
 
@@ -248,7 +252,7 @@ A conforming implementation performs every check below. Each maps to a **MUST** 
 10. The `depends_on` graph is acyclic.
 11. `verify` appears only on `CONSTRAINT`.
 12. Anchors transitively depending on an `INVALIDATED` anchor are reported suspect.
-12b. The `claims`, `rationale`, and `created_at` of an anchor that was `ACTIVE` in the previous commit are unchanged in the working tree. Checked against git history; skipped for anchors with no committed ancestor.
+12b. The asserting fields of an anchor that was `ACTIVE` in the previous commit are unchanged in the working tree. Checked against git history; skipped for anchors with no committed ancestor.
 12c. Status transitions follow the table above; any other move is refused.
 12d. Superseding writes both sides: the new anchor's `supersedes` and the old anchor's `status` and `superseded_by`.
 

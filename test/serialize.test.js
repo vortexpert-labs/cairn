@@ -59,3 +59,21 @@ test('slugify produces safe filenames', () => {
   assert.equal(slugify('!!!'), 'anchor');
   assert.ok(slugify('x'.repeat(80)).length <= 50);
 });
+
+test('values containing quotes and backslashes survive a round trip', () => {
+  const tricky = {
+    id: 'ANC-0001',
+    title: 'Rule with "quotes" and a \\ backslash',
+    type: 'CONSTRAINT',
+    status: 'ACTIVE',
+    created_at: '2026-01-01T00:00:00Z',
+    claims: ['Say "no" to this, and to C:\\Windows\\paths.'],
+    rationale: 'Because quoting bugs are found in production, not in tests.',
+    verify: { command: 'node -e "process.exit(0)"', description: 'a quoted shell command' },
+  };
+  const { data } = parseFrontmatter(serializeAnchor(tricky));
+  assert.equal(data.title, tricky.title);
+  assert.deepEqual(data.claims, tricky.claims);
+  assert.equal(data.verify.command, tricky.verify.command);
+  assert.equal(data.verify.description, tricky.verify.description);
+});

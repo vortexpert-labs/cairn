@@ -6,6 +6,25 @@ import { validate } from '../schema/validator.js';
 export const ANCHOR_FILE = /^ANC-(\d{4})-([a-z0-9-]+)\.md$/;
 export const CAIRN_DIR = '.cairn';
 
+/**
+ * Fill in the values the format leaves implicit.
+ *
+ * Anything comparing two versions of an anchor must apply this to both sides,
+ * or an absent optional field will look like a change when only the default
+ * was being omitted.
+ */
+export function applyDefaults(data) {
+  return {
+    ...data,
+    scope: data.scope || 'global',
+    claims: data.claims || [],
+    supersedes: data.supersedes || [],
+    depends_on: data.depends_on || [],
+    evidence: data.evidence || [],
+    alternatives: data.alternatives || [],
+  };
+}
+
 export function cairnDir(root = process.cwd()) {
   return path.join(root, CAIRN_DIR);
 }
@@ -71,13 +90,7 @@ export function loadAnchors(dir, schema) {
     }
 
     anchors.push({
-      ...parsed.data,
-      scope: parsed.data.scope || 'global',
-      claims: parsed.data.claims || [],
-      supersedes: parsed.data.supersedes || [],
-      depends_on: parsed.data.depends_on || [],
-      evidence: parsed.data.evidence || [],
-      alternatives: parsed.data.alternatives || [],
+      ...applyDefaults(parsed.data),
       body: parsed.body,
       file,
       path: path.join(dir, file),

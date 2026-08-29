@@ -11,11 +11,15 @@ import { execFileSync } from 'node:child_process';
 import { parseFrontmatter } from './anchor/parse.js';
 import { referenceErrors, cycles, suspects } from './graph/dag.js';
 import { canTransition } from './anchor/transition.js';
-import { CAIRN_DIR } from './anchor/load.js';
+import { CAIRN_DIR, applyDefaults } from './anchor/load.js';
 
 export const SUPPORTED_FORMAT_VERSION = '1.0';
 
-const IMMUTABLE = ['claims', 'rationale', 'created_at'];
+// What the anchor asserts. The tracking fields — status, updated_at,
+// superseded_by, invalidated_by, evidence, verify — are free to change.
+const IMMUTABLE = [
+  'title', 'type', 'scope', 'created_at', 'claims', 'rationale', 'alternatives', 'revisit_if',
+];
 
 const NOISE = [
   /\btoday we\b/i,
@@ -88,7 +92,9 @@ function gitHistoryErrors(anchors, root) {
 
     let old;
     try {
-      old = parseFrontmatter(previous).data;
+      // Both sides need the same defaults, or an omitted optional field
+      // reads as a change.
+      old = applyDefaults(parseFrontmatter(previous).data);
     } catch {
       continue; // the committed version was unparseable; nothing meaningful to compare
     }

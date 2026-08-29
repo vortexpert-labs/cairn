@@ -28,14 +28,26 @@ export class FrontmatterError extends Error {
 
 const KEY = /^([A-Za-z_][A-Za-z0-9_]*):(?:[ \t]+(.*))?$/;
 
+/** Count the backslashes immediately before a position. */
+function precedingEscapes(text, index) {
+  let count = 0;
+  for (let i = index - 1; i >= 0 && text[i] === '\\'; i--) count++;
+  return count;
+}
+
 function unquote(raw) {
   const value = raw.trim();
-  if (value.length >= 2) {
-    const first = value[0];
-    const last = value[value.length - 1];
-    if ((first === '"' && last === '"') || (first === "'" && last === "'")) {
-      return value.slice(1, -1);
-    }
+  if (value.length < 2) return value;
+
+  const first = value[0];
+  const last = value[value.length - 1];
+
+  // A trailing backslash-escaped quote does not close the string.
+  if (first === '"' && last === '"' && precedingEscapes(value, value.length - 1) % 2 === 0) {
+    return value.slice(1, -1).replace(/\\(["\\])/g, '$1');
+  }
+  if (first === "'" && last === "'") {
+    return value.slice(1, -1).replace(/''/g, "'"); // YAML doubles a literal single quote
   }
   return value;
 }

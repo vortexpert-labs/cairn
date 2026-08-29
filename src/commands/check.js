@@ -4,6 +4,7 @@ import { loadAnchors, readSchema, CAIRN_DIR } from '../anchor/load.js';
 import { runChecks } from '../checks.js';
 import { renderIndex, readIndex } from '../render/index.js';
 import { style, symbol } from '../render/terminal.js';
+import { runVerifications, countVerifiable } from '../verify/runner.js';
 
 /**
  * Exit codes are part of the interface and are documented in the README:
@@ -40,10 +41,35 @@ export function check({ dir, root, options }) {
     }
   }
 
+  // Verify commands execute only when told to from outside this repository.
+  // See SPECIFICATION.md: a repository must never be able to grant itself this.
+  const verifiable = countVerifiable(anchors);
+  let verifications = [];
+  if (options.allowVerify && verifiable > 0) {
+    verifications = runVerifications(anchors, root);
+    for (const result of verifications) {
+      if (result.ok) continue;
+      const reason = result.timedOut
+        ? `timed out after ${Math.round(result.ms / 1000)}s`
+        : `exited ${result.exitCode}`;
+      errors.push({
+        file: result.anchor.file,
+        message: `verify failed (${reason}): ${result.anchor.verify.command}` +
+          (result.output ? `\n    ${result.output.replace(/\n/g, '\n    ')}` : ''),
+      });
+    }
+  }
+
   if (options.json) {
     const payload = {
       ok: errors.length === 0 && !(options.strict && warnings.length),
-      counts: { anchors: anchors.length, errors: errors.length, warnings: warnings.length },
+      counts: {
+        anchors: anchors.length,
+        errors: errors.length,
+        warnings: warnings.length,
+        verified: verifications.filter((v) => v.ok).length,
+        verifiable,
+      },
       errors,
       warnings,
     };
@@ -70,7 +96,19 @@ export function check({ dir, root, options }) {
     return 1;
   }
 
-  const suffix = warnings.length ? ` ${style.dim(`(${warnings.length} warning(s))`)}` : '';
+  const notes = [];
+  if (warnings.length) notes.push(`${warnings.length} warning(s)`);
+  if (options.allowVerify && verifiable) notes.push(`${verifiable} verified`);
+  const suffix = notes.length ? ` ${style.dim(`(${notes.join(', ')})`)}` : '';
   console.log(`${style.green(symbol.ok)} ${anchors.length} ${noun} check out.${suffix}`);
+
+  if (verifiable && !options.allowVerify) {
+    console.log(
+      style.dim(
+        `${verifiable} constraint(s) carry a verify command. ` +
+          `Run with --allow-verify to execute them.`,
+      ),
+    );
+  }
   return 0;
 }
