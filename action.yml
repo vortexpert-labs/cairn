@@ -1,0 +1,65 @@
+name: Cairn
+description: Validate a repository's anchors, and surface the ones governing a pull request.
+author: VorteXpert Labs
+
+branding:
+  icon: anchor
+  color: gray-dark
+
+inputs:
+  version:
+    description: Version of @vortexpert-labs/cairn to run.
+    default: latest
+  strict:
+    description: Treat warnings as errors.
+    default: 'false'
+  allow-verify:
+    description: >
+      Run the shell commands attached to constraints. Off by default. Enabling it in a
+      workflow is your decision as the operator; a repository can never enable it itself.
+    default: 'false'
+  comment:
+    description: Comment on the pull request with the anchors governing the change.
+    default: 'true'
+
+runs:
+  using: composite
+  steps:
+    - name: Check anchors
+      shell: bash
+      env:
+        CAIRN: npx -y @vortexpert-labs/cairn@${{ inputs.version }}
+      run: |
+        $CAIRN check \
+          ${{ inputs.strict == 'true' && '--strict' || '' }} \
+          ${{ inputs.allow-verify == 'true' && '--allow-verify' || '' }}
+
+    - name: Comment with the anchors governing this change
+      if: ${{ inputs.comment == 'true' && github.event_name == 'pull_request' }}
+      shell: bash
+      env:
+        GH_TOKEN: ${{ github.token }}
+        BASE: ${{ github.event.pull_request.base.sha }}
+        PR: ${{ github.event.pull_request.number }}
+        REPO: ${{ github.repository }}
+        CAIRN: npx -y @vortexpert-labs/cairn@${{ inputs.version }}
+      run: |
+        set -euo pipefail
+        $CAIRN affected --base "$BASE" --format markdown > comment.md
+
+        if [ ! -s comment.md ]; then
+          echo "No anchors govern this change; not commenting."
+          exit 0
+        fi
+
+        # Update our previous comment rather than adding one on every push.
+        existing=$(gh api "repos/$REPO/issues/$PR/comments" --jq \
+          '[.[] | select(.body | startswith("<!-- cairn-comment -->")) | .id] | first // empty')
+
+        if [ -n "$existing" ]; then
+          gh api -X PATCH "repos/$REPO/issues/comments/$existing" -F body=@comment.md > /dev/null
+          echo "Updated comment $existing."
+        else
+          gh api -X POST "repos/$REPO/issues/$PR/comments" -F body=@comment.md > /dev/null
+          echo "Posted a comment."
+        fi

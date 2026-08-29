@@ -4,6 +4,7 @@ import { PLATFORMS, HOOKS } from '../adapters/platforms.js';
 import { removeBlock, extractBlock } from '../adapters/render.js';
 import { uninstallHooks } from '../adapters/hooks.js';
 import { uninstallServers, MCP_TARGETS } from '../adapters/mcp.js';
+import { SKILLS } from '../adapters/skills.js';
 import { style, symbol } from '../render/terminal.js';
 
 /**
@@ -37,6 +38,13 @@ export function uninstall({ root, options }) {
   const removed = [];
   const kept = [];
 
+  for (const skill of SKILLS) {
+    const file = path.join(root, skill.file);
+    if (!fs.existsSync(file)) continue;
+    removed.push({ target: skill.file, action: 'delete' });
+    if (!options.dryRun) fs.rmSync(file);
+  }
+
   for (const platform of PLATFORMS) {
     const file = path.join(root, platform.target);
     if (!fs.existsSync(file)) continue;
@@ -69,6 +77,7 @@ export function uninstall({ root, options }) {
       ...PLATFORMS.map((p) => p.target),
       ...HOOKS.map((p) => p.file),
       ...MCP_TARGETS.map((t) => t.file),
+      ...SKILLS.map((s) => s.file),
     ]) {
       pruneEmptyDirs(path.join(root, target), root);
     }

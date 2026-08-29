@@ -1,6 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
-import { CAIRN_DIR } from '../anchor/load.js';
+import { CAIRN_DIR, SEPARATE_PROJECT_DIRS } from '../anchor/load.js';
 import { bundledSchemaPath } from '../paths.js';
 import { serializeAnchor } from '../anchor/serialize.js';
 import { renderIndex } from '../render/index.js';
@@ -8,7 +8,30 @@ import { style, symbol } from '../render/terminal.js';
 
 const STAGES = ['PROTOTYPE', 'ALPHA', 'BETA', 'PRODUCTION', 'MAINTENANCE'];
 
+/** An ancestor already holding `.cairn/` means this would be a nested set. */
+function enclosingProject(from) {
+  let dir = path.resolve(from);
+  while (true) {
+    const parent = path.dirname(dir);
+    if (parent === dir) return null;
+    // Crossing into examples/ or fixtures/ means this is a separate project.
+    if (SEPARATE_PROJECT_DIRS.has(path.basename(dir))) return null;
+    if (fs.existsSync(path.join(parent, CAIRN_DIR))) return parent;
+    dir = parent;
+  }
+}
+
 export function init({ root, stage = 'PROTOTYPE' }) {
+  const enclosing = enclosingProject(root);
+  if (enclosing) {
+    console.error(
+      `${path.relative(root, enclosing) || enclosing} already has a ${CAIRN_DIR}/ directory.\n` +
+        `Anchors live in one directory at the project root; use the scope field to ` +
+        `distinguish areas within it.`,
+    );
+    return 2;
+  }
+
   const chosen = String(stage).toUpperCase();
   if (!STAGES.includes(chosen)) {
     console.error(`unknown stage '${stage}'. Expected one of: ${STAGES.join(', ')}`);

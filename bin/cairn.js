@@ -18,6 +18,7 @@ import { adapters } from '../src/commands/adapters.js';
 import { uninstall } from '../src/commands/uninstall.js';
 import { hook } from '../src/commands/hook.js';
 import { serve } from '../src/mcp/server.js';
+import { affected } from '../src/commands/affected.js';
 import { doctor } from '../src/commands/doctor.js';
 
 const HELP = `cairn — the decisions and constraints your project runs on
@@ -53,6 +54,11 @@ Usage: cairn <command> [options]
   timeline          The project's history, oldest first
     --scope         Limit to anchors governing a path
     --format        text | mermaid | json
+
+  affected          Anchors governing the files a change touches
+    --base          Ref to compare against (default origin/main)
+    --format        text | markdown
+    --json          Machine-readable output
 
   review            Anchors worth a second look, and why
     --churn         Commits to a scope before it counts as moved (default 25)
@@ -123,7 +129,9 @@ export function main(argv = process.argv.slice(2)) {
   switch (command) {
     case 'init': {
       const parsed = parse(rest, { stage: { type: 'string' } });
-      return parsed ? init({ root, stage: parsed.values.stage }) : 2;
+      // init acts on the directory you are standing in, not on an enclosing
+      // project, so that starting a new one inside a checkout does what it says.
+      return parsed ? init({ root: process.cwd(), stage: parsed.values.stage }) : 2;
     }
     case 'new': {
       const parsed = parse(rest, {
@@ -188,6 +196,12 @@ export function main(argv = process.argv.slice(2)) {
     case 'timeline': {
       const parsed = parse(rest, { scope: { type: 'string' }, format: { type: 'string' } });
       return parsed ? timeline({ dir, options: parsed.values }) : 2;
+    }
+    case 'affected': {
+      const parsed = parse(rest, {
+        base: { type: 'string' }, json: { type: 'boolean' }, format: { type: 'string' },
+      });
+      return parsed ? affected({ dir, root, options: parsed.values }) : 2;
     }
     case 'review': {
       const parsed = parse(rest, { churn: { type: 'string' }, json: { type: 'boolean' } });

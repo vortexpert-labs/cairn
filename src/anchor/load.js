@@ -7,6 +7,16 @@ export const ANCHOR_FILE = /^ANC-(\d{4})-([a-z0-9-]+)\.md$/;
 export const CAIRN_DIR = '.cairn';
 
 /**
+ * Directory names conventionally holding sample or fixture projects.
+ *
+ * A project inside one of these is a separate project, so it may carry its own
+ * anchors. The nested-directory check and the guard on `init` both consult
+ * this, because two rules disagreeing about what counts as one project would
+ * make one of them wrong.
+ */
+export const SEPARATE_PROJECT_DIRS = new Set(['examples', 'example', 'fixtures', 'testdata']);
+
+/**
  * Fill in the values the format leaves implicit.
  *
  * Anything comparing two versions of an anchor must apply this to both sides,

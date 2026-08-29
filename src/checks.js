@@ -11,7 +11,7 @@ import { execFileSync } from 'node:child_process';
 import { parseFrontmatter } from './anchor/parse.js';
 import { referenceErrors, cycles, suspects } from './graph/dag.js';
 import { canTransition } from './anchor/transition.js';
-import { CAIRN_DIR, applyDefaults } from './anchor/load.js';
+import { CAIRN_DIR, applyDefaults, SEPARATE_PROJECT_DIRS } from './anchor/load.js';
 
 export const SUPPORTED_FORMAT_VERSION = '1.0';
 
@@ -29,7 +29,9 @@ const NOISE = [
   /^\s*at [\w$.<>]+ \(.*:\d+:\d+\)$/m,
 ];
 
-const IGNORED_DIRS = new Set(['node_modules', '.git', 'dist', 'build', 'vendor', '.next']);
+const IGNORED_DIRS = new Set([
+  'node_modules', '.git', 'dist', 'build', 'vendor', '.next', ...SEPARATE_PROJECT_DIRS,
+]);
 
 /** 5b — a repository has one .cairn/, at the root. */
 function nestedDirs(root) {
@@ -82,7 +84,7 @@ function gitHistoryErrors(anchors, root) {
     const rel = path.relative(root, anchor.path).split(path.sep).join('/');
     let previous;
     try {
-      previous = execFileSync('git', ['show', `HEAD:${rel}`], {
+      previous = execFileSync('git', ['show', `HEAD:./${rel}`], {
         cwd: root,
         stdio: ['pipe', 'pipe', 'pipe'],
       }).toString();

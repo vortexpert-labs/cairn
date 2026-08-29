@@ -36,5 +36,21 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - run: node bin/cairn.js check --strict
+      - run: node bin/cairn.js check --strict --allow-verify
       - run: node bin/cairn.js doctor
+      - name: Generated adapters are current
+        run: node bin/cairn.js adapters
+
+  example:
+    name: The worked example is valid
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      # Documentation that does not run is documentation that rots.
+      - run: node ../../bin/cairn.js check --allow-verify
+        working-directory: examples/ledger-service
+      - run: node ../../bin/cairn.js why src/ledger
+        working-directory: examples/ledger-service
