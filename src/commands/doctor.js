@@ -53,11 +53,10 @@ export function doctor({ dir, root }) {
       `${anchors.length} anchors readable, ${failures.length} unreadable`,
       failures.length ? "run 'cairn check' for detail" : null);
 
-    const localOptIn = fs.existsSync(path.join(dir, 'local.json'));
     const verifying = anchors.filter((a) => a.verify).length;
     if (verifying) {
       add(true, `${verifying} anchor(s) carry a verify command`,
-        localOptIn ? 'local opt-in present; they will run' : "not executed without --allow-verify");
+        'this version records verify commands but does not execute them');
     }
   }
 
