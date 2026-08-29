@@ -1,6 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
-import { PLATFORMS } from '../adapters/platforms.js';
+import { PLATFORMS, HOOKS } from '../adapters/platforms.js';
+import { hookState, writeHooks } from '../adapters/hooks.js';
 import { renderAdapter, injectBlock, extractBlock } from '../adapters/render.js';
 import { style, symbol } from '../render/terminal.js';
 
@@ -39,6 +40,11 @@ export function adapters({ root, options }) {
       console.log(`  ${' '.repeat(14)}${style.dim(platform.docs)}`);
       if (platform.note) console.log(`  ${' '.repeat(14)}${style.dim(platform.note)}`);
     }
+    console.log(`\n${style.bold('Hooks')}\n`);
+    for (const platform of HOOKS) {
+      console.log(`  ${style.bold(platform.id.padEnd(14))}${platform.file}`);
+      console.log(`  ${' '.repeat(14)}${style.dim(platform.docs)}`);
+    }
     console.log(
       `\n${style.dim('Every path above comes from the documentation of the platform it targets.')}`,
     );
@@ -71,17 +77,32 @@ export function adapters({ root, options }) {
       console.log(`${style.green(symbol.ok)} ${result.platform.target}`);
       changed++;
     }
+    for (const platform of HOOKS) {
+      if (options.platform && options.platform !== platform.id) continue;
+      if (hookState(root, platform).installed) continue;
+      writeHooks(root, platform);
+      console.log(`${style.green(symbol.ok)} ${platform.file} ${style.dim('(hooks)')}`);
+      changed++;
+    }
+
     if (changed === 0) console.log(`${style.green(symbol.ok)} every adapter is already current.`);
     return 0;
   }
 
   // Default and --check: report drift without touching anything.
+  const staleHooks = HOOKS
+    .filter((platform) => !options.platform || options.platform === platform.id)
+    .filter((platform) => !hookState(root, platform).installed);
+
   const stale = results.filter((r) => !r.matches);
-  if (stale.length === 0) {
+  if (stale.length === 0 && staleHooks.length === 0) {
     console.log(`${style.green(symbol.ok)} ${results.length} adapter(s) match the generator.`);
     return 0;
   }
 
+  for (const platform of staleHooks) {
+    console.error(`${style.red(symbol.error)} ${platform.file}  hooks not installed`);
+  }
   for (const result of stale) {
     const reason = !result.exists
       ? 'not written yet'

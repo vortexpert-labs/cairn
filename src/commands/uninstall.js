@@ -2,6 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { PLATFORMS } from '../adapters/platforms.js';
 import { removeBlock, extractBlock } from '../adapters/render.js';
+import { uninstallHooks } from '../adapters/hooks.js';
 import { style, symbol } from '../render/terminal.js';
 
 /**
@@ -64,6 +65,8 @@ export function uninstall({ root, options }) {
       }
     }
   }
+
+  if (!options.dryRun) removed.push(...uninstallHooks(root));
 
   if (removed.length === 0) {
     console.log('No Cairn adapters found.');

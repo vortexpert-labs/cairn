@@ -32,7 +32,7 @@ export const PLATFORMS = [
     name: 'Claude Code',
     target: 'CLAUDE.md',
     mode: 'block',
-    docs: 'https://docs.claude.com/en/docs/claude-code/memory',
+    docs: 'https://code.claude.com/docs/en/memory',
   },
   {
     id: 'cursor',
@@ -68,6 +68,33 @@ export const PLATFORMS = [
     target: 'AGENTS.md',
     mode: 'block',
     docs: 'https://agents.md/',
+  },
+];
+
+/**
+ * Hook configuration, for platforms where the contract is verified end to end:
+ * the settings schema, the event names, and that the event can carry injected
+ * context. Several other platforms have hooks whose ability to add context we
+ * could not confirm; those are documented in docs/PLATFORMS.md rather than
+ * generated, because a hook that silently does nothing is worse than none.
+ */
+export const HOOKS = [
+  {
+    id: 'claude-code',
+    name: 'Claude Code',
+    file: '.claude/settings.json',
+    docs: 'https://code.claude.com/docs/en/hooks',
+    build: (command) => ({
+      SessionStart: [
+        { hooks: [{ type: 'command', command: `${command} hook session --format claude-code` }] },
+      ],
+      PreToolUse: [
+        {
+          matcher: 'Edit|Write|MultiEdit|NotebookEdit',
+          hooks: [{ type: 'command', command: `${command} hook edit --format claude-code` }],
+        },
+      ],
+    }),
   },
 ];
 

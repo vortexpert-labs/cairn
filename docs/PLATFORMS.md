@@ -19,6 +19,31 @@ Nothing is listed here on the strength of a blog post or a comparison article. T
 
 Two of these cap the size of a rules file at 12,000 characters — Antigravity and Windsurf. The generator refuses to write a file that would exceed a documented limit rather than producing one the platform will silently truncate.
 
+## Hooks
+
+A rules file asks an agent to fetch what governs a path. A hook makes it arrive whether or not the agent thought to ask, which is the difference between a convention and a mechanism.
+
+| Platform | File | What Cairn installs | Source |
+|---|---|---|---|
+| Claude Code | `.claude/settings.json` | `SessionStart` injects the project's active anchors; `PreToolUse` on file edits injects the anchors governing that path | [Hooks](https://code.claude.com/docs/en/hooks) |
+
+The edit hook returns nothing for a path no anchor governs, and deliberately omits project-wide anchors — the session hook has already supplied those, and repeating them before every edit is how a context file stops being read.
+
+`cairn hook` never runs `verify` commands. Injecting context is safe; executing a repository's shell commands because an editor opened a file is not, and routing that through a hook would defeat the `--allow-verify` rule entirely.
+
+Hooks are merged into your settings file rather than replacing it. Only entries invoking `cairn hook` are managed; your own hooks, permissions and other settings are left alone, and `cairn uninstall` removes only ours.
+
+### Platforms with hooks that Cairn does not configure
+
+[Antigravity](https://antigravity.google/docs/hooks/), [Cursor](https://cursor.com/docs/hooks) and Windsurf all have hook systems. Cairn does not generate configuration for them because we could not confirm from their documentation that the relevant event can inject context back into the conversation — Antigravity's `PreToolUse` is documented as returning a permission decision, and Cursor documents `additional_context` on `sessionStart` and `postToolUse` but not on the pre-edit events. A hook that silently does nothing is worse than no hook.
+
+If you know otherwise for a platform you use, the wiring is a two-line entry in `src/adapters/platforms.js` and the endpoint already exists:
+
+```
+cairn hook session --format text    # the project's active anchors
+cairn hook edit --format text       # anchors for a path, read as JSON on stdin
+```
+
 ## Notes
 
 **Windsurf** reads `.devin/rules/*.md` in preference to `.windsurf/rules/*.md` following the product's move under Devin. The older path still works as a fallback; Cairn writes the current one.

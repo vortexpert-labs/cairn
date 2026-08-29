@@ -16,6 +16,7 @@ import { review } from '../src/commands/review.js';
 import { status } from '../src/commands/status.js';
 import { adapters } from '../src/commands/adapters.js';
 import { uninstall } from '../src/commands/uninstall.js';
+import { hook } from '../src/commands/hook.js';
 import { doctor } from '../src/commands/doctor.js';
 
 const HELP = `cairn — the decisions and constraints your project runs on
@@ -80,6 +81,9 @@ Usage: cairn <command> [options]
 
   uninstall         Remove the generated adapters, leaving .cairn/ alone
     --dry-run       Show what would be removed
+
+  hook <event>      Endpoint an agent's hook system calls; not for humans
+    --format        claude-code | cursor | text
 
   doctor            Diagnose the setup rather than the content
 
@@ -202,6 +206,11 @@ export function main(argv = process.argv.slice(2)) {
     case 'uninstall': {
       const parsed = parse(rest, { 'dry-run': { type: 'boolean' } });
       return parsed ? uninstall({ root, options: { dryRun: parsed.values['dry-run'] } }) : 2;
+    }
+    case 'hook': {
+      const parsed = parse(rest, { format: { type: 'string' } });
+      if (!parsed) return 2;
+      return hook({ dir, root, event: parsed.positionals[0], options: parsed.values });
     }
     case 'doctor':
       return doctor({ dir, root });
