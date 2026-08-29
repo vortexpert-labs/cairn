@@ -220,3 +220,138 @@ test('a malformed --alternative is rejected with guidance', (t) => {
   assert.equal(result.code, 2);
   assert.match(result.stderr, /option :: why it was rejected/);
 });
+
+// --- Phase 2: retrieval, lifecycle and rendering -------------------------
+
+/** A workspace with a superseded decision, a finding, and a closed path. */
+function billingWorkspace(t) {
+  const dir = workspace();
+  t.after(() => fs.rmSync(dir, { recursive: true, force: true }));
+  cairn(dir, 'init', '--stage', 'PRODUCTION');
+  cairn(dir, 'new', '--title', 'SQLite as the ledger store', '--type', 'DECISION',
+    '--status', 'ACTIVE', '--scope', 'src/billing',
+    '--claim', 'The billing ledger is stored in SQLite.',
+    '--rationale', 'Single writer at launch volumes.');
+  cairn(dir, 'new', '--title', 'Ledger saturates above 200 rps', '--type', 'FINDING',
+    '--status', 'ACTIVE', '--scope', 'src/billing',
+    '--claim', 'Sustained writes above 200 rps cause silent retries.',
+    '--rationale', 'Measured during the March load test.');
+  return dir;
+}
+
+test('why reports what governs a path and separates project-wide rules', (t) => {
+  const dir = billingWorkspace(t);
+  const result = cairn(dir, 'why', 'src/billing');
+  assert.equal(result.code, 0);
+  assert.match(result.stdout, /SQLite as the ledger store/);
+  assert.match(result.stdout, /Also applies project-wide/);
+  assert.match(result.stdout, /Project stage: PRODUCTION/);
+});
+
+test('why is honest when nothing is scoped to a path', (t) => {
+  const dir = billingWorkspace(t);
+  const result = cairn(dir, 'why', 'src/frontend');
+  assert.equal(result.code, 0);
+  assert.match(result.stdout, /Nothing is scoped to/);
+});
+
+test('why needs a path', (t) => {
+  const dir = billingWorkspace(t);
+  assert.equal(cairn(dir, 'why').code, 2);
+});
+
+test('superseding writes both sides in one command', (t) => {
+  const dir = billingWorkspace(t);
+  const result = cairn(dir, 'new', '--title', 'Postgres as the ledger store', '--type', 'DECISION',
+    '--status', 'ACTIVE', '--scope', 'src/billing', '--supersedes', 'ANC-0002',
+    '--depends-on', 'ANC-0003',
+    '--claim', 'The ledger is stored in Postgres.',
+    '--alternative', 'Staying on SQLite :: Cannot pass 200 rps.',
+    '--rationale', 'Write volume passed the ceiling found in the load test.');
+  assert.equal(result.code, 0, result.stderr);
+  assert.match(result.stdout, /ANC-0002\s+ACTIVE → SUPERSEDED/);
+
+  const old = fs.readFileSync(
+    path.join(dir, '.cairn', fs.readdirSync(path.join(dir, '.cairn')).find((f) => f.includes('sqlite'))),
+    'utf8',
+  );
+  assert.match(old, /status: SUPERSEDED/);
+  assert.match(old, /superseded_by: ANC-0004/);
+  assert.equal(cairn(dir, 'check').code, 0, 'both sides must remain valid');
+});
+
+test('superseding a missing or non-active anchor is refused before anything is written', (t) => {
+  const dir = billingWorkspace(t);
+  const before = fs.readdirSync(path.join(dir, '.cairn')).length;
+  const result = cairn(dir, 'new', '--title', 'x', '--type', 'DECISION',
+    '--claim', 'a', '--rationale', 'b', '--supersedes', 'ANC-9999');
+  assert.equal(result.code, 2);
+  assert.match(result.stderr, /ANC-9999/);
+  assert.equal(fs.readdirSync(path.join(dir, '.cairn')).length, before, 'nothing was written');
+});
+
+test('status promotes a proposed anchor and refuses to move a closed one', (t) => {
+  const dir = billingWorkspace(t);
+  cairn(dir, 'new', '--title', 'Append only ledger', '--type', 'CONSTRAINT', '--scope', 'src/billing',
+    '--claim', 'Ledger rows are never updated.', '--rationale', 'The audit trail needs immutability.');
+
+  const promote = cairn(dir, 'status', 'ANC-0004', 'ACTIVE');
+  assert.equal(promote.code, 0, promote.stderr);
+  assert.match(promote.stdout, /PROPOSED → ACTIVE/);
+
+  const backwards = cairn(dir, 'status', 'ANC-0004', 'PROPOSED');
+  assert.equal(backwards.code, 2);
+  assert.match(backwards.stderr, /can only become/);
+
+  const retired = cairn(dir, 'status', 'ANC-0004', 'RETIRED');
+  assert.equal(retired.code, 0);
+  assert.equal(cairn(dir, 'status', 'ANC-0004', 'ACTIVE').code, 2, 'closed anchors are final');
+});
+
+test('timeline renders text and mermaid', (t) => {
+  const dir = billingWorkspace(t);
+  const text = cairn(dir, 'timeline');
+  assert.equal(text.code, 0);
+  assert.match(text.stdout, /ANC-0001[\s\S]*ANC-0002[\s\S]*ANC-0003/, 'oldest first');
+
+  const mermaid = cairn(dir, 'timeline', '--format', 'mermaid');
+  assert.match(mermaid.stdout, /^graph TD/m);
+  assert.match(mermaid.stdout, /classDef active/);
+
+  assert.equal(cairn(dir, 'timeline', '--format', 'svg').code, 2, 'unknown formats are refused');
+});
+
+test('context produces the payload an agent loads', (t) => {
+  const dir = billingWorkspace(t);
+  const scoped = cairn(dir, 'context', '--scope', 'src/billing');
+  assert.equal(scoped.code, 0);
+  assert.match(scoped.stdout, /Project stage: PRODUCTION/);
+  assert.match(scoped.stdout, /## Anchors governing src\/billing/);
+  assert.match(scoped.stdout, /Why: Single writer at launch volumes\./);
+
+  const brief = cairn(dir, 'context', '--scope', 'src/billing', '--brief');
+  assert.ok(!brief.stdout.includes('Why:'), '--brief drops the reasoning');
+});
+
+test('review surfaces a named revisit condition', (t) => {
+  const dir = billingWorkspace(t);
+  cairn(dir, 'new', '--title', 'Rate limit at 100 rps', '--type', 'CONSTRAINT', '--status', 'ACTIVE',
+    '--scope', 'src/billing', '--claim', 'Requests are capped at 100 rps.',
+    '--rationale', 'Protects the ledger from the saturation found in testing.',
+    '--revisit-if', 'the ledger moves to a store without the write ceiling');
+
+  const result = cairn(dir, 'review');
+  assert.equal(result.code, 0);
+  assert.match(result.stdout, /named a condition to revisit/);
+  assert.match(result.stdout, /without the write ceiling/);
+  assert.equal(cairn(dir, 'review', '--churn', 'lots').code, 2);
+});
+
+test('show renders one anchor and reports a missing fork', (t) => {
+  const dir = billingWorkspace(t);
+  const result = cairn(dir, 'show', 'ANC-0003', '--fork');
+  assert.equal(result.code, 0);
+  assert.match(result.stdout, /Ledger saturates above 200 rps/);
+  assert.match(result.stdout, /No alternatives were recorded/);
+  assert.equal(cairn(dir, 'show', 'ANC-9999').code, 3);
+});

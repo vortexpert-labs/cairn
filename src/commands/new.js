@@ -4,6 +4,7 @@ import { loadAnchors, nextId, readSchema } from '../anchor/load.js';
 import { serializeAnchor, slugify } from '../anchor/serialize.js';
 import { validate } from '../schema/validator.js';
 import { renderIndex, readIndex } from '../render/index.js';
+import { applyTransition } from '../anchor/transition.js';
 import { style, symbol } from '../render/terminal.js';
 
 export function newAnchor({ dir, options }) {
@@ -17,7 +18,35 @@ export function newAnchor({ dir, options }) {
   }
 
   const schema = readSchema(dir);
+  const existing = loadAnchors(dir, schema).anchors;
   const id = nextId(dir);
+
+  // Resolve relations before writing anything, so a bad reference costs nothing.
+  const resolve = (ids, flag) => {
+    const resolved = [];
+    for (const raw of ids || []) {
+      const wanted = String(raw).toUpperCase();
+      const found = existing.find((a) => a.id === wanted);
+      if (!found) {
+        console.error(`${flag} names ${wanted}, which does not exist.`);
+        return null;
+      }
+      resolved.push(found);
+    }
+    return resolved;
+  };
+
+  const superseded = resolve(options.supersedes, '--supersedes');
+  if (superseded === null) return 2;
+  const dependencies = resolve(options['depends-on'], '--depends-on');
+  if (dependencies === null) return 2;
+
+  for (const target of superseded) {
+    if (target.status !== 'ACTIVE') {
+      console.error(`${target.id} is ${target.status}; only an ACTIVE anchor can be superseded.`);
+      return 2;
+    }
+  }
   const now = new Date().toISOString().replace(/\.\d{3}Z$/, 'Z');
 
   const anchor = {
@@ -30,6 +59,8 @@ export function newAnchor({ dir, options }) {
     scope: options.scope || 'global',
     claims: options.claim || [],
     rationale: options.rationale || '',
+    supersedes: superseded.map((a) => a.id),
+    depends_on: dependencies.map((a) => a.id),
     body: '',
   };
 
@@ -78,6 +109,13 @@ export function newAnchor({ dir, options }) {
   const file = `${id}-${slugify(anchor.title)}.md`;
   fs.writeFileSync(path.join(dir, file), serializeAnchor(anchor), 'utf8');
   console.log(`${style.green(symbol.ok)} ${file}`);
+
+  // Superseding is one operation with two sides; writing only the new anchor
+  // would leave the old one claiming to be binding.
+  for (const target of superseded) {
+    applyTransition(target.path, { status: 'SUPERSEDED', superseded_by: id });
+    console.log(`${style.green(symbol.ok)} ${target.id}  ACTIVE → SUPERSEDED`);
+  }
 
   const indexFile = path.join(dir, 'INDEX.md');
   const { anchors } = loadAnchors(dir, schema);

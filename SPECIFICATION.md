@@ -145,6 +145,18 @@ The distinction between `SUPERSEDED`, `INVALIDATED`, and `RETIRED` is worth keep
 
 An anchor with `status: SUPERSEDED` **MUST** have `superseded_by` set to an existing anchor id.
 
+Status moves in one direction only:
+
+| From | May become |
+|---|---|
+| `PROPOSED` | `ACTIVE`, `INVALIDATED` |
+| `ACTIVE` | `SUPERSEDED`, `INVALIDATED`, `RETIRED` |
+| `SUPERSEDED`, `INVALIDATED`, `RETIRED` | nothing — these are final |
+
+A conforming tool **MUST** refuse any other transition. Reopening a closed anchor would make the record unreadable as history: what a reader wants to know is what was true when, and a status that can move backwards cannot answer that. If a retired constraint becomes relevant again, record it as a new anchor.
+
+Superseding changes two anchors at once — the new one gains `supersedes`, the old one becomes `SUPERSEDED` with `superseded_by` set. A tool **MUST** write both sides together, since writing only the new anchor leaves the old one still claiming to be binding.
+
 The `claims`, `rationale`, and `created_at` of an `ACTIVE` anchor **MUST NOT** be edited. A changed situation is recorded by writing a new anchor that supersedes the old one, not by rewriting history. Only `status`, `updated_at`, `superseded_by`, and `invalidated_by` may change on an existing anchor.
 
 Anchors that transitively depend on an `INVALIDATED` anchor are reported as **suspect**. This is a derived condition computed at check time, not a stored status — an anchor's own status describes the anchor, not its ancestors.
@@ -237,6 +249,8 @@ A conforming implementation performs every check below. Each maps to a **MUST** 
 11. `verify` appears only on `CONSTRAINT`.
 12. Anchors transitively depending on an `INVALIDATED` anchor are reported suspect.
 12b. The `claims`, `rationale`, and `created_at` of an anchor that was `ACTIVE` in the previous commit are unchanged in the working tree. Checked against git history; skipped for anchors with no committed ancestor.
+12c. Status transitions follow the table above; any other move is refused.
+12d. Superseding writes both sides: the new anchor's `supersedes` and the old anchor's `status` and `superseded_by`.
 
 **Index**
 13. Content outside the registry markers is preserved byte-for-byte.

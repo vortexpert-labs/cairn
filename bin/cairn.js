@@ -8,6 +8,12 @@ import { newAnchor } from '../src/commands/new.js';
 import { check } from '../src/commands/check.js';
 import { indexCommand } from '../src/commands/index-cmd.js';
 import { migrate } from '../src/commands/migrate.js';
+import { why } from '../src/commands/why.js';
+import { context } from '../src/commands/context.js';
+import { show } from '../src/commands/show.js';
+import { timeline } from '../src/commands/timeline.js';
+import { review } from '../src/commands/review.js';
+import { status } from '../src/commands/status.js';
 import { doctor } from '../src/commands/doctor.js';
 
 const HELP = `cairn — the decisions and constraints your project runs on
@@ -25,8 +31,31 @@ Usage: cairn <command> [options]
     --status        PROPOSED | ACTIVE | SUPERSEDED | INVALIDATED | RETIRED
     --scope         Path or glob this anchor governs
     --alternative   "option :: why it was rejected"; repeat for several
+    --supersedes    Anchor this one replaces; marks it SUPERSEDED for you
+    --depends-on    Anchor this one rests on; repeat for several
     --revisit-if    The condition that would make this anchor wrong
     --verify        Shell check for a CONSTRAINT; exit 0 means it holds
+
+  status <id> <to>  Move an anchor through its lifecycle
+                    PROPOSED -> ACTIVE or INVALIDATED
+                    ACTIVE   -> SUPERSEDED, INVALIDATED or RETIRED
+
+  why <path>        Show every anchor governing a path
+    --json          Machine-readable output
+
+  show <id>         Show one anchor in full
+    --fork          Point out whether there is a fork to reopen
+
+  timeline          The project's history, oldest first
+    --scope         Limit to anchors governing a path
+    --format        text | mermaid | json
+
+  review            Anchors worth a second look, and why
+    --churn         Commits to a scope before it counts as moved (default 25)
+
+  context           The orientation payload an agent should load
+    --scope         Limit to anchors governing a path
+    --brief         Claims only, without the reasoning
 
   check             Validate everything and report problems
     --strict        Treat warnings as errors
@@ -84,6 +113,8 @@ export function main(argv = process.argv.slice(2)) {
         status: { type: 'string' },
         scope: { type: 'string' },
         alternative: { type: 'string', multiple: true },
+        supersedes: { type: 'string', multiple: true },
+        'depends-on': { type: 'string', multiple: true },
         'revisit-if': { type: 'string' },
         verify: { type: 'string' },
       });
@@ -108,6 +139,36 @@ export function main(argv = process.argv.slice(2)) {
     case 'migrate': {
       const parsed = parse(rest, { 'dry-run': { type: 'boolean' } });
       return parsed ? migrate({ root, options: { dryRun: parsed.values['dry-run'] } }) : 2;
+    }
+    case 'status': {
+      const parsed = parse(rest, { by: { type: 'string' } });
+      if (!parsed) return 2;
+      const [target, next] = parsed.positionals;
+      return status({ dir, id: target, target: next, options: parsed.values });
+    }
+    case 'why': {
+      const parsed = parse(rest, { json: { type: 'boolean' } });
+      if (!parsed) return 2;
+      return why({ dir, root, target: parsed.positionals[0], options: parsed.values });
+    }
+    case 'show': {
+      const parsed = parse(rest, { fork: { type: 'boolean' }, json: { type: 'boolean' } });
+      if (!parsed) return 2;
+      return show({ dir, id: parsed.positionals[0], options: parsed.values });
+    }
+    case 'timeline': {
+      const parsed = parse(rest, { scope: { type: 'string' }, format: { type: 'string' } });
+      return parsed ? timeline({ dir, options: parsed.values }) : 2;
+    }
+    case 'review': {
+      const parsed = parse(rest, { churn: { type: 'string' }, json: { type: 'boolean' } });
+      return parsed ? review({ dir, root, options: parsed.values }) : 2;
+    }
+    case 'context': {
+      const parsed = parse(rest, {
+        scope: { type: 'string' }, brief: { type: 'boolean' }, json: { type: 'boolean' },
+      });
+      return parsed ? context({ dir, root, options: parsed.values }) : 2;
     }
     case 'doctor':
       return doctor({ dir, root });
