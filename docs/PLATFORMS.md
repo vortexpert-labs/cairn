@@ -44,6 +44,22 @@ cairn hook session --format text    # the project's active anchors
 cairn hook edit --format text       # anchors for a path, read as JSON on stdin
 ```
 
+## MCP server
+
+`cairn mcp` serves the anchors over the Model Context Protocol on stdio, which reaches any MCP-capable agent without a file convention of its own. It speaks JSON-RPC 2.0 directly, with no SDK, so the published package keeps its zero runtime dependencies.
+
+| Platform | Config file | Source |
+|---|---|---|
+| Claude Code | `.mcp.json` | [MCP](https://code.claude.com/docs/en/mcp) |
+| Cursor | `.cursor/mcp.json` | [MCP](https://cursor.com/docs/context/mcp) |
+| Antigravity | `.agents/mcp_config.json` | [MCP](https://antigravity.google/docs/mcp/) |
+
+Tools: `cairn_why`, `cairn_context`, `cairn_show`, `cairn_timeline`, and `cairn_record`. The index is also exposed as a resource at `cairn://index`.
+
+`cairn_record` always writes `PROPOSED`, never `ACTIVE`, and its description says so. An agent that could draft a rule which immediately binds the repository would put the governance model in the hands of whatever was most recently plausible.
+
+Registration is merged into your configuration: other servers you have set up are left alone, and `cairn uninstall` removes only the `cairn` entry.
+
 ## Notes
 
 **Windsurf** reads `.devin/rules/*.md` in preference to `.windsurf/rules/*.md` following the product's move under Devin. The older path still works as a fallback; Cairn writes the current one.

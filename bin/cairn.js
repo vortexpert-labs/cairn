@@ -17,6 +17,7 @@ import { status } from '../src/commands/status.js';
 import { adapters } from '../src/commands/adapters.js';
 import { uninstall } from '../src/commands/uninstall.js';
 import { hook } from '../src/commands/hook.js';
+import { serve } from '../src/mcp/server.js';
 import { doctor } from '../src/commands/doctor.js';
 
 const HELP = `cairn — the decisions and constraints your project runs on
@@ -81,6 +82,8 @@ Usage: cairn <command> [options]
 
   uninstall         Remove the generated adapters, leaving .cairn/ alone
     --dry-run       Show what would be removed
+
+  mcp               Serve the anchors over the Model Context Protocol (stdio)
 
   hook <event>      Endpoint an agent's hook system calls; not for humans
     --format        claude-code | cursor | text
@@ -207,6 +210,8 @@ export function main(argv = process.argv.slice(2)) {
       const parsed = parse(rest, { 'dry-run': { type: 'boolean' } });
       return parsed ? uninstall({ root, options: { dryRun: parsed.values['dry-run'] } }) : 2;
     }
+    case 'mcp':
+      return serve({ dir });
     case 'hook': {
       const parsed = parse(rest, { format: { type: 'string' } });
       if (!parsed) return 2;
@@ -224,5 +229,7 @@ const invokedDirectly =
   process.argv[1] && import.meta.url === new URL(`file://${process.argv[1]}`).href;
 
 if (invokedDirectly || process.env.CAIRN_FORCE_MAIN) {
-  process.exit(main());
+  const result = main();
+  if (result instanceof Promise) result.then((code) => process.exit(code));
+  else process.exit(result);
 }

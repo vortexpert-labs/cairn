@@ -1,8 +1,9 @@
 import fs from 'node:fs';
 import path from 'node:path';
-import { PLATFORMS } from '../adapters/platforms.js';
+import { PLATFORMS, HOOKS } from '../adapters/platforms.js';
 import { removeBlock, extractBlock } from '../adapters/render.js';
 import { uninstallHooks } from '../adapters/hooks.js';
+import { uninstallServers, MCP_TARGETS } from '../adapters/mcp.js';
 import { style, symbol } from '../render/terminal.js';
 
 /**
@@ -43,10 +44,7 @@ export function uninstall({ root, options }) {
 
     if (platform.mode === 'file') {
       removed.push({ target: platform.target, action: 'delete' });
-      if (!options.dryRun) {
-        fs.rmSync(file);
-        pruneEmptyDirs(file, root);
-      }
+      if (!options.dryRun) fs.rmSync(file);
       continue;
     }
 
@@ -57,16 +55,24 @@ export function uninstall({ root, options }) {
     const next = removeBlock(current);
     removed.push({ target: platform.target, action: next.trim() === '' ? 'delete' : 'clear region' });
     if (!options.dryRun) {
-      if (next.trim() === '') {
-        fs.rmSync(file);
-        pruneEmptyDirs(file, root);
-      } else {
-        fs.writeFileSync(file, next, 'utf8');
-      }
+      if (next.trim() === '') fs.rmSync(file);
+      else fs.writeFileSync(file, next, 'utf8');
     }
   }
 
-  if (!options.dryRun) removed.push(...uninstallHooks(root));
+  if (!options.dryRun) {
+    removed.push(...uninstallHooks(root), ...uninstallServers(root));
+
+    // Every managed path, pruned once at the end: a rules file and an MCP
+    // config can share a directory, so pruning as we go would miss it.
+    for (const target of [
+      ...PLATFORMS.map((p) => p.target),
+      ...HOOKS.map((p) => p.file),
+      ...MCP_TARGETS.map((t) => t.file),
+    ]) {
+      pruneEmptyDirs(path.join(root, target), root);
+    }
+  }
 
   if (removed.length === 0) {
     console.log('No Cairn adapters found.');

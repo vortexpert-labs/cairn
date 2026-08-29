@@ -2,6 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { PLATFORMS, HOOKS } from '../adapters/platforms.js';
 import { hookState, writeHooks } from '../adapters/hooks.js';
+import { MCP_TARGETS, mcpState, writeServer } from '../adapters/mcp.js';
 import { renderAdapter, injectBlock, extractBlock } from '../adapters/render.js';
 import { style, symbol } from '../render/terminal.js';
 
@@ -45,6 +46,11 @@ export function adapters({ root, options }) {
       console.log(`  ${style.bold(platform.id.padEnd(14))}${platform.file}`);
       console.log(`  ${' '.repeat(14)}${style.dim(platform.docs)}`);
     }
+    console.log(`\n${style.bold('MCP server')}\n`);
+    for (const target of MCP_TARGETS) {
+      console.log(`  ${style.bold(target.id.padEnd(14))}${target.file}`);
+      console.log(`  ${' '.repeat(14)}${style.dim(target.docs)}`);
+    }
     console.log(
       `\n${style.dim('Every path above comes from the documentation of the platform it targets.')}`,
     );
@@ -85,6 +91,14 @@ export function adapters({ root, options }) {
       changed++;
     }
 
+    for (const target of MCP_TARGETS) {
+      if (options.platform && options.platform !== target.id) continue;
+      if (mcpState(root, target).installed) continue;
+      writeServer(root, target);
+      console.log(`${style.green(symbol.ok)} ${target.file} ${style.dim('(mcp)')}`);
+      changed++;
+    }
+
     if (changed === 0) console.log(`${style.green(symbol.ok)} every adapter is already current.`);
     return 0;
   }
@@ -94,14 +108,21 @@ export function adapters({ root, options }) {
     .filter((platform) => !options.platform || options.platform === platform.id)
     .filter((platform) => !hookState(root, platform).installed);
 
+  const staleMcp = MCP_TARGETS
+    .filter((target) => !options.platform || options.platform === target.id)
+    .filter((target) => !mcpState(root, target).installed);
+
   const stale = results.filter((r) => !r.matches);
-  if (stale.length === 0 && staleHooks.length === 0) {
+  if (stale.length === 0 && staleHooks.length === 0 && staleMcp.length === 0) {
     console.log(`${style.green(symbol.ok)} ${results.length} adapter(s) match the generator.`);
     return 0;
   }
 
   for (const platform of staleHooks) {
     console.error(`${style.red(symbol.error)} ${platform.file}  hooks not installed`);
+  }
+  for (const target of staleMcp) {
+    console.error(`${style.red(symbol.error)} ${target.file}  mcp server not registered`);
   }
   for (const result of stale) {
     const reason = !result.exists
