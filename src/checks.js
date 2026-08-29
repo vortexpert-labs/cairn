@@ -10,6 +10,7 @@ import path from 'node:path';
 import { execFileSync } from 'node:child_process';
 import { parseFrontmatter } from './anchor/parse.js';
 import { referenceErrors, cycles, suspects } from './graph/dag.js';
+import { canTransition } from './anchor/transition.js';
 import { CAIRN_DIR } from './anchor/load.js';
 
 export const SUPPORTED_FORMAT_VERSION = '1.0';
@@ -53,8 +54,16 @@ function nestedDirs(root) {
   return found;
 }
 
-/** 12b — immutable fields of an anchor that was ACTIVE in HEAD must not change. */
-function immutabilityErrors(anchors, root) {
+/**
+ * 12b and 12c — what git says about an anchor's previous state.
+ *
+ * Both rules need the committed version of the file, so they share one pass:
+ * immutable fields must not have changed on an anchor that was ACTIVE, and the
+ * status must not have moved in a direction the lifecycle forbids. Without the
+ * second check a backwards edit made by hand would pass, since only the status
+ * command validates transitions.
+ */
+function gitHistoryErrors(anchors, root) {
   const errors = [];
 
   let tracked = true;
@@ -83,6 +92,15 @@ function immutabilityErrors(anchors, root) {
     } catch {
       continue; // the committed version was unparseable; nothing meaningful to compare
     }
+    if (old.status !== anchor.status && !canTransition(old.status, anchor.status)) {
+      errors.push({
+        file: anchor.file,
+        message:
+          `status moved ${old.status} -> ${anchor.status}, which the lifecycle does not allow. ` +
+          `Use 'cairn status' for a legal transition, or record the change in a new anchor.`,
+      });
+    }
+
     if (old.status !== 'ACTIVE') continue;
 
     for (const field of IMMUTABLE) {
@@ -184,8 +202,31 @@ export function runChecks({ anchors, failures, schema, dir, root, indexPath }) {
     }
   }
 
-  // 12b — immutability of ACTIVE anchors.
-  errors.push(...immutabilityErrors(anchors, root));
+  // 12b, 12c — immutability and legal transitions, both read from git history.
+  errors.push(...gitHistoryErrors(anchors, root));
+
+  // 12d — superseding has two sides; a half-applied one leaves a stale anchor
+  // still claiming to be binding, which is worse than no record at all.
+  const byId = new Map(anchors.map((a) => [a.id, a]));
+  for (const anchor of anchors) {
+    for (const supersededId of anchor.supersedes || []) {
+      const target = byId.get(supersededId);
+      if (!target) continue; // reported by the reference check
+      if (target.status !== 'SUPERSEDED') {
+        errors.push({
+          file: target.file,
+          message: `${anchor.id} supersedes this anchor, but it is still ${target.status}`,
+        });
+      } else if (target.superseded_by !== anchor.id) {
+        errors.push({
+          file: target.file,
+          message:
+            `${anchor.id} supersedes this anchor, but superseded_by is ` +
+            `${target.superseded_by || 'not set'}`,
+        });
+      }
+    }
+  }
 
   // 12 — suspect anchors resting on an invalidated ancestor.
   const suspect = suspects(anchors);

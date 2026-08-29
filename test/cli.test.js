@@ -355,3 +355,34 @@ test('show renders one anchor and reports a missing fork', (t) => {
   assert.match(result.stdout, /No alternatives were recorded/);
   assert.equal(cairn(dir, 'show', 'ANC-9999').code, 3);
 });
+
+test('a status edited backwards by hand is caught, not just refused by the command', (t) => {
+  const dir = billingWorkspace(t);
+  execFileSync('git', ['add', '-A'], { cwd: dir });
+  execFileSync('git', ['commit', '-qm', 'base'], { cwd: dir });
+  cairn(dir, 'status', 'ANC-0002', 'RETIRED');
+  execFileSync('git', ['add', '-A'], { cwd: dir });
+  execFileSync('git', ['commit', '-qm', 'retire'], { cwd: dir });
+
+  const file = path.join(dir, '.cairn',
+    fs.readdirSync(path.join(dir, '.cairn')).find((f) => f.includes('sqlite')));
+  fs.writeFileSync(file, fs.readFileSync(file, 'utf8').replace('status: RETIRED', 'status: ACTIVE'));
+
+  const result = cairn(dir, 'check');
+  assert.equal(result.code, 1);
+  assert.match(result.stderr, /RETIRED -> ACTIVE/);
+});
+
+test('a half-applied supersession is caught', (t) => {
+  const dir = billingWorkspace(t);
+  const file = path.join(dir, '.cairn',
+    fs.readdirSync(path.join(dir, '.cairn')).find((f) => f.includes('saturates')));
+  fs.writeFileSync(
+    file,
+    fs.readFileSync(file, 'utf8').replace('status: ACTIVE', 'status: ACTIVE\nsupersedes: ["ANC-0002"]'),
+  );
+
+  const result = cairn(dir, 'check');
+  assert.equal(result.code, 1, 'the other side is still ACTIVE and claiming to bind');
+  assert.match(result.stderr, /supersedes this anchor, but it is still ACTIVE/);
+});
