@@ -26,4 +26,5 @@
 | [ANC-0004](ANC-0004-strict-yaml-subset-instead-of-a-yaml-library.md) | DECISION | Strict YAML subset instead of a YAML library | `src/anchor` |
 | [ANC-0005](ANC-0005-the-committed-schema-is-the-single-source-of-truth.md) | DECISION | The committed schema is the single source of truth | `src/schema` |
 | [ANC-0006](ANC-0006-the-name-anchor-protocol-was-abandoned.md) | REJECTED_PATH | The name Anchor Protocol was abandoned | `global` |
+| [ANC-0007](ANC-0007-one-adapter-file-per-platform-not-one-per-scope.md) | DECISION | One adapter file per platform, not one per scope | `src/adapters` |
 <!-- CAIRN-REGISTRY: END -->

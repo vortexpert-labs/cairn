@@ -14,6 +14,8 @@ import { show } from '../src/commands/show.js';
 import { timeline } from '../src/commands/timeline.js';
 import { review } from '../src/commands/review.js';
 import { status } from '../src/commands/status.js';
+import { adapters } from '../src/commands/adapters.js';
+import { uninstall } from '../src/commands/uninstall.js';
 import { doctor } from '../src/commands/doctor.js';
 
 const HELP = `cairn — the decisions and constraints your project runs on
@@ -69,6 +71,15 @@ Usage: cairn <command> [options]
 
   migrate           Move a v1 .anchors/ directory to .cairn/
     --dry-run       Show what would change without touching anything
+
+  adapters          Write the instruction files each agent reads
+    --list          Show the platforms and their documented paths
+    --write         Create or update them
+    --platform      Limit to one platform
+                    With no flag, reports drift and fails if any is found.
+
+  uninstall         Remove the generated adapters, leaving .cairn/ alone
+    --dry-run       Show what would be removed
 
   doctor            Diagnose the setup rather than the content
 
@@ -180,6 +191,17 @@ export function main(argv = process.argv.slice(2)) {
         scope: { type: 'string' }, brief: { type: 'boolean' }, json: { type: 'boolean' },
       });
       return parsed ? context({ dir, root, options: parsed.values }) : 2;
+    }
+    case 'adapters': {
+      const parsed = parse(rest, {
+        list: { type: 'boolean' }, write: { type: 'boolean' },
+        check: { type: 'boolean' }, platform: { type: 'string' },
+      });
+      return parsed ? adapters({ root, options: parsed.values }) : 2;
+    }
+    case 'uninstall': {
+      const parsed = parse(rest, { 'dry-run': { type: 'boolean' } });
+      return parsed ? uninstall({ root, options: { dryRun: parsed.values['dry-run'] } }) : 2;
     }
     case 'doctor':
       return doctor({ dir, root });
