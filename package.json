@@ -1,0 +1,51 @@
+{
+  "name": "@vortexpert-labs/cairn",
+  "version": "1.0.0",
+  "description": "A checked, versioned record of the decisions and constraints your project runs on, for the people and the coding agents who work in it",
+  "type": "module",
+  "bin": {
+    "cairn": "./bin/cairn.js"
+  },
+  "files": [
+    "bin/",
+    "src/",
+    ".cairn/schema.json",
+    "SPECIFICATION.md",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "node --test",
+    "check": "node bin/cairn.js check"
+  },
+  "keywords": [
+    "adr",
+    "architecture-decision-records",
+    "ai-agents",
+    "coding-agents",
+    "mcp",
+    "claude-code",
+    "cursor",
+    "antigravity",
+    "developer-tools"
+  ],
+  "author": {
+    "name": "Sabber Ahamad Emon",
+    "url": "https://github.com/sabber-ahamad-emon"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vortexpert-labs/cairn.git"
+  },
+  "bugs": {
+    "url": "https://github.com/vortexpert-labs/cairn/issues"
+  },
+  "homepage": "https://github.com/vortexpert-labs/cairn#readme",
+  "license": "Apache-2.0",
+  "publishConfig": {
+    "access": "public"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
