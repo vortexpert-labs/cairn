@@ -1,0 +1,119 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/vortexpert-labs/cairn/blob/main/.cairn/schema.json",
+  "title": "CairnAnchor",
+  "description": "An anchor: one consequential, durable fact about a project that is not visible from the code alone.",
+  "cairnFormatVersion": "1.0",
+  "type": "object",
+  "required": ["id", "title", "type", "status", "created_at", "claims", "rationale"],
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^ANC-[0-9]{4}$",
+      "description": "Canonical identifier. MUST match the filename prefix."
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 100,
+      "description": "One short noun phrase naming the anchor."
+    },
+    "type": {
+      "type": "string",
+      "enum": ["GOAL", "STAGE", "DECISION", "CONSTRAINT", "FINDING", "REJECTED_PATH"]
+    },
+    "status": {
+      "type": "string",
+      "enum": ["PROPOSED", "ACTIVE", "SUPERSEDED", "INVALIDATED", "RETIRED"]
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO-8601 UTC. Set once; never edited."
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO-8601 UTC. Set on status transitions only."
+    },
+    "scope": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 200,
+      "default": "global",
+      "description": "Path or glob this anchor governs, or 'global'. The join key for retrieval, scoped rules, and review."
+    },
+    "claims": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 280
+      },
+      "description": "The anchor's normative content. One statement per item."
+    },
+    "rationale": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 1500,
+      "description": "Why the claims hold. The part that is invisible from the code."
+    },
+    "alternatives": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["option", "rejected_because"],
+        "additionalProperties": false,
+        "properties": {
+          "option": { "type": "string", "minLength": 1, "maxLength": 100 },
+          "rejected_because": { "type": "string", "minLength": 1, "maxLength": 280 }
+        }
+      },
+      "description": "What was considered and passed over. Records the fork so the decision can be reopened later."
+    },
+    "revisit_if": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 280,
+      "description": "The condition that would make this anchor wrong. Names its own expiry instead of rotting silently."
+    },
+    "verify": {
+      "type": "object",
+      "required": ["command"],
+      "additionalProperties": false,
+      "properties": {
+        "command": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 500,
+          "description": "Shell command. Exit 0 means the constraint holds. NEVER executed without explicit external opt-in."
+        },
+        "description": { "type": "string", "minLength": 1, "maxLength": 200 }
+      },
+      "description": "Machine-checkable form of a CONSTRAINT."
+    },
+    "supersedes": {
+      "type": "array",
+      "items": { "type": "string", "pattern": "^ANC-[0-9]{4}$" }
+    },
+    "superseded_by": {
+      "type": "string",
+      "pattern": "^ANC-[0-9]{4}$"
+    },
+    "invalidated_by": {
+      "type": "string",
+      "pattern": "^ANC-[0-9]{4}$"
+    },
+    "depends_on": {
+      "type": "array",
+      "items": { "type": "string", "pattern": "^ANC-[0-9]{4}$" }
+    },
+    "evidence": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1, "maxLength": 300 },
+      "description": "Pointers to where the reasoning is substantiated: commit SHAs, PR URLs, benchmark paths, issue links."
+    }
+  }
+}
