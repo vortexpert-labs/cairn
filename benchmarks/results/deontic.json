@@ -1,0 +1,3301 @@
+{
+  "generated_at": "2026-08-31T03:23:31.536Z",
+  "corpus_size": 40,
+  "models": [
+    {
+      "model": "all-MiniLM-L6-v2",
+      "model_id": "Xenova/all-MiniLM-L6-v2",
+      "params": "22M",
+      "note": "the default in most off-the-shelf retrieval stacks",
+      "separation": {
+        "rule_vs_negation": {
+          "n": 40,
+          "mean": 0.8559,
+          "sd": 0.1263,
+          "min": 0.5214,
+          "p25": 0.7729,
+          "median": 0.8982,
+          "p75": 0.9491,
+          "max": 0.9972
+        },
+        "rule_vs_paraphrase": {
+          "n": 40,
+          "mean": 0.5455,
+          "sd": 0.1132,
+          "min": 0.269,
+          "p25": 0.5232,
+          "median": 0.5581,
+          "p75": 0.6128,
+          "max": 0.7243
+        },
+        "rule_vs_unrelated": {
+          "n": 40,
+          "mean": 0.1361,
+          "sd": 0.0402,
+          "min": 0.0241,
+          "p25": 0.118,
+          "median": 0.1404,
+          "p75": 0.1692,
+          "max": 0.2086
+        },
+        "inversions": 38,
+        "inversion_rate": 0.95,
+        "inverted_ids": [
+          "orm-billing",
+          "connection-pooling",
+          "forward-only-migrations",
+          "soft-deletes",
+          "primary-keys",
+          "money-representation",
+          "timestamp-storage",
+          "secrets-in-env",
+          "session-auth",
+          "cors-policy",
+          "silent-catch",
+          "write-retries",
+          "queue-semantics",
+          "cache-invalidation",
+          "rate-limit-placement",
+          "background-work",
+          "realtime-transport",
+          "api-versioning",
+          "graphql",
+          "direct-upload",
+          "service-boundaries",
+          "runtime-deps",
+          "dep-additions",
+          "docker-base",
+          "orchestration",
+          "infra-provisioning",
+          "terraform-state",
+          "db-tests",
+          "coverage-gate",
+          "snapshot-tests",
+          "flaky-tests",
+          "styling",
+          "client-state",
+          "bundle-budget",
+          "offline-first",
+          "push-notifications",
+          "analytics-events",
+          "telemetry"
+        ]
+      },
+      "retrieval": {
+        "top_k": 3,
+        "pool_size": 80,
+        "correct": 16,
+        "negation_at_top1": 19,
+        "wrong_subject": 5,
+        "negation_outranks_rule": 23,
+        "negation_outranks_rule_rate": 0.575,
+        "both_polarities_in_top_k": 34,
+        "both_polarities_in_top_k_rate": 0.85,
+        "margin": {
+          "n": 40,
+          "mean": -0.0278,
+          "sd": 0.0852,
+          "min": -0.3501,
+          "p25": -0.0718,
+          "median": -0.0034,
+          "p75": 0.0228,
+          "max": 0.0737
+        }
+      },
+      "per_item": [
+        {
+          "id": "orm-billing",
+          "domain": "data-access",
+          "rule_vs_negation": 0.7427,
+          "rule_vs_paraphrase": 0.6866,
+          "rule_vs_unrelated_mean": 0.1129,
+          "inverted": true
+        },
+        {
+          "id": "connection-pooling",
+          "domain": "data-access",
+          "rule_vs_negation": 0.9282,
+          "rule_vs_paraphrase": 0.6977,
+          "rule_vs_unrelated_mean": 0.0988,
+          "inverted": true
+        },
+        {
+          "id": "forward-only-migrations",
+          "domain": "data-access",
+          "rule_vs_negation": 0.6789,
+          "rule_vs_paraphrase": 0.5555,
+          "rule_vs_unrelated_mean": 0.1311,
+          "inverted": true
+        },
+        {
+          "id": "soft-deletes",
+          "domain": "data-access",
+          "rule_vs_negation": 0.7951,
+          "rule_vs_paraphrase": 0.591,
+          "rule_vs_unrelated_mean": 0.0589,
+          "inverted": true
+        },
+        {
+          "id": "primary-keys",
+          "domain": "data-access",
+          "rule_vs_negation": 0.9165,
+          "rule_vs_paraphrase": 0.6721,
+          "rule_vs_unrelated_mean": 0.0743,
+          "inverted": true
+        },
+        {
+          "id": "money-representation",
+          "domain": "correctness",
+          "rule_vs_negation": 0.9651,
+          "rule_vs_paraphrase": 0.6441,
+          "rule_vs_unrelated_mean": 0.0241,
+          "inverted": true
+        },
+        {
+          "id": "timestamp-storage",
+          "domain": "correctness",
+          "rule_vs_negation": 0.8417,
+          "rule_vs_paraphrase": 0.6452,
+          "rule_vs_unrelated_mean": 0.1531,
+          "inverted": true
+        },
+        {
+          "id": "pii-logging",
+          "domain": "security",
+          "rule_vs_negation": 0.5214,
+          "rule_vs_paraphrase": 0.5357,
+          "rule_vs_unrelated_mean": 0.1829,
+          "inverted": false
+        },
+        {
+          "id": "secrets-in-env",
+          "domain": "security",
+          "rule_vs_negation": 0.9859,
+          "rule_vs_paraphrase": 0.5872,
+          "rule_vs_unrelated_mean": 0.1204,
+          "inverted": true
+        },
+        {
+          "id": "session-auth",
+          "domain": "security",
+          "rule_vs_negation": 0.9947,
+          "rule_vs_paraphrase": 0.5234,
+          "rule_vs_unrelated_mean": 0.1181,
+          "inverted": true
+        },
+        {
+          "id": "cors-policy",
+          "domain": "security",
+          "rule_vs_negation": 0.8444,
+          "rule_vs_paraphrase": 0.5482,
+          "rule_vs_unrelated_mean": 0.0819,
+          "inverted": true
+        },
+        {
+          "id": "silent-catch",
+          "domain": "correctness",
+          "rule_vs_negation": 0.8446,
+          "rule_vs_paraphrase": 0.5737,
+          "rule_vs_unrelated_mean": 0.1115,
+          "inverted": true
+        },
+        {
+          "id": "write-retries",
+          "domain": "reliability",
+          "rule_vs_negation": 0.8981,
+          "rule_vs_paraphrase": 0.7118,
+          "rule_vs_unrelated_mean": 0.1568,
+          "inverted": true
+        },
+        {
+          "id": "queue-semantics",
+          "domain": "reliability",
+          "rule_vs_negation": 0.9477,
+          "rule_vs_paraphrase": 0.269,
+          "rule_vs_unrelated_mean": 0.1192,
+          "inverted": true
+        },
+        {
+          "id": "cache-invalidation",
+          "domain": "reliability",
+          "rule_vs_negation": 0.9312,
+          "rule_vs_paraphrase": 0.5869,
+          "rule_vs_unrelated_mean": 0.1878,
+          "inverted": true
+        },
+        {
+          "id": "rate-limit-placement",
+          "domain": "reliability",
+          "rule_vs_negation": 0.9972,
+          "rule_vs_paraphrase": 0.5451,
+          "rule_vs_unrelated_mean": 0.1405,
+          "inverted": true
+        },
+        {
+          "id": "background-work",
+          "domain": "architecture",
+          "rule_vs_negation": 0.9929,
+          "rule_vs_paraphrase": 0.5334,
+          "rule_vs_unrelated_mean": 0.1777,
+          "inverted": true
+        },
+        {
+          "id": "realtime-transport",
+          "domain": "architecture",
+          "rule_vs_negation": 0.9761,
+          "rule_vs_paraphrase": 0.3235,
+          "rule_vs_unrelated_mean": 0.1793,
+          "inverted": true
+        },
+        {
+          "id": "api-versioning",
+          "domain": "architecture",
+          "rule_vs_negation": 0.9879,
+          "rule_vs_paraphrase": 0.5607,
+          "rule_vs_unrelated_mean": 0.1345,
+          "inverted": true
+        },
+        {
+          "id": "graphql",
+          "domain": "architecture",
+          "rule_vs_negation": 0.7623,
+          "rule_vs_paraphrase": 0.5689,
+          "rule_vs_unrelated_mean": 0.1406,
+          "inverted": true
+        },
+        {
+          "id": "direct-upload",
+          "domain": "architecture",
+          "rule_vs_negation": 0.7383,
+          "rule_vs_paraphrase": 0.6199,
+          "rule_vs_unrelated_mean": 0.1403,
+          "inverted": true
+        },
+        {
+          "id": "service-boundaries",
+          "domain": "architecture",
+          "rule_vs_negation": 0.9781,
+          "rule_vs_paraphrase": 0.5876,
+          "rule_vs_unrelated_mean": 0.1813,
+          "inverted": true
+        },
+        {
+          "id": "runtime-deps",
+          "domain": "dependencies",
+          "rule_vs_negation": 0.6377,
+          "rule_vs_paraphrase": 0.4711,
+          "rule_vs_unrelated_mean": 0.1257,
+          "inverted": true
+        },
+        {
+          "id": "dep-additions",
+          "domain": "dependencies",
+          "rule_vs_negation": 0.8604,
+          "rule_vs_paraphrase": 0.3906,
+          "rule_vs_unrelated_mean": 0.1177,
+          "inverted": true
+        },
+        {
+          "id": "node-version",
+          "domain": "dependencies",
+          "rule_vs_negation": 0.6858,
+          "rule_vs_paraphrase": 0.7243,
+          "rule_vs_unrelated_mean": 0.1821,
+          "inverted": false
+        },
+        {
+          "id": "docker-base",
+          "domain": "infrastructure",
+          "rule_vs_negation": 0.9377,
+          "rule_vs_paraphrase": 0.5976,
+          "rule_vs_unrelated_mean": 0.0894,
+          "inverted": true
+        },
+        {
+          "id": "orchestration",
+          "domain": "infrastructure",
+          "rule_vs_negation": 0.9327,
+          "rule_vs_paraphrase": 0.6164,
+          "rule_vs_unrelated_mean": 0.1627,
+          "inverted": true
+        },
+        {
+          "id": "infra-provisioning",
+          "domain": "infrastructure",
+          "rule_vs_negation": 0.9082,
+          "rule_vs_paraphrase": 0.4434,
+          "rule_vs_unrelated_mean": 0.1814,
+          "inverted": true
+        },
+        {
+          "id": "terraform-state",
+          "domain": "infrastructure",
+          "rule_vs_negation": 0.8983,
+          "rule_vs_paraphrase": 0.5414,
+          "rule_vs_unrelated_mean": 0.1804,
+          "inverted": true
+        },
+        {
+          "id": "db-tests",
+          "domain": "testing",
+          "rule_vs_negation": 0.997,
+          "rule_vs_paraphrase": 0.6116,
+          "rule_vs_unrelated_mean": 0.1441,
+          "inverted": true
+        },
+        {
+          "id": "coverage-gate",
+          "domain": "testing",
+          "rule_vs_negation": 0.76,
+          "rule_vs_paraphrase": 0.5319,
+          "rule_vs_unrelated_mean": 0.1713,
+          "inverted": true
+        },
+        {
+          "id": "snapshot-tests",
+          "domain": "testing",
+          "rule_vs_negation": 0.8647,
+          "rule_vs_paraphrase": 0.3393,
+          "rule_vs_unrelated_mean": 0.1217,
+          "inverted": true
+        },
+        {
+          "id": "flaky-tests",
+          "domain": "testing",
+          "rule_vs_negation": 0.9115,
+          "rule_vs_paraphrase": 0.5302,
+          "rule_vs_unrelated_mean": 0.1685,
+          "inverted": true
+        },
+        {
+          "id": "styling",
+          "domain": "frontend",
+          "rule_vs_negation": 0.9406,
+          "rule_vs_paraphrase": 0.5825,
+          "rule_vs_unrelated_mean": 0.053,
+          "inverted": true
+        },
+        {
+          "id": "client-state",
+          "domain": "frontend",
+          "rule_vs_negation": 0.9535,
+          "rule_vs_paraphrase": 0.5219,
+          "rule_vs_unrelated_mean": 0.2086,
+          "inverted": true
+        },
+        {
+          "id": "bundle-budget",
+          "domain": "frontend",
+          "rule_vs_negation": 0.6555,
+          "rule_vs_paraphrase": 0.2958,
+          "rule_vs_unrelated_mean": 0.133,
+          "inverted": true
+        },
+        {
+          "id": "offline-first",
+          "domain": "mobile",
+          "rule_vs_negation": 0.8343,
+          "rule_vs_paraphrase": 0.5224,
+          "rule_vs_unrelated_mean": 0.1333,
+          "inverted": true
+        },
+        {
+          "id": "push-notifications",
+          "domain": "mobile",
+          "rule_vs_negation": 0.7764,
+          "rule_vs_paraphrase": 0.6789,
+          "rule_vs_unrelated_mean": 0.1507,
+          "inverted": true
+        },
+        {
+          "id": "analytics-events",
+          "domain": "observability",
+          "rule_vs_negation": 0.8846,
+          "rule_vs_paraphrase": 0.545,
+          "rule_vs_unrelated_mean": 0.1465,
+          "inverted": true
+        },
+        {
+          "id": "telemetry",
+          "domain": "observability",
+          "rule_vs_negation": 0.5294,
+          "rule_vs_paraphrase": 0.3102,
+          "rule_vs_unrelated_mean": 0.1462,
+          "inverted": true
+        }
+      ],
+      "per_query": [
+        {
+          "id": "orm-billing",
+          "outcome": "negation",
+          "own_rule_rank": 2,
+          "own_negation_rank": 1,
+          "negation_outranks_rule": true,
+          "both_polarities_in_top_k": true,
+          "top_score": 0.5852,
+          "margin_rule_over_negation": -0.0737
+        },
+        {
+          "id": "connection-pooling",
+          "outcome": "negation",
+          "own_rule_rank": 2,
+          "own_negation_rank": 1,
+          "negation_outranks_rule": true,
+          "both_polarities_in_top_k": true,
+          "top_score": 0.4688,
+          "margin_rule_over_negation": -0.0027
+        },
+        {
+          "id": "forward-only-migrations",
+          "outcome": "negation",
+          "own_rule_rank": 2,
+          "own_negation_rank": 1,
+          "negation_outranks_rule": true,
+          "both_polarities_in_top_k": true,
+          "top_score": 0.6842,
+          "margin_rule_over_negation": -0.1047
+        },
+        {
+          "id": "soft-deletes",
+          "outcome": "negation",
+          "own_rule_rank": 2,
+          "own_negation_rank": 1,
+          "negation_outranks_rule": true,
+          "both_polarities_in_top_k": true,
+          "top_score": 0.4912,
+          "margin_rule_over_negation": -0.0515
+        },
+        {
+          "id": "primary-keys",
+          "outcome": "negation",
+          "own_rule_rank": 2,
+          "own_negation_rank": 1,
+          "negation_outranks_rule": true,
+          "both_polarities_in_top_k": true,
+          "top_score": 0.3339,
+          "margin_rule_over_negation": -0.0232
+        },
+        {
+          "id": "money-representation",
+          "outcome": "correct",
+          "own_rule_rank": 1,
+          "own_negation_rank": 2,
+          "negation_outranks_rule": false,
+          "both_polarities_in_top_k": true,
+          "top_score": 0.5096,
+          "margin_rule_over_negation": 0.0272
+        },
+        {
+          "id": "timestamp-storage",
+          "outcome": "negation",
+          "own_rule_rank": 2,
+          "own_negation_rank": 1,
+          "negation_outranks_rule": true,
+          "both_polarities_in_top_k": true,
+          "top_score": 0.7376,
+          "margin_rule_over_negation": -0.0719
+        },
+        {
+          "id": "pii-logging",
+          "outcome": "negation",
+          "own_rule_rank": 2,
+          "own_negation_rank": 1,
+          "negation_outranks_rule": true,
+          "both_polarities_in_top_k": true,
+          "top_score": 0.5581,
+          "margin_rule_over_negation": -0.2398
+        },
+        {
+          "id": "secrets-in-env",
+          "outcome": "wrong_subject",
+          "own_rule_rank": 21,
+          "own_negation_rank": 16,
+          "negation_outranks_rule": true,
+          "both_polarities_in_top_k": false,
+          "top_score": 0.4206,
+          "margin_rule_over_negation": -0.0329
+        },
+        {
+          "id": "session-auth",
+          "outcome": "correct",
+          "own_rule_rank": 1,
+          "own_negation_rank": 2,
+          "negation_outranks_rule": false,
+          "both_polarities_in_top_k": true,
+          "top_score": 0.5007,
+          "margin_rule_over_negation": 0.008
+        },
+        {
+          "id": "cors-policy",
+          "outcome": "negation",
+          "own_rule_rank": 2,
+          "own_negation_rank": 1,
+          "negation_outranks_rule": true,
+          "both_polarities_in_top_k": true,
+          "top_score": 0.5583,
+          "margin_rule_over_negation": -0.1576
+        },
+        {
+          "id": "silent-catch",
+          "outcome": "correct",
+          "own_rule_rank": 1,
+          "own_negation_rank": 2,
+          "negation_outranks_rule": false,
+          "both_polarities_in_top_k": true,
+          "top_score": 0.5983,
+          "margin_rule_over_negation": 0.0558
+        },
+        {
+          "id": "write-retries",
+          "outcome": "correct",
+          "own_rule_rank": 1,
+          "own_negation_rank": 2,
+          "negation_outranks_rule": false,
+          "both_polarities_in_top_k": true,
+          "top_score": 0.3137,
+          "margin_rule_over_negation": 0.0213
+        },
+        {
+          "id": "queue-semantics",
+          "outcome": "wrong_subject",
+          "own_rule_rank": 19,
+          "own_negation_rank": 20,
+          "negation_outranks_rule": false,
+          "both_polarities_in_top_k": false,
+          "top_score": 0.4583,
+          "margin_rule_over_negation": 0.0166
+        },
+        {
+          "id": "cache-invalidation",
+          "outcome": "correct",
+          "own_rule_rank": 1,
+          "own_negation_rank": 2,
+          "negation_outranks_rule": false,
+          "both_polarities_in_top_k": true,
+          "top_score": 0.5126,
+          "margin_rule_over_negation": 0.07
+        },
+        {
+          "id": "rate-limit-placement",
+          "outcome": "negation",
+          "own_rule_rank": 2,
+          "own_negation_rank": 1,
+          "negation_outranks_rule": true,
+          "both_polarities_in_top_k": true,
+          "top_score": 0.5452,
+          "margin_rule_over_negation": -0.0031
+        },
+        {
+          "id": "background-work",
+          "outcome": "correct",
+          "own_rule_rank": 1,
+          "own_negation_rank": 2,
+          "negation_outranks_rule": false,
+          "both_polarities_in_top_k": true,
+          "top_score": 0.3019,
+          "margin_rule_over_negation": 0.0366
+        },
+        {
+          "id": "realtime-transport",
+          "outcome": "correct",
+          "own_rule_rank": 1,
+          "own_negation_rank": 2,
+          "negation_outranks_rule": false,
+          "both_polarities_in_top_k": true,
+          "top_score": 0.7209,
+          "margin_rule_over_negation": 0.0571
+        },
+        {
+          "id": "api-versioning",
+          "outcome": "negation",
+          "own_rule_rank": 2,
+          "own_negation_rank": 1,
+          "negation_outranks_rule": true,
+          "both_polarities_in_top_k": true,
+          "top_score": 0.4896,
+          "margin_rule_over_negation": -0.0166
+        },
+        {
+          "id": "graphql",
+          "outcome": "negation",
+          "own_rule_rank": 2,
+          "own_negation_rank": 1,
+          "negation_outranks_rule": true,
+          "both_polarities_in_top_k": true,
+          "top_score": 0.6615,
+          "margin_rule_over_negation": -0.0766
+        },
+        {
+          "id": "direct-upload",
+          "outcome": "correct",
+          "own_rule_rank": 1,
+          "own_negation_rank": 2,
+          "negation_outranks_rule": false,
+          "both_polarities_in_top_k": true,
+          "top_score": 0.5243,
+          "margin_rule_over_negation": 0.0004
+        },
+        {
+          "id": "service-boundaries",
+          "outcome": "negation",
+          "own_rule_rank": 2,
+          "own_negation_rank": 1,
+          "negation_outranks_rule": true,
+          "both_polarities_in_top_k": true,
+          "top_score": 0.3614,
+          "margin_rule_over_negation": -0.0241
+        },
+        {
+          "id": "runtime-deps",
+          "outcome": "wrong_subject",
+          "own_rule_rank": 13,
+          "own_negation_rank": 3,
+          "negation_outranks_rule": true,
+          "both_polarities_in_top_k": false,
+          "top_score": 0.2905,
+          "margin_rule_over_negation": -0.1133
+        },
+        {
+          "id": "dep-additions",
+          "outcome": "wrong_subject",
+          "own_rule_rank": 3,
+          "own_negation_rank": 2,
+          "negation_outranks_rule": true,
+          "both_polarities_in_top_k": true,
+          "top_score": 0.3824,
+          "margin_rule_over_negation": -0.0038
+        },
+        {
+          "id": "node-version",
+          "outcome": "correct",
+          "own_rule_rank": 1,
+          "own_negation_rank": 2,
+          "negation_outranks_rule": false,
+          "both_polarities_in_top_k": true,
+          "top_score": 0.6231,
+          "margin_rule_over_negation": 0.0718
+        },
+        {
+          "id": "docker-base",
+          "outcome": "correct",
+          "own_rule_rank": 1,
+          "own_negation_rank": 2,
+          "negation_outranks_rule": false,
+          "both_polarities_in_top_k": true,
+          "top_score": 0.4796,
+          "margin_rule_over_negation": 0.0126
+        },
+        {
+          "id": "orchestration",
+          "outcome": "correct",
+          "own_rule_rank": 1,
+          "own_negation_rank": 2,
+          "negation_outranks_rule": false,
+          "both_polarities_in_top_k": true,
+          "top_score": 0.5394,
+          "margin_rule_over_negation": 0.0613
+        },
+        {
+          "id": "infra-provisioning",
+          "outcome": "negation",
+          "own_rule_rank": 2,
+          "own_negation_rank": 1,
+          "negation_outranks_rule": true,
+          "both_polarities_in_top_k": true,
+          "top_score": 0.3412,
+          "margin_rule_over_negation": -0.0021
+        },
+        {
+          "id": "terraform-state",
+          "outcome": "correct",
+          "own_rule_rank": 1,
+          "own_negation_rank": 4,
+          "negation_outranks_rule": false,
+          "both_polarities_in_top_k": false,
+          "top_score": 0.3593,
+          "margin_rule_over_negation": 0.0603
+        },
+        {
+          "id": "db-tests",
+          "outcome": "correct",
+          "own_rule_rank": 1,
+          "own_negation_rank": 2,
+          "negation_outranks_rule": false,
+          "both_polarities_in_top_k": true,
+          "top_score": 0.7028,
+          "margin_rule_over_negation": 0.0074
+        },
+        {
+          "id": "coverage-gate",
+          "outcome": "negation",
+          "own_rule_rank": 2,
+          "own_negation_rank": 1,
+          "negation_outranks_rule": true,
+          "both_polarities_in_top_k": true,
+          "top_score": 0.6563,
+          "margin_rule_over_negation": -0.0718
+        },
+        {
+          "id": "snapshot-tests",
+          "outcome": "correct",
+          "own_rule_rank": 1,
+          "own_negation_rank": 2,
+          "negation_outranks_rule": false,
+          "both_polarities_in_top_k": true,
+          "top_score": 0.7648,
+          "margin_rule_over_negation": 0.0737
+        },
+        {
+          "id": "flaky-tests",
+          "outcome": "negation",
+          "own_rule_rank": 2,
+          "own_negation_rank": 1,
+          "negation_outranks_rule": true,
+          "both_polarities_in_top_k": true,
+          "top_score": 0.6342,
+          "margin_rule_over_negation": -0.0462
+        },
+        {
+          "id": "styling",
+          "outcome": "negation",
+          "own_rule_rank": 2,
+          "own_negation_rank": 1,
+          "negation_outranks_rule": true,
+          "both_polarities_in_top_k": true,
+          "top_score": 0.446,
+          "margin_rule_over_negation": -0.011
+        },
+        {
+          "id": "client-state",
+          "outcome": "correct",
+          "own_rule_rank": 1,
+          "own_negation_rank": 2,
+          "negation_outranks_rule": false,
+          "both_polarities_in_top_k": true,
+          "top_score": 0.3811,
+          "margin_rule_over_negation": 0.02
+        },
+        {
+          "id": "bundle-budget",
+          "outcome": "wrong_subject",
+          "own_rule_rank": 6,
+          "own_negation_rank": 4,
+          "negation_outranks_rule": true,
+          "both_polarities_in_top_k": false,
+          "top_score": 0.579,
+          "margin_rule_over_negation": -0.1104
+        },
+        {
+          "id": "offline-first",
+          "outcome": "negation",
+          "own_rule_rank": 2,
+          "own_negation_rank": 1,
+          "negation_outranks_rule": true,
+          "both_polarities_in_top_k": true,
+          "top_score": 0.4512,
+          "margin_rule_over_negation": -0.1282
+        },
+        {
+          "id": "push-notifications",
+          "outcome": "negation",
+          "own_rule_rank": 2,
+          "own_negation_rank": 1,
+          "negation_outranks_rule": true,
+          "both_polarities_in_top_k": true,
+          "top_score": 0.5536,
+          "margin_rule_over_negation": -0.0304
+        },
+        {
+          "id": "analytics-events",
+          "outcome": "correct",
+          "own_rule_rank": 1,
+          "own_negation_rank": 2,
+          "negation_outranks_rule": false,
+          "both_polarities_in_top_k": true,
+          "top_score": 0.4393,
+          "margin_rule_over_negation": 0.0346
+        },
+        {
+          "id": "telemetry",
+          "outcome": "negation",
+          "own_rule_rank": 5,
+          "own_negation_rank": 1,
+          "negation_outranks_rule": true,
+          "both_polarities_in_top_k": false,
+          "top_score": 0.6379,
+          "margin_rule_over_negation": -0.3501
+        }
+      ]
+    },
+    {
+      "model": "all-mpnet-base-v2",
+      "model_id": "Xenova/all-mpnet-base-v2",
+      "params": "110M",
+      "note": "stronger general-purpose sentence encoder",
+      "separation": {
+        "rule_vs_negation": {
+          "n": 40,
+          "mean": 0.8453,
+          "sd": 0.104,
+          "min": 0.5812,
+          "p25": 0.7756,
+          "median": 0.8592,
+          "p75": 0.9217,
+          "max": 0.9895
+        },
+        "rule_vs_paraphrase": {
+          "n": 40,
+          "mean": 0.585,
+          "sd": 0.1143,
+          "min": 0.3109,
+          "p25": 0.5448,
+          "median": 0.5783,
+          "p75": 0.6566,
+          "max": 0.8347
+        },
+        "rule_vs_unrelated": {
+          "n": 40,
+          "mean": 0.129,
+          "sd": 0.0317,
+          "min": 0.0547,
+          "p25": 0.1082,
+          "median": 0.133,
+          "p75": 0.1531,
+          "max": 0.1775
+        },
+        "inversions": 38,
+        "inversion_rate": 0.95,
+        "inverted_ids": [
+          "connection-pooling",
+          "forward-only-migrations",
+          "soft-deletes",
+          "primary-keys",
+          "money-representation",
+          "timestamp-storage",
+          "secrets-in-env",
+          "session-auth",
+          "cors-policy",
+          "silent-catch",
+          "write-retries",
+          "queue-semantics",
+          "cache-invalidation",
+          "rate-limit-placement",
+          "background-work",
+          "realtime-transport",
+          "api-versioning",
+          "graphql",
+          "direct-upload",
+          "service-boundaries",
+          "runtime-deps",
+          "dep-additions",
+          "node-version",
+          "docker-base",
+          "orchestration",
+          "infra-provisioning",
+          "terraform-state",
+          "db-tests",
+          "coverage-gate",
+          "snapshot-tests",
+          "flaky-tests",
+          "styling",
+          "client-state",
+          "bundle-budget",
+          "offline-first",
+          "push-notifications",
+          "analytics-events",
+          "telemetry"
+        ]
+      },
+      "retrieval": {
+        "top_k": 3,
+        "pool_size": 80,
+        "correct": 20,
+        "negation_at_top1": 14,
+        "wrong_subject": 6,
+        "negation_outranks_rule": 17,
+        "negation_outranks_rule_rate": 0.425,
+        "both_polarities_in_top_k": 33,
+        "both_polarities_in_top_k_rate": 0.825,
+        "margin": {
+          "n": 40,
+          "mean": -0.0112,
+          "sd": 0.0807,
+          "min": -0.279,
+          "p25": -0.0649,
+          "median": 0.0102,
+          "p75": 0.0448,
+          "max": 0.1228
+        }
+      },
+      "per_item": [
+        {
+          "id": "orm-billing",
+          "domain": "data-access",
+          "rule_vs_negation": 0.6859,
+          "rule_vs_paraphrase": 0.7257,
+          "rule_vs_unrelated_mean": 0.0985,
+          "inverted": false
+        },
+        {
+          "id": "connection-pooling",
+          "domain": "data-access",
+          "rule_vs_negation": 0.9692,
+          "rule_vs_paraphrase": 0.8347,
+          "rule_vs_unrelated_mean": 0.0975,
+          "inverted": true
+        },
+        {
+          "id": "forward-only-migrations",
+          "domain": "data-access",
+          "rule_vs_negation": 0.7756,
+          "rule_vs_paraphrase": 0.6103,
+          "rule_vs_unrelated_mean": 0.1455,
+          "inverted": true
+        },
+        {
+          "id": "soft-deletes",
+          "domain": "data-access",
+          "rule_vs_negation": 0.7755,
+          "rule_vs_paraphrase": 0.6911,
+          "rule_vs_unrelated_mean": 0.0823,
+          "inverted": true
+        },
+        {
+          "id": "primary-keys",
+          "domain": "data-access",
+          "rule_vs_negation": 0.8872,
+          "rule_vs_paraphrase": 0.5567,
+          "rule_vs_unrelated_mean": 0.1149,
+          "inverted": true
+        },
+        {
+          "id": "money-representation",
+          "domain": "correctness",
+          "rule_vs_negation": 0.9313,
+          "rule_vs_paraphrase": 0.6659,
+          "rule_vs_unrelated_mean": 0.0736,
+          "inverted": true
+        },
+        {
+          "id": "timestamp-storage",
+          "domain": "correctness",
+          "rule_vs_negation": 0.8499,
+          "rule_vs_paraphrase": 0.6163,
+          "rule_vs_unrelated_mean": 0.151,
+          "inverted": true
+        },
+        {
+          "id": "pii-logging",
+          "domain": "security",
+          "rule_vs_negation": 0.5966,
+          "rule_vs_paraphrase": 0.6031,
+          "rule_vs_unrelated_mean": 0.1397,
+          "inverted": false
+        },
+        {
+          "id": "secrets-in-env",
+          "domain": "security",
+          "rule_vs_negation": 0.9315,
+          "rule_vs_paraphrase": 0.5317,
+          "rule_vs_unrelated_mean": 0.087,
+          "inverted": true
+        },
+        {
+          "id": "session-auth",
+          "domain": "security",
+          "rule_vs_negation": 0.9895,
+          "rule_vs_paraphrase": 0.5666,
+          "rule_vs_unrelated_mean": 0.133,
+          "inverted": true
+        },
+        {
+          "id": "cors-policy",
+          "domain": "security",
+          "rule_vs_negation": 0.8479,
+          "rule_vs_paraphrase": 0.6387,
+          "rule_vs_unrelated_mean": 0.0728,
+          "inverted": true
+        },
+        {
+          "id": "silent-catch",
+          "domain": "correctness",
+          "rule_vs_negation": 0.8244,
+          "rule_vs_paraphrase": 0.6212,
+          "rule_vs_unrelated_mean": 0.1224,
+          "inverted": true
+        },
+        {
+          "id": "write-retries",
+          "domain": "reliability",
+          "rule_vs_negation": 0.8572,
+          "rule_vs_paraphrase": 0.6753,
+          "rule_vs_unrelated_mean": 0.1394,
+          "inverted": true
+        },
+        {
+          "id": "queue-semantics",
+          "domain": "reliability",
+          "rule_vs_negation": 0.7804,
+          "rule_vs_paraphrase": 0.3173,
+          "rule_vs_unrelated_mean": 0.1081,
+          "inverted": true
+        },
+        {
+          "id": "cache-invalidation",
+          "domain": "reliability",
+          "rule_vs_negation": 0.7691,
+          "rule_vs_paraphrase": 0.5704,
+          "rule_vs_unrelated_mean": 0.1598,
+          "inverted": true
+        },
+        {
+          "id": "rate-limit-placement",
+          "domain": "reliability",
+          "rule_vs_negation": 0.9517,
+          "rule_vs_paraphrase": 0.6535,
+          "rule_vs_unrelated_mean": 0.1597,
+          "inverted": true
+        },
+        {
+          "id": "background-work",
+          "domain": "architecture",
+          "rule_vs_negation": 0.978,
+          "rule_vs_paraphrase": 0.6306,
+          "rule_vs_unrelated_mean": 0.1403,
+          "inverted": true
+        },
+        {
+          "id": "realtime-transport",
+          "domain": "architecture",
+          "rule_vs_negation": 0.9567,
+          "rule_vs_paraphrase": 0.3759,
+          "rule_vs_unrelated_mean": 0.1743,
+          "inverted": true
+        },
+        {
+          "id": "api-versioning",
+          "domain": "architecture",
+          "rule_vs_negation": 0.9122,
+          "rule_vs_paraphrase": 0.5603,
+          "rule_vs_unrelated_mean": 0.1082,
+          "inverted": true
+        },
+        {
+          "id": "graphql",
+          "domain": "architecture",
+          "rule_vs_negation": 0.7657,
+          "rule_vs_paraphrase": 0.5787,
+          "rule_vs_unrelated_mean": 0.109,
+          "inverted": true
+        },
+        {
+          "id": "direct-upload",
+          "domain": "architecture",
+          "rule_vs_negation": 0.8526,
+          "rule_vs_paraphrase": 0.5621,
+          "rule_vs_unrelated_mean": 0.1594,
+          "inverted": true
+        },
+        {
+          "id": "service-boundaries",
+          "domain": "architecture",
+          "rule_vs_negation": 0.923,
+          "rule_vs_paraphrase": 0.7525,
+          "rule_vs_unrelated_mean": 0.1764,
+          "inverted": true
+        },
+        {
+          "id": "runtime-deps",
+          "domain": "dependencies",
+          "rule_vs_negation": 0.7448,
+          "rule_vs_paraphrase": 0.5957,
+          "rule_vs_unrelated_mean": 0.1175,
+          "inverted": true
+        },
+        {
+          "id": "dep-additions",
+          "domain": "dependencies",
+          "rule_vs_negation": 0.6088,
+          "rule_vs_paraphrase": 0.524,
+          "rule_vs_unrelated_mean": 0.1172,
+          "inverted": true
+        },
+        {
+          "id": "node-version",
+          "domain": "dependencies",
+          "rule_vs_negation": 0.855,
+          "rule_vs_paraphrase": 0.7957,
+          "rule_vs_unrelated_mean": 0.1732,
+          "inverted": true
+        },
+        {
+          "id": "docker-base",
+          "domain": "infrastructure",
+          "rule_vs_negation": 0.9485,
+          "rule_vs_paraphrase": 0.5568,
+          "rule_vs_unrelated_mean": 0.1003,
+          "inverted": true
+        },
+        {
+          "id": "orchestration",
+          "domain": "infrastructure",
+          "rule_vs_negation": 0.9148,
+          "rule_vs_paraphrase": 0.6682,
+          "rule_vs_unrelated_mean": 0.137,
+          "inverted": true
+        },
+        {
+          "id": "infra-provisioning",
+          "domain": "infrastructure",
+          "rule_vs_negation": 0.8851,
+          "rule_vs_paraphrase": 0.5136,
+          "rule_vs_unrelated_mean": 0.1775,
+          "inverted": true
+        },
+        {
+          "id": "terraform-state",
+          "domain": "infrastructure",
+          "rule_vs_negation": 0.9206,
+          "rule_vs_paraphrase": 0.5884,
+          "rule_vs_unrelated_mean": 0.1473,
+          "inverted": true
+        },
+        {
+          "id": "db-tests",
+          "domain": "testing",
+          "rule_vs_negation": 0.9631,
+          "rule_vs_paraphrase": 0.6789,
+          "rule_vs_unrelated_mean": 0.1681,
+          "inverted": true
+        },
+        {
+          "id": "coverage-gate",
+          "domain": "testing",
+          "rule_vs_negation": 0.7725,
+          "rule_vs_paraphrase": 0.5502,
+          "rule_vs_unrelated_mean": 0.1329,
+          "inverted": true
+        },
+        {
+          "id": "snapshot-tests",
+          "domain": "testing",
+          "rule_vs_negation": 0.9213,
+          "rule_vs_paraphrase": 0.5492,
+          "rule_vs_unrelated_mean": 0.1279,
+          "inverted": true
+        },
+        {
+          "id": "flaky-tests",
+          "domain": "testing",
+          "rule_vs_negation": 0.8554,
+          "rule_vs_paraphrase": 0.578,
+          "rule_vs_unrelated_mean": 0.1505,
+          "inverted": true
+        },
+        {
+          "id": "styling",
+          "domain": "frontend",
+          "rule_vs_negation": 0.8612,
+          "rule_vs_paraphrase": 0.4283,
+          "rule_vs_unrelated_mean": 0.0547,
+          "inverted": true
+        },
+        {
+          "id": "client-state",
+          "domain": "frontend",
+          "rule_vs_negation": 0.8926,
+          "rule_vs_paraphrase": 0.4623,
+          "rule_vs_unrelated_mean": 0.1769,
+          "inverted": true
+        },
+        {
+          "id": "bundle-budget",
+          "domain": "frontend",
+          "rule_vs_negation": 0.6881,
+          "rule_vs_paraphrase": 0.3109,
+          "rule_vs_unrelated_mean": 0.0943,
+          "inverted": true
+        },
+        {
+          "id": "offline-first",
+          "domain": "mobile",
+          "rule_vs_negation": 0.8956,
+          "rule_vs_paraphrase": 0.5694,
+          "rule_vs_unrelated_mean": 0.1107,
+          "inverted": true
+        },
+        {
+          "id": "push-notifications",
+          "domain": "mobile",
+          "rule_vs_negation": 0.8309,
+          "rule_vs_paraphrase": 0.7642,
+          "rule_vs_unrelated_mean": 0.1242,
+          "inverted": true
+        },
+        {
+          "id": "analytics-events",
+          "domain": "observability",
+          "rule_vs_negation": 0.8622,
+          "rule_vs_paraphrase": 0.5029,
+          "rule_vs_unrelated_mean": 0.1358,
+          "inverted": true
+        },
+        {
+          "id": "telemetry",
+          "domain": "observability",
+          "rule_vs_negation": 0.5812,
+          "rule_vs_paraphrase": 0.4229,
+          "rule_vs_unrelated_mean": 0.1611,
+          "inverted": true
+        }
+      ],
+      "per_query": [
+        {
+          "id": "orm-billing",
+          "outcome": "negation",
+          "own_rule_rank": 2,
+          "own_negation_rank": 1,
+          "negation_outranks_rule": true,
+          "both_polarities_in_top_k": true,
+          "top_score": 0.592,
+          "margin_rule_over_negation": -0.1061
+        },
+        {
+          "id": "connection-pooling",
+          "outcome": "correct",
+          "own_rule_rank": 1,
+          "own_negation_rank": 2,
+          "negation_outranks_rule": false,
+          "both_polarities_in_top_k": true,
+          "top_score": 0.6221,
+          "margin_rule_over_negation": 0.0394
+        },
+        {
+          "id": "forward-only-migrations",
+          "outcome": "negation",
+          "own_rule_rank": 2,
+          "own_negation_rank": 1,
+          "negation_outranks_rule": true,
+          "both_polarities_in_top_k": true,
+          "top_score": 0.6462,
+          "margin_rule_over_negation": -0.0087
+        },
+        {
+          "id": "soft-deletes",
+          "outcome": "negation",
+          "own_rule_rank": 2,
+          "own_negation_rank": 1,
+          "negation_outranks_rule": true,
+          "both_polarities_in_top_k": true,
+          "top_score": 0.5051,
+          "margin_rule_over_negation": -0.0931
+        },
+        {
+          "id": "primary-keys",
+          "outcome": "negation",
+          "own_rule_rank": 2,
+          "own_negation_rank": 1,
+          "negation_outranks_rule": true,
+          "both_polarities_in_top_k": true,
+          "top_score": 0.4751,
+          "margin_rule_over_negation": -0.1111
+        },
+        {
+          "id": "money-representation",
+          "outcome": "correct",
+          "own_rule_rank": 1,
+          "own_negation_rank": 2,
+          "negation_outranks_rule": false,
+          "both_polarities_in_top_k": true,
+          "top_score": 0.3972,
+          "margin_rule_over_negation": 0.0539
+        },
+        {
+          "id": "timestamp-storage",
+          "outcome": "negation",
+          "own_rule_rank": 2,
+          "own_negation_rank": 1,
+          "negation_outranks_rule": true,
+          "both_polarities_in_top_k": true,
+          "top_score": 0.7025,
+          "margin_rule_over_negation": -0.0629
+        },
+        {
+          "id": "pii-logging",
+          "outcome": "negation",
+          "own_rule_rank": 2,
+          "own_negation_rank": 1,
+          "negation_outranks_rule": true,
+          "both_polarities_in_top_k": true,
+          "top_score": 0.4364,
+          "margin_rule_over_negation": -0.0533
+        },
+        {
+          "id": "secrets-in-env",
+          "outcome": "wrong_subject",
+          "own_rule_rank": 8,
+          "own_negation_rank": 9,
+          "negation_outranks_rule": false,
+          "both_polarities_in_top_k": false,
+          "top_score": 0.4042,
+          "margin_rule_over_negation": 0.0044
+        },
+        {
+          "id": "session-auth",
+          "outcome": "correct",
+          "own_rule_rank": 1,
+          "own_negation_rank": 2,
+          "negation_outranks_rule": false,
+          "both_polarities_in_top_k": true,
+          "top_score": 0.5229,
+          "margin_rule_over_negation": 0.0214
+        },
+        {
+          "id": "cors-policy",
+          "outcome": "negation",
+          "own_rule_rank": 2,
+          "own_negation_rank": 1,
+          "negation_outranks_rule": true,
+          "both_polarities_in_top_k": true,
+          "top_score": 0.6935,
+          "margin_rule_over_negation": -0.0415
+        },
+        {
+          "id": "silent-catch",
+          "outcome": "negation",
+          "own_rule_rank": 2,
+          "own_negation_rank": 1,
+          "negation_outranks_rule": true,
+          "both_polarities_in_top_k": true,
+          "top_score": 0.6536,
+          "margin_rule_over_negation": -0.1282
+        },
+        {
+          "id": "write-retries",
+          "outcome": "correct",
+          "own_rule_rank": 1,
+          "own_negation_rank": 2,
+          "negation_outranks_rule": false,
+          "both_polarities_in_top_k": true,
+          "top_score": 0.401,
+          "margin_rule_over_negation": 0.0062
+        },
+        {
+          "id": "queue-semantics",
+          "outcome": "wrong_subject",
+          "own_rule_rank": 7,
+          "own_negation_rank": 6,
+          "negation_outranks_rule": true,
+          "both_polarities_in_top_k": false,
+          "top_score": 0.3525,
+          "margin_rule_over_negation": -0.0053
+        },
+        {
+          "id": "cache-invalidation",
+          "outcome": "correct",
+          "own_rule_rank": 1,
+          "own_negation_rank": 2,
+          "negation_outranks_rule": false,
+          "both_polarities_in_top_k": true,
+          "top_score": 0.6365,
+          "margin_rule_over_negation": 0.1118
+        },
+        {
+          "id": "rate-limit-placement",
+          "outcome": "correct",
+          "own_rule_rank": 1,
+          "own_negation_rank": 2,
+          "negation_outranks_rule": false,
+          "both_polarities_in_top_k": true,
+          "top_score": 0.6375,
+          "margin_rule_over_negation": 0.0498
+        },
+        {
+          "id": "background-work",
+          "outcome": "wrong_subject",
+          "own_rule_rank": 3,
+          "own_negation_rank": 6,
+          "negation_outranks_rule": false,
+          "both_polarities_in_top_k": false,
+          "top_score": 0.3125,
+          "margin_rule_over_negation": 0.0363
+        },
+        {
+          "id": "realtime-transport",
+          "outcome": "correct",
+          "own_rule_rank": 1,
+          "own_negation_rank": 2,
+          "negation_outranks_rule": false,
+          "both_polarities_in_top_k": true,
+          "top_score": 0.7268,
+          "margin_rule_over_negation": 0.0689
+        },
+        {
+          "id": "api-versioning",
+          "outcome": "negation",
+          "own_rule_rank": 2,
+          "own_negation_rank": 1,
+          "negation_outranks_rule": true,
+          "both_polarities_in_top_k": true,
+          "top_score": 0.6713,
+          "margin_rule_over_negation": -0.0062
+        },
+        {
+          "id": "graphql",
+          "outcome": "negation",
+          "own_rule_rank": 2,
+          "own_negation_rank": 1,
+          "negation_outranks_rule": true,
+          "both_polarities_in_top_k": true,
+          "top_score": 0.6731,
+          "margin_rule_over_negation": -0.0979
+        },
+        {
+          "id": "direct-upload",
+          "outcome": "correct",
+          "own_rule_rank": 1,
+          "own_negation_rank": 2,
+          "negation_outranks_rule": false,
+          "both_polarities_in_top_k": true,
+          "top_score": 0.6182,
+          "margin_rule_over_negation": 0.1228
+        },
+        {
+          "id": "service-boundaries",
+          "outcome": "correct",
+          "own_rule_rank": 1,
+          "own_negation_rank": 2,
+          "negation_outranks_rule": false,
+          "both_polarities_in_top_k": true,
+          "top_score": 0.4232,
+          "margin_rule_over_negation": 0.029
+        },
+        {
+          "id": "runtime-deps",
+          "outcome": "wrong_subject",
+          "own_rule_rank": 5,
+          "own_negation_rank": 3,
+          "negation_outranks_rule": true,
+          "both_polarities_in_top_k": false,
+          "top_score": 0.3836,
+          "margin_rule_over_negation": -0.0594
+        },
+        {
+          "id": "dep-additions",
+          "outcome": "wrong_subject",
+          "own_rule_rank": 3,
+          "own_negation_rank": 4,
+          "negation_outranks_rule": false,
+          "both_polarities_in_top_k": false,
+          "top_score": 0.3324,
+          "margin_rule_over_negation": 0.0453
+        },
+        {
+          "id": "node-version",
+          "outcome": "correct",
+          "own_rule_rank": 1,
+          "own_negation_rank": 2,
+          "negation_outranks_rule": false,
+          "both_polarities_in_top_k": true,
+          "top_score": 0.5628,
+          "margin_rule_over_negation": 0.0108
+        },
+        {
+          "id": "docker-base",
+          "outcome": "correct",
+          "own_rule_rank": 1,
+          "own_negation_rank": 2,
+          "negation_outranks_rule": false,
+          "both_polarities_in_top_k": true,
+          "top_score": 0.5147,
+          "margin_rule_over_negation": 0.0446
+        },
+        {
+          "id": "orchestration",
+          "outcome": "correct",
+          "own_rule_rank": 1,
+          "own_negation_rank": 2,
+          "negation_outranks_rule": false,
+          "both_polarities_in_top_k": true,
+          "top_score": 0.5888,
+          "margin_rule_over_negation": 0.0774
+        },
+        {
+          "id": "infra-provisioning",
+          "outcome": "correct",
+          "own_rule_rank": 1,
+          "own_negation_rank": 2,
+          "negation_outranks_rule": false,
+          "both_polarities_in_top_k": true,
+          "top_score": 0.3614,
+          "margin_rule_over_negation": 0.0141
+        },
+        {
+          "id": "terraform-state",
+          "outcome": "correct",
+          "own_rule_rank": 1,
+          "own_negation_rank": 2,
+          "negation_outranks_rule": false,
+          "both_polarities_in_top_k": true,
+          "top_score": 0.4023,
+          "margin_rule_over_negation": 0.0392
+        },
+        {
+          "id": "db-tests",
+          "outcome": "correct",
+          "own_rule_rank": 1,
+          "own_negation_rank": 2,
+          "negation_outranks_rule": false,
+          "both_polarities_in_top_k": true,
+          "top_score": 0.6145,
+          "margin_rule_over_negation": 0.081
+        },
+        {
+          "id": "coverage-gate",
+          "outcome": "negation",
+          "own_rule_rank": 2,
+          "own_negation_rank": 1,
+          "negation_outranks_rule": true,
+          "both_polarities_in_top_k": true,
+          "top_score": 0.6519,
+          "margin_rule_over_negation": -0.0764
+        },
+        {
+          "id": "snapshot-tests",
+          "outcome": "correct",
+          "own_rule_rank": 1,
+          "own_negation_rank": 2,
+          "negation_outranks_rule": false,
+          "both_polarities_in_top_k": true,
+          "top_score": 0.7794,
+          "margin_rule_over_negation": 0.0688
+        },
+        {
+          "id": "flaky-tests",
+          "outcome": "negation",
+          "own_rule_rank": 2,
+          "own_negation_rank": 1,
+          "negation_outranks_rule": true,
+          "both_polarities_in_top_k": true,
+          "top_score": 0.6826,
+          "margin_rule_over_negation": -0.0709
+        },
+        {
+          "id": "styling",
+          "outcome": "correct",
+          "own_rule_rank": 1,
+          "own_negation_rank": 2,
+          "negation_outranks_rule": false,
+          "both_polarities_in_top_k": true,
+          "top_score": 0.3698,
+          "margin_rule_over_negation": 0.0096
+        },
+        {
+          "id": "client-state",
+          "outcome": "correct",
+          "own_rule_rank": 1,
+          "own_negation_rank": 3,
+          "negation_outranks_rule": false,
+          "both_polarities_in_top_k": true,
+          "top_score": 0.3189,
+          "margin_rule_over_negation": 0.0135
+        },
+        {
+          "id": "bundle-budget",
+          "outcome": "wrong_subject",
+          "own_rule_rank": 6,
+          "own_negation_rank": 2,
+          "negation_outranks_rule": true,
+          "both_polarities_in_top_k": false,
+          "top_score": 0.4913,
+          "margin_rule_over_negation": -0.1428
+        },
+        {
+          "id": "offline-first",
+          "outcome": "negation",
+          "own_rule_rank": 2,
+          "own_negation_rank": 1,
+          "negation_outranks_rule": true,
+          "both_polarities_in_top_k": true,
+          "top_score": 0.3765,
+          "margin_rule_over_negation": -0.1291
+        },
+        {
+          "id": "push-notifications",
+          "outcome": "correct",
+          "own_rule_rank": 1,
+          "own_negation_rank": 2,
+          "negation_outranks_rule": false,
+          "both_polarities_in_top_k": true,
+          "top_score": 0.5723,
+          "margin_rule_over_negation": 0.0171
+        },
+        {
+          "id": "analytics-events",
+          "outcome": "correct",
+          "own_rule_rank": 1,
+          "own_negation_rank": 2,
+          "negation_outranks_rule": false,
+          "both_polarities_in_top_k": true,
+          "top_score": 0.4486,
+          "margin_rule_over_negation": 0.0593
+        },
+        {
+          "id": "telemetry",
+          "outcome": "negation",
+          "own_rule_rank": 4,
+          "own_negation_rank": 1,
+          "negation_outranks_rule": true,
+          "both_polarities_in_top_k": false,
+          "top_score": 0.6453,
+          "margin_rule_over_negation": -0.279
+        }
+      ]
+    },
+    {
+      "model": "bge-base-en-v1.5",
+      "model_id": "Xenova/bge-base-en-v1.5",
+      "params": "109M",
+      "note": "retrieval-tuned, uses an instruction prefix on queries",
+      "separation": {
+        "rule_vs_negation": {
+          "n": 40,
+          "mean": 0.8653,
+          "sd": 0.0936,
+          "min": 0.6185,
+          "p25": 0.7997,
+          "median": 0.8701,
+          "p75": 0.9408,
+          "max": 0.9948
+        },
+        "rule_vs_paraphrase": {
+          "n": 40,
+          "mean": 0.7326,
+          "sd": 0.0598,
+          "min": 0.623,
+          "p25": 0.6977,
+          "median": 0.7293,
+          "p75": 0.7705,
+          "max": 0.8603
+        },
+        "rule_vs_unrelated": {
+          "n": 40,
+          "mean": 0.5657,
+          "sd": 0.0229,
+          "min": 0.5155,
+          "p25": 0.5523,
+          "median": 0.5671,
+          "p75": 0.5807,
+          "max": 0.6118
+        },
+        "inversions": 35,
+        "inversion_rate": 0.875,
+        "inverted_ids": [
+          "connection-pooling",
+          "forward-only-migrations",
+          "soft-deletes",
+          "primary-keys",
+          "money-representation",
+          "timestamp-storage",
+          "secrets-in-env",
+          "session-auth",
+          "cors-policy",
+          "silent-catch",
+          "write-retries",
+          "queue-semantics",
+          "cache-invalidation",
+          "rate-limit-placement",
+          "background-work",
+          "realtime-transport",
+          "api-versioning",
+          "direct-upload",
+          "service-boundaries",
+          "runtime-deps",
+          "dep-additions",
+          "docker-base",
+          "orchestration",
+          "infra-provisioning",
+          "terraform-state",
+          "db-tests",
+          "coverage-gate",
+          "snapshot-tests",
+          "flaky-tests",
+          "styling",
+          "client-state",
+          "bundle-budget",
+          "offline-first",
+          "push-notifications",
+          "analytics-events"
+        ]
+      },
+      "retrieval": {
+        "top_k": 3,
+        "pool_size": 80,
+        "correct": 6,
+        "negation_at_top1": 28,
+        "wrong_subject": 6,
+        "negation_outranks_rule": 32,
+        "negation_outranks_rule_rate": 0.8,
+        "both_polarities_in_top_k": 31,
+        "both_polarities_in_top_k_rate": 0.775,
+        "margin": {
+          "n": 40,
+          "mean": -0.0395,
+          "sd": 0.0582,
+          "min": -0.2722,
+          "p25": -0.0654,
+          "median": -0.0295,
+          "p75": -0.0022,
+          "max": 0.0708
+        }
+      },
+      "per_item": [
+        {
+          "id": "orm-billing",
+          "domain": "data-access",
+          "rule_vs_negation": 0.7704,
+          "rule_vs_paraphrase": 0.8603,
+          "rule_vs_unrelated_mean": 0.5603,
+          "inverted": false
+        },
+        {
+          "id": "connection-pooling",
+          "domain": "data-access",
+          "rule_vs_negation": 0.9272,
+          "rule_vs_paraphrase": 0.8173,
+          "rule_vs_unrelated_mean": 0.5347,
+          "inverted": true
+        },
+        {
+          "id": "forward-only-migrations",
+          "domain": "data-access",
+          "rule_vs_negation": 0.7354,
+          "rule_vs_paraphrase": 0.7288,
+          "rule_vs_unrelated_mean": 0.6118,
+          "inverted": true
+        },
+        {
+          "id": "soft-deletes",
+          "domain": "data-access",
+          "rule_vs_negation": 0.7876,
+          "rule_vs_paraphrase": 0.6998,
+          "rule_vs_unrelated_mean": 0.5422,
+          "inverted": true
+        },
+        {
+          "id": "primary-keys",
+          "domain": "data-access",
+          "rule_vs_negation": 0.9455,
+          "rule_vs_paraphrase": 0.7885,
+          "rule_vs_unrelated_mean": 0.5898,
+          "inverted": true
+        },
+        {
+          "id": "money-representation",
+          "domain": "correctness",
+          "rule_vs_negation": 0.909,
+          "rule_vs_paraphrase": 0.6967,
+          "rule_vs_unrelated_mean": 0.5414,
+          "inverted": true
+        },
+        {
+          "id": "timestamp-storage",
+          "domain": "correctness",
+          "rule_vs_negation": 0.8849,
+          "rule_vs_paraphrase": 0.733,
+          "rule_vs_unrelated_mean": 0.57,
+          "inverted": true
+        },
+        {
+          "id": "pii-logging",
+          "domain": "security",
+          "rule_vs_negation": 0.7474,
+          "rule_vs_paraphrase": 0.8181,
+          "rule_vs_unrelated_mean": 0.5547,
+          "inverted": false
+        },
+        {
+          "id": "secrets-in-env",
+          "domain": "security",
+          "rule_vs_negation": 0.9869,
+          "rule_vs_paraphrase": 0.7032,
+          "rule_vs_unrelated_mean": 0.5714,
+          "inverted": true
+        },
+        {
+          "id": "session-auth",
+          "domain": "security",
+          "rule_vs_negation": 0.9882,
+          "rule_vs_paraphrase": 0.7555,
+          "rule_vs_unrelated_mean": 0.5716,
+          "inverted": true
+        },
+        {
+          "id": "cors-policy",
+          "domain": "security",
+          "rule_vs_negation": 0.8522,
+          "rule_vs_paraphrase": 0.7612,
+          "rule_vs_unrelated_mean": 0.5925,
+          "inverted": true
+        },
+        {
+          "id": "silent-catch",
+          "domain": "correctness",
+          "rule_vs_negation": 0.7934,
+          "rule_vs_paraphrase": 0.6319,
+          "rule_vs_unrelated_mean": 0.5487,
+          "inverted": true
+        },
+        {
+          "id": "write-retries",
+          "domain": "reliability",
+          "rule_vs_negation": 0.8742,
+          "rule_vs_paraphrase": 0.7796,
+          "rule_vs_unrelated_mean": 0.5673,
+          "inverted": true
+        },
+        {
+          "id": "queue-semantics",
+          "domain": "reliability",
+          "rule_vs_negation": 0.9143,
+          "rule_vs_paraphrase": 0.6384,
+          "rule_vs_unrelated_mean": 0.5155,
+          "inverted": true
+        },
+        {
+          "id": "cache-invalidation",
+          "domain": "reliability",
+          "rule_vs_negation": 0.8849,
+          "rule_vs_paraphrase": 0.6998,
+          "rule_vs_unrelated_mean": 0.5635,
+          "inverted": true
+        },
+        {
+          "id": "rate-limit-placement",
+          "domain": "reliability",
+          "rule_vs_negation": 0.9789,
+          "rule_vs_paraphrase": 0.6788,
+          "rule_vs_unrelated_mean": 0.5815,
+          "inverted": true
+        },
+        {
+          "id": "background-work",
+          "domain": "architecture",
+          "rule_vs_negation": 0.9948,
+          "rule_vs_paraphrase": 0.7062,
+          "rule_vs_unrelated_mean": 0.5694,
+          "inverted": true
+        },
+        {
+          "id": "realtime-transport",
+          "domain": "architecture",
+          "rule_vs_negation": 0.9832,
+          "rule_vs_paraphrase": 0.6588,
+          "rule_vs_unrelated_mean": 0.6076,
+          "inverted": true
+        },
+        {
+          "id": "api-versioning",
+          "domain": "architecture",
+          "rule_vs_negation": 0.9839,
+          "rule_vs_paraphrase": 0.7356,
+          "rule_vs_unrelated_mean": 0.5648,
+          "inverted": true
+        },
+        {
+          "id": "graphql",
+          "domain": "architecture",
+          "rule_vs_negation": 0.6848,
+          "rule_vs_paraphrase": 0.7299,
+          "rule_vs_unrelated_mean": 0.5792,
+          "inverted": false
+        },
+        {
+          "id": "direct-upload",
+          "domain": "architecture",
+          "rule_vs_negation": 0.8324,
+          "rule_vs_paraphrase": 0.7159,
+          "rule_vs_unrelated_mean": 0.5947,
+          "inverted": true
+        },
+        {
+          "id": "service-boundaries",
+          "domain": "architecture",
+          "rule_vs_negation": 0.9393,
+          "rule_vs_paraphrase": 0.7596,
+          "rule_vs_unrelated_mean": 0.5535,
+          "inverted": true
+        },
+        {
+          "id": "runtime-deps",
+          "domain": "dependencies",
+          "rule_vs_negation": 0.8201,
+          "rule_vs_paraphrase": 0.7051,
+          "rule_vs_unrelated_mean": 0.5645,
+          "inverted": true
+        },
+        {
+          "id": "dep-additions",
+          "domain": "dependencies",
+          "rule_vs_negation": 0.8319,
+          "rule_vs_paraphrase": 0.7506,
+          "rule_vs_unrelated_mean": 0.5203,
+          "inverted": true
+        },
+        {
+          "id": "node-version",
+          "domain": "dependencies",
+          "rule_vs_negation": 0.8195,
+          "rule_vs_paraphrase": 0.8419,
+          "rule_vs_unrelated_mean": 0.586,
+          "inverted": false
+        },
+        {
+          "id": "docker-base",
+          "domain": "infrastructure",
+          "rule_vs_negation": 0.9272,
+          "rule_vs_paraphrase": 0.8158,
+          "rule_vs_unrelated_mean": 0.5623,
+          "inverted": true
+        },
+        {
+          "id": "orchestration",
+          "domain": "infrastructure",
+          "rule_vs_negation": 0.9714,
+          "rule_vs_paraphrase": 0.7815,
+          "rule_vs_unrelated_mean": 0.5785,
+          "inverted": true
+        },
+        {
+          "id": "infra-provisioning",
+          "domain": "infrastructure",
+          "rule_vs_negation": 0.7596,
+          "rule_vs_paraphrase": 0.7024,
+          "rule_vs_unrelated_mean": 0.5805,
+          "inverted": true
+        },
+        {
+          "id": "terraform-state",
+          "domain": "infrastructure",
+          "rule_vs_negation": 0.856,
+          "rule_vs_paraphrase": 0.7694,
+          "rule_vs_unrelated_mean": 0.5877,
+          "inverted": true
+        },
+        {
+          "id": "db-tests",
+          "domain": "testing",
+          "rule_vs_negation": 0.9812,
+          "rule_vs_paraphrase": 0.7683,
+          "rule_vs_unrelated_mean": 0.5902,
+          "inverted": true
+        },
+        {
+          "id": "coverage-gate",
+          "domain": "testing",
+          "rule_vs_negation": 0.7372,
+          "rule_vs_paraphrase": 0.72,
+          "rule_vs_unrelated_mean": 0.5461,
+          "inverted": true
+        },
+        {
+          "id": "snapshot-tests",
+          "domain": "testing",
+          "rule_vs_negation": 0.9287,
+          "rule_vs_paraphrase": 0.6807,
+          "rule_vs_unrelated_mean": 0.5769,
+          "inverted": true
+        },
+        {
+          "id": "flaky-tests",
+          "domain": "testing",
+          "rule_vs_negation": 0.8018,
+          "rule_vs_paraphrase": 0.7442,
+          "rule_vs_unrelated_mean": 0.5669,
+          "inverted": true
+        },
+        {
+          "id": "styling",
+          "domain": "frontend",
+          "rule_vs_negation": 0.9722,
+          "rule_vs_paraphrase": 0.7738,
+          "rule_vs_unrelated_mean": 0.5406,
+          "inverted": true
+        },
+        {
+          "id": "client-state",
+          "domain": "frontend",
+          "rule_vs_negation": 0.8735,
+          "rule_vs_paraphrase": 0.689,
+          "rule_vs_unrelated_mean": 0.5978,
+          "inverted": true
+        },
+        {
+          "id": "bundle-budget",
+          "domain": "frontend",
+          "rule_vs_negation": 0.7451,
+          "rule_vs_paraphrase": 0.6248,
+          "rule_vs_unrelated_mean": 0.5627,
+          "inverted": true
+        },
+        {
+          "id": "offline-first",
+          "domain": "mobile",
+          "rule_vs_negation": 0.8534,
+          "rule_vs_paraphrase": 0.6761,
+          "rule_vs_unrelated_mean": 0.5303,
+          "inverted": true
+        },
+        {
+          "id": "push-notifications",
+          "domain": "mobile",
+          "rule_vs_negation": 0.8473,
+          "rule_vs_paraphrase": 0.8413,
+          "rule_vs_unrelated_mean": 0.5574,
+          "inverted": true
+        },
+        {
+          "id": "analytics-events",
+          "domain": "observability",
+          "rule_vs_negation": 0.8667,
+          "rule_vs_paraphrase": 0.698,
+          "rule_vs_unrelated_mean": 0.5709,
+          "inverted": true
+        },
+        {
+          "id": "telemetry",
+          "domain": "observability",
+          "rule_vs_negation": 0.6185,
+          "rule_vs_paraphrase": 0.623,
+          "rule_vs_unrelated_mean": 0.5243,
+          "inverted": false
+        }
+      ],
+      "per_query": [
+        {
+          "id": "orm-billing",
+          "outcome": "negation",
+          "own_rule_rank": 2,
+          "own_negation_rank": 1,
+          "negation_outranks_rule": true,
+          "both_polarities_in_top_k": true,
+          "top_score": 0.7537,
+          "margin_rule_over_negation": -0.1045
+        },
+        {
+          "id": "connection-pooling",
+          "outcome": "negation",
+          "own_rule_rank": 2,
+          "own_negation_rank": 1,
+          "negation_outranks_rule": true,
+          "both_polarities_in_top_k": true,
+          "top_score": 0.6794,
+          "margin_rule_over_negation": -0.0262
+        },
+        {
+          "id": "forward-only-migrations",
+          "outcome": "negation",
+          "own_rule_rank": 2,
+          "own_negation_rank": 1,
+          "negation_outranks_rule": true,
+          "both_polarities_in_top_k": true,
+          "top_score": 0.7013,
+          "margin_rule_over_negation": -0.0313
+        },
+        {
+          "id": "soft-deletes",
+          "outcome": "negation",
+          "own_rule_rank": 4,
+          "own_negation_rank": 1,
+          "negation_outranks_rule": true,
+          "both_polarities_in_top_k": false,
+          "top_score": 0.6411,
+          "margin_rule_over_negation": -0.0477
+        },
+        {
+          "id": "primary-keys",
+          "outcome": "correct",
+          "own_rule_rank": 1,
+          "own_negation_rank": 2,
+          "negation_outranks_rule": false,
+          "both_polarities_in_top_k": true,
+          "top_score": 0.6291,
+          "margin_rule_over_negation": 0.0043
+        },
+        {
+          "id": "money-representation",
+          "outcome": "negation",
+          "own_rule_rank": 2,
+          "own_negation_rank": 1,
+          "negation_outranks_rule": true,
+          "both_polarities_in_top_k": true,
+          "top_score": 0.6299,
+          "margin_rule_over_negation": -0.0357
+        },
+        {
+          "id": "timestamp-storage",
+          "outcome": "negation",
+          "own_rule_rank": 2,
+          "own_negation_rank": 1,
+          "negation_outranks_rule": true,
+          "both_polarities_in_top_k": true,
+          "top_score": 0.7929,
+          "margin_rule_over_negation": -0.044
+        },
+        {
+          "id": "pii-logging",
+          "outcome": "negation",
+          "own_rule_rank": 2,
+          "own_negation_rank": 1,
+          "negation_outranks_rule": true,
+          "both_polarities_in_top_k": true,
+          "top_score": 0.667,
+          "margin_rule_over_negation": -0.1285
+        },
+        {
+          "id": "secrets-in-env",
+          "outcome": "wrong_subject",
+          "own_rule_rank": 16,
+          "own_negation_rank": 14,
+          "negation_outranks_rule": true,
+          "both_polarities_in_top_k": false,
+          "top_score": 0.6204,
+          "margin_rule_over_negation": -0.0024
+        },
+        {
+          "id": "session-auth",
+          "outcome": "negation",
+          "own_rule_rank": 2,
+          "own_negation_rank": 1,
+          "negation_outranks_rule": true,
+          "both_polarities_in_top_k": true,
+          "top_score": 0.672,
+          "margin_rule_over_negation": -0.0029
+        },
+        {
+          "id": "cors-policy",
+          "outcome": "negation",
+          "own_rule_rank": 2,
+          "own_negation_rank": 1,
+          "negation_outranks_rule": true,
+          "both_polarities_in_top_k": true,
+          "top_score": 0.7402,
+          "margin_rule_over_negation": -0.0818
+        },
+        {
+          "id": "silent-catch",
+          "outcome": "negation",
+          "own_rule_rank": 3,
+          "own_negation_rank": 1,
+          "negation_outranks_rule": true,
+          "both_polarities_in_top_k": true,
+          "top_score": 0.6887,
+          "margin_rule_over_negation": -0.0632
+        },
+        {
+          "id": "write-retries",
+          "outcome": "negation",
+          "own_rule_rank": 3,
+          "own_negation_rank": 1,
+          "negation_outranks_rule": true,
+          "both_polarities_in_top_k": true,
+          "top_score": 0.6452,
+          "margin_rule_over_negation": -0.0309
+        },
+        {
+          "id": "queue-semantics",
+          "outcome": "wrong_subject",
+          "own_rule_rank": 7,
+          "own_negation_rank": 13,
+          "negation_outranks_rule": false,
+          "both_polarities_in_top_k": false,
+          "top_score": 0.5829,
+          "margin_rule_over_negation": 0.0142
+        },
+        {
+          "id": "cache-invalidation",
+          "outcome": "negation",
+          "own_rule_rank": 2,
+          "own_negation_rank": 1,
+          "negation_outranks_rule": true,
+          "both_polarities_in_top_k": true,
+          "top_score": 0.6825,
+          "margin_rule_over_negation": -0.0281
+        },
+        {
+          "id": "rate-limit-placement",
+          "outcome": "correct",
+          "own_rule_rank": 1,
+          "own_negation_rank": 2,
+          "negation_outranks_rule": false,
+          "both_polarities_in_top_k": true,
+          "top_score": 0.7271,
+          "margin_rule_over_negation": 0.0014
+        },
+        {
+          "id": "background-work",
+          "outcome": "negation",
+          "own_rule_rank": 4,
+          "own_negation_rank": 1,
+          "negation_outranks_rule": true,
+          "both_polarities_in_top_k": false,
+          "top_score": 0.6014,
+          "margin_rule_over_negation": -0.0073
+        },
+        {
+          "id": "realtime-transport",
+          "outcome": "negation",
+          "own_rule_rank": 2,
+          "own_negation_rank": 1,
+          "negation_outranks_rule": true,
+          "both_polarities_in_top_k": true,
+          "top_score": 0.7179,
+          "margin_rule_over_negation": -0.0282
+        },
+        {
+          "id": "api-versioning",
+          "outcome": "wrong_subject",
+          "own_rule_rank": 3,
+          "own_negation_rank": 2,
+          "negation_outranks_rule": true,
+          "both_polarities_in_top_k": true,
+          "top_score": 0.6905,
+          "margin_rule_over_negation": -0.0038
+        },
+        {
+          "id": "graphql",
+          "outcome": "negation",
+          "own_rule_rank": 3,
+          "own_negation_rank": 1,
+          "negation_outranks_rule": true,
+          "both_polarities_in_top_k": true,
+          "top_score": 0.7176,
+          "margin_rule_over_negation": -0.1021
+        },
+        {
+          "id": "direct-upload",
+          "outcome": "negation",
+          "own_rule_rank": 2,
+          "own_negation_rank": 1,
+          "negation_outranks_rule": true,
+          "both_polarities_in_top_k": true,
+          "top_score": 0.7228,
+          "margin_rule_over_negation": -0.072
+        },
+        {
+          "id": "service-boundaries",
+          "outcome": "wrong_subject",
+          "own_rule_rank": 23,
+          "own_negation_rank": 22,
+          "negation_outranks_rule": true,
+          "both_polarities_in_top_k": false,
+          "top_score": 0.5729,
+          "margin_rule_over_negation": -0.0001
+        },
+        {
+          "id": "runtime-deps",
+          "outcome": "wrong_subject",
+          "own_rule_rank": 3,
+          "own_negation_rank": 4,
+          "negation_outranks_rule": false,
+          "both_polarities_in_top_k": false,
+          "top_score": 0.6345,
+          "margin_rule_over_negation": 0.0002
+        },
+        {
+          "id": "dep-additions",
+          "outcome": "correct",
+          "own_rule_rank": 1,
+          "own_negation_rank": 2,
+          "negation_outranks_rule": false,
+          "both_polarities_in_top_k": true,
+          "top_score": 0.7046,
+          "margin_rule_over_negation": 0.0708
+        },
+        {
+          "id": "node-version",
+          "outcome": "correct",
+          "own_rule_rank": 1,
+          "own_negation_rank": 2,
+          "negation_outranks_rule": false,
+          "both_polarities_in_top_k": true,
+          "top_score": 0.7363,
+          "margin_rule_over_negation": 0.0547
+        },
+        {
+          "id": "docker-base",
+          "outcome": "negation",
+          "own_rule_rank": 2,
+          "own_negation_rank": 1,
+          "negation_outranks_rule": true,
+          "both_polarities_in_top_k": true,
+          "top_score": 0.7158,
+          "margin_rule_over_negation": -0.0313
+        },
+        {
+          "id": "orchestration",
+          "outcome": "correct",
+          "own_rule_rank": 1,
+          "own_negation_rank": 2,
+          "negation_outranks_rule": false,
+          "both_polarities_in_top_k": true,
+          "top_score": 0.6469,
+          "margin_rule_over_negation": 0.0133
+        },
+        {
+          "id": "infra-provisioning",
+          "outcome": "negation",
+          "own_rule_rank": 2,
+          "own_negation_rank": 1,
+          "negation_outranks_rule": true,
+          "both_polarities_in_top_k": true,
+          "top_score": 0.5947,
+          "margin_rule_over_negation": -0.0278
+        },
+        {
+          "id": "terraform-state",
+          "outcome": "correct",
+          "own_rule_rank": 1,
+          "own_negation_rank": 2,
+          "negation_outranks_rule": false,
+          "both_polarities_in_top_k": true,
+          "top_score": 0.6151,
+          "margin_rule_over_negation": 0.0169
+        },
+        {
+          "id": "db-tests",
+          "outcome": "negation",
+          "own_rule_rank": 2,
+          "own_negation_rank": 1,
+          "negation_outranks_rule": true,
+          "both_polarities_in_top_k": true,
+          "top_score": 0.7492,
+          "margin_rule_over_negation": -0.0349
+        },
+        {
+          "id": "coverage-gate",
+          "outcome": "negation",
+          "own_rule_rank": 2,
+          "own_negation_rank": 1,
+          "negation_outranks_rule": true,
+          "both_polarities_in_top_k": true,
+          "top_score": 0.7388,
+          "margin_rule_over_negation": -0.1204
+        },
+        {
+          "id": "snapshot-tests",
+          "outcome": "negation",
+          "own_rule_rank": 2,
+          "own_negation_rank": 1,
+          "negation_outranks_rule": true,
+          "both_polarities_in_top_k": true,
+          "top_score": 0.8057,
+          "margin_rule_over_negation": -0.0446
+        },
+        {
+          "id": "flaky-tests",
+          "outcome": "negation",
+          "own_rule_rank": 2,
+          "own_negation_rank": 1,
+          "negation_outranks_rule": true,
+          "both_polarities_in_top_k": true,
+          "top_score": 0.765,
+          "margin_rule_over_negation": -0.1018
+        },
+        {
+          "id": "styling",
+          "outcome": "negation",
+          "own_rule_rank": 2,
+          "own_negation_rank": 1,
+          "negation_outranks_rule": true,
+          "both_polarities_in_top_k": true,
+          "top_score": 0.6484,
+          "margin_rule_over_negation": -0.0017
+        },
+        {
+          "id": "client-state",
+          "outcome": "negation",
+          "own_rule_rank": 3,
+          "own_negation_rank": 1,
+          "negation_outranks_rule": true,
+          "both_polarities_in_top_k": true,
+          "top_score": 0.5845,
+          "margin_rule_over_negation": -0.0222
+        },
+        {
+          "id": "bundle-budget",
+          "outcome": "wrong_subject",
+          "own_rule_rank": 7,
+          "own_negation_rank": 4,
+          "negation_outranks_rule": true,
+          "both_polarities_in_top_k": false,
+          "top_score": 0.6928,
+          "margin_rule_over_negation": -0.0247
+        },
+        {
+          "id": "offline-first",
+          "outcome": "negation",
+          "own_rule_rank": 2,
+          "own_negation_rank": 1,
+          "negation_outranks_rule": true,
+          "both_polarities_in_top_k": true,
+          "top_score": 0.6425,
+          "margin_rule_over_negation": -0.0994
+        },
+        {
+          "id": "push-notifications",
+          "outcome": "negation",
+          "own_rule_rank": 2,
+          "own_negation_rank": 1,
+          "negation_outranks_rule": true,
+          "both_polarities_in_top_k": true,
+          "top_score": 0.6859,
+          "margin_rule_over_negation": -0.0381
+        },
+        {
+          "id": "analytics-events",
+          "outcome": "negation",
+          "own_rule_rank": 10,
+          "own_negation_rank": 1,
+          "negation_outranks_rule": true,
+          "both_polarities_in_top_k": false,
+          "top_score": 0.6289,
+          "margin_rule_over_negation": -0.0968
+        },
+        {
+          "id": "telemetry",
+          "outcome": "negation",
+          "own_rule_rank": 17,
+          "own_negation_rank": 1,
+          "negation_outranks_rule": true,
+          "both_polarities_in_top_k": false,
+          "top_score": 0.7808,
+          "margin_rule_over_negation": -0.2722
+        }
+      ]
+    },
+    {
+      "model": "gte-base",
+      "model_id": "Xenova/gte-base",
+      "params": "109M",
+      "note": "retrieval-tuned general text embeddings",
+      "separation": {
+        "rule_vs_negation": {
+          "n": 40,
+          "mean": 0.9376,
+          "sd": 0.0439,
+          "min": 0.8165,
+          "p25": 0.9125,
+          "median": 0.9426,
+          "p75": 0.971,
+          "max": 0.9958
+        },
+        "rule_vs_paraphrase": {
+          "n": 40,
+          "mean": 0.8703,
+          "sd": 0.0286,
+          "min": 0.8035,
+          "p25": 0.8528,
+          "median": 0.8675,
+          "p75": 0.8925,
+          "max": 0.9417
+        },
+        "rule_vs_unrelated": {
+          "n": 40,
+          "mean": 0.7849,
+          "sd": 0.0158,
+          "min": 0.7514,
+          "p25": 0.7761,
+          "median": 0.7887,
+          "p75": 0.7957,
+          "max": 0.8096
+        },
+        "inversions": 36,
+        "inversion_rate": 0.9,
+        "inverted_ids": [
+          "connection-pooling",
+          "forward-only-migrations",
+          "soft-deletes",
+          "primary-keys",
+          "money-representation",
+          "timestamp-storage",
+          "secrets-in-env",
+          "session-auth",
+          "cors-policy",
+          "silent-catch",
+          "write-retries",
+          "queue-semantics",
+          "cache-invalidation",
+          "rate-limit-placement",
+          "background-work",
+          "realtime-transport",
+          "api-versioning",
+          "graphql",
+          "direct-upload",
+          "service-boundaries",
+          "runtime-deps",
+          "dep-additions",
+          "docker-base",
+          "orchestration",
+          "infra-provisioning",
+          "terraform-state",
+          "db-tests",
+          "coverage-gate",
+          "snapshot-tests",
+          "flaky-tests",
+          "styling",
+          "client-state",
+          "bundle-budget",
+          "offline-first",
+          "push-notifications",
+          "analytics-events"
+        ]
+      },
+      "retrieval": {
+        "top_k": 3,
+        "pool_size": 80,
+        "correct": 7,
+        "negation_at_top1": 26,
+        "wrong_subject": 7,
+        "negation_outranks_rule": 29,
+        "negation_outranks_rule_rate": 0.725,
+        "both_polarities_in_top_k": 31,
+        "both_polarities_in_top_k_rate": 0.775,
+        "margin": {
+          "n": 40,
+          "mean": -0.0186,
+          "sd": 0.0297,
+          "min": -0.1501,
+          "p25": -0.036,
+          "median": -0.0106,
+          "p75": 0.0002,
+          "max": 0.0267
+        }
+      },
+      "per_item": [
+        {
+          "id": "orm-billing",
+          "domain": "data-access",
+          "rule_vs_negation": 0.8823,
+          "rule_vs_paraphrase": 0.9417,
+          "rule_vs_unrelated_mean": 0.7934,
+          "inverted": false
+        },
+        {
+          "id": "connection-pooling",
+          "domain": "data-access",
+          "rule_vs_negation": 0.9543,
+          "rule_vs_paraphrase": 0.8957,
+          "rule_vs_unrelated_mean": 0.7514,
+          "inverted": true
+        },
+        {
+          "id": "forward-only-migrations",
+          "domain": "data-access",
+          "rule_vs_negation": 0.8911,
+          "rule_vs_paraphrase": 0.8688,
+          "rule_vs_unrelated_mean": 0.8042,
+          "inverted": true
+        },
+        {
+          "id": "soft-deletes",
+          "domain": "data-access",
+          "rule_vs_negation": 0.8935,
+          "rule_vs_paraphrase": 0.8555,
+          "rule_vs_unrelated_mean": 0.756,
+          "inverted": true
+        },
+        {
+          "id": "primary-keys",
+          "domain": "data-access",
+          "rule_vs_negation": 0.9627,
+          "rule_vs_paraphrase": 0.9084,
+          "rule_vs_unrelated_mean": 0.7899,
+          "inverted": true
+        },
+        {
+          "id": "money-representation",
+          "domain": "correctness",
+          "rule_vs_negation": 0.9612,
+          "rule_vs_paraphrase": 0.8661,
+          "rule_vs_unrelated_mean": 0.7526,
+          "inverted": true
+        },
+        {
+          "id": "timestamp-storage",
+          "domain": "correctness",
+          "rule_vs_negation": 0.944,
+          "rule_vs_paraphrase": 0.8619,
+          "rule_vs_unrelated_mean": 0.7607,
+          "inverted": true
+        },
+        {
+          "id": "pii-logging",
+          "domain": "security",
+          "rule_vs_negation": 0.8384,
+          "rule_vs_paraphrase": 0.8959,
+          "rule_vs_unrelated_mean": 0.7919,
+          "inverted": false
+        },
+        {
+          "id": "secrets-in-env",
+          "domain": "security",
+          "rule_vs_negation": 0.9955,
+          "rule_vs_paraphrase": 0.8527,
+          "rule_vs_unrelated_mean": 0.7847,
+          "inverted": true
+        },
+        {
+          "id": "session-auth",
+          "domain": "security",
+          "rule_vs_negation": 0.9946,
+          "rule_vs_paraphrase": 0.8682,
+          "rule_vs_unrelated_mean": 0.777,
+          "inverted": true
+        },
+        {
+          "id": "cors-policy",
+          "domain": "security",
+          "rule_vs_negation": 0.9284,
+          "rule_vs_paraphrase": 0.882,
+          "rule_vs_unrelated_mean": 0.7854,
+          "inverted": true
+        },
+        {
+          "id": "silent-catch",
+          "domain": "correctness",
+          "rule_vs_negation": 0.9111,
+          "rule_vs_paraphrase": 0.835,
+          "rule_vs_unrelated_mean": 0.7824,
+          "inverted": true
+        },
+        {
+          "id": "write-retries",
+          "domain": "reliability",
+          "rule_vs_negation": 0.9378,
+          "rule_vs_paraphrase": 0.8895,
+          "rule_vs_unrelated_mean": 0.7829,
+          "inverted": true
+        },
+        {
+          "id": "queue-semantics",
+          "domain": "reliability",
+          "rule_vs_negation": 0.9586,
+          "rule_vs_paraphrase": 0.8081,
+          "rule_vs_unrelated_mean": 0.7617,
+          "inverted": true
+        },
+        {
+          "id": "cache-invalidation",
+          "domain": "reliability",
+          "rule_vs_negation": 0.9451,
+          "rule_vs_paraphrase": 0.8421,
+          "rule_vs_unrelated_mean": 0.7668,
+          "inverted": true
+        },
+        {
+          "id": "rate-limit-placement",
+          "domain": "reliability",
+          "rule_vs_negation": 0.9946,
+          "rule_vs_paraphrase": 0.862,
+          "rule_vs_unrelated_mean": 0.7991,
+          "inverted": true
+        },
+        {
+          "id": "background-work",
+          "domain": "architecture",
+          "rule_vs_negation": 0.9951,
+          "rule_vs_paraphrase": 0.8726,
+          "rule_vs_unrelated_mean": 0.7983,
+          "inverted": true
+        },
+        {
+          "id": "realtime-transport",
+          "domain": "architecture",
+          "rule_vs_negation": 0.9782,
+          "rule_vs_paraphrase": 0.8327,
+          "rule_vs_unrelated_mean": 0.8096,
+          "inverted": true
+        },
+        {
+          "id": "api-versioning",
+          "domain": "architecture",
+          "rule_vs_negation": 0.9958,
+          "rule_vs_paraphrase": 0.8727,
+          "rule_vs_unrelated_mean": 0.7899,
+          "inverted": true
+        },
+        {
+          "id": "graphql",
+          "domain": "architecture",
+          "rule_vs_negation": 0.8902,
+          "rule_vs_paraphrase": 0.8859,
+          "rule_vs_unrelated_mean": 0.8084,
+          "inverted": true
+        },
+        {
+          "id": "direct-upload",
+          "domain": "architecture",
+          "rule_vs_negation": 0.9131,
+          "rule_vs_paraphrase": 0.8421,
+          "rule_vs_unrelated_mean": 0.7944,
+          "inverted": true
+        },
+        {
+          "id": "service-boundaries",
+          "domain": "architecture",
+          "rule_vs_negation": 0.9824,
+          "rule_vs_paraphrase": 0.8973,
+          "rule_vs_unrelated_mean": 0.7952,
+          "inverted": true
+        },
+        {
+          "id": "runtime-deps",
+          "domain": "dependencies",
+          "rule_vs_negation": 0.913,
+          "rule_vs_paraphrase": 0.8642,
+          "rule_vs_unrelated_mean": 0.7824,
+          "inverted": true
+        },
+        {
+          "id": "dep-additions",
+          "domain": "dependencies",
+          "rule_vs_negation": 0.93,
+          "rule_vs_paraphrase": 0.8606,
+          "rule_vs_unrelated_mean": 0.7589,
+          "inverted": true
+        },
+        {
+          "id": "node-version",
+          "domain": "dependencies",
+          "rule_vs_negation": 0.892,
+          "rule_vs_paraphrase": 0.9119,
+          "rule_vs_unrelated_mean": 0.7949,
+          "inverted": false
+        },
+        {
+          "id": "docker-base",
+          "domain": "infrastructure",
+          "rule_vs_negation": 0.9656,
+          "rule_vs_paraphrase": 0.9054,
+          "rule_vs_unrelated_mean": 0.7764,
+          "inverted": true
+        },
+        {
+          "id": "orchestration",
+          "domain": "infrastructure",
+          "rule_vs_negation": 0.9828,
+          "rule_vs_paraphrase": 0.9073,
+          "rule_vs_unrelated_mean": 0.804,
+          "inverted": true
+        },
+        {
+          "id": "infra-provisioning",
+          "domain": "infrastructure",
+          "rule_vs_negation": 0.9188,
+          "rule_vs_paraphrase": 0.8665,
+          "rule_vs_unrelated_mean": 0.8043,
+          "inverted": true
+        },
+        {
+          "id": "terraform-state",
+          "domain": "infrastructure",
+          "rule_vs_negation": 0.9333,
+          "rule_vs_paraphrase": 0.8925,
+          "rule_vs_unrelated_mean": 0.8,
+          "inverted": true
+        },
+        {
+          "id": "db-tests",
+          "domain": "testing",
+          "rule_vs_negation": 0.9918,
+          "rule_vs_paraphrase": 0.8821,
+          "rule_vs_unrelated_mean": 0.7972,
+          "inverted": true
+        },
+        {
+          "id": "coverage-gate",
+          "domain": "testing",
+          "rule_vs_negation": 0.8806,
+          "rule_vs_paraphrase": 0.8668,
+          "rule_vs_unrelated_mean": 0.7881,
+          "inverted": true
+        },
+        {
+          "id": "snapshot-tests",
+          "domain": "testing",
+          "rule_vs_negation": 0.9686,
+          "rule_vs_paraphrase": 0.8351,
+          "rule_vs_unrelated_mean": 0.784,
+          "inverted": true
+        },
+        {
+          "id": "flaky-tests",
+          "domain": "testing",
+          "rule_vs_negation": 0.9345,
+          "rule_vs_paraphrase": 0.8886,
+          "rule_vs_unrelated_mean": 0.7919,
+          "inverted": true
+        },
+        {
+          "id": "styling",
+          "domain": "frontend",
+          "rule_vs_negation": 0.9868,
+          "rule_vs_paraphrase": 0.8925,
+          "rule_vs_unrelated_mean": 0.7668,
+          "inverted": true
+        },
+        {
+          "id": "client-state",
+          "domain": "frontend",
+          "rule_vs_negation": 0.9539,
+          "rule_vs_paraphrase": 0.8405,
+          "rule_vs_unrelated_mean": 0.803,
+          "inverted": true
+        },
+        {
+          "id": "bundle-budget",
+          "domain": "frontend",
+          "rule_vs_negation": 0.8817,
+          "rule_vs_paraphrase": 0.8035,
+          "rule_vs_unrelated_mean": 0.7753,
+          "inverted": true
+        },
+        {
+          "id": "offline-first",
+          "domain": "mobile",
+          "rule_vs_negation": 0.9413,
+          "rule_vs_paraphrase": 0.8528,
+          "rule_vs_unrelated_mean": 0.7672,
+          "inverted": true
+        },
+        {
+          "id": "push-notifications",
+          "domain": "mobile",
+          "rule_vs_negation": 0.9154,
+          "rule_vs_paraphrase": 0.9013,
+          "rule_vs_unrelated_mean": 0.7892,
+          "inverted": true
+        },
+        {
+          "id": "analytics-events",
+          "domain": "observability",
+          "rule_vs_negation": 0.9504,
+          "rule_vs_paraphrase": 0.8486,
+          "rule_vs_unrelated_mean": 0.7915,
+          "inverted": true
+        },
+        {
+          "id": "telemetry",
+          "domain": "observability",
+          "rule_vs_negation": 0.8165,
+          "rule_vs_paraphrase": 0.8551,
+          "rule_vs_unrelated_mean": 0.7856,
+          "inverted": false
+        }
+      ],
+      "per_query": [
+        {
+          "id": "orm-billing",
+          "outcome": "negation",
+          "own_rule_rank": 2,
+          "own_negation_rank": 1,
+          "negation_outranks_rule": true,
+          "both_polarities_in_top_k": true,
+          "top_score": 0.8879,
+          "margin_rule_over_negation": -0.0486
+        },
+        {
+          "id": "connection-pooling",
+          "outcome": "negation",
+          "own_rule_rank": 2,
+          "own_negation_rank": 1,
+          "negation_outranks_rule": true,
+          "both_polarities_in_top_k": true,
+          "top_score": 0.8613,
+          "margin_rule_over_negation": -0.0163
+        },
+        {
+          "id": "forward-only-migrations",
+          "outcome": "negation",
+          "own_rule_rank": 2,
+          "own_negation_rank": 1,
+          "negation_outranks_rule": true,
+          "both_polarities_in_top_k": true,
+          "top_score": 0.8792,
+          "margin_rule_over_negation": -0.03
+        },
+        {
+          "id": "soft-deletes",
+          "outcome": "wrong_subject",
+          "own_rule_rank": 4,
+          "own_negation_rank": 5,
+          "negation_outranks_rule": false,
+          "both_polarities_in_top_k": false,
+          "top_score": 0.7967,
+          "margin_rule_over_negation": 0.0005
+        },
+        {
+          "id": "primary-keys",
+          "outcome": "correct",
+          "own_rule_rank": 1,
+          "own_negation_rank": 2,
+          "negation_outranks_rule": false,
+          "both_polarities_in_top_k": true,
+          "top_score": 0.8245,
+          "margin_rule_over_negation": 0.0025
+        },
+        {
+          "id": "money-representation",
+          "outcome": "negation",
+          "own_rule_rank": 2,
+          "own_negation_rank": 1,
+          "negation_outranks_rule": true,
+          "both_polarities_in_top_k": true,
+          "top_score": 0.82,
+          "margin_rule_over_negation": -0.0203
+        },
+        {
+          "id": "timestamp-storage",
+          "outcome": "negation",
+          "own_rule_rank": 2,
+          "own_negation_rank": 1,
+          "negation_outranks_rule": true,
+          "both_polarities_in_top_k": true,
+          "top_score": 0.8939,
+          "margin_rule_over_negation": -0.041
+        },
+        {
+          "id": "pii-logging",
+          "outcome": "negation",
+          "own_rule_rank": 3,
+          "own_negation_rank": 1,
+          "negation_outranks_rule": true,
+          "both_polarities_in_top_k": true,
+          "top_score": 0.841,
+          "margin_rule_over_negation": -0.0572
+        },
+        {
+          "id": "secrets-in-env",
+          "outcome": "wrong_subject",
+          "own_rule_rank": 11,
+          "own_negation_rank": 8,
+          "negation_outranks_rule": true,
+          "both_polarities_in_top_k": false,
+          "top_score": 0.8061,
+          "margin_rule_over_negation": -0.0043
+        },
+        {
+          "id": "session-auth",
+          "outcome": "correct",
+          "own_rule_rank": 1,
+          "own_negation_rank": 2,
+          "negation_outranks_rule": false,
+          "both_polarities_in_top_k": true,
+          "top_score": 0.8375,
+          "margin_rule_over_negation": 0.0001
+        },
+        {
+          "id": "cors-policy",
+          "outcome": "negation",
+          "own_rule_rank": 2,
+          "own_negation_rank": 1,
+          "negation_outranks_rule": true,
+          "both_polarities_in_top_k": true,
+          "top_score": 0.8775,
+          "margin_rule_over_negation": -0.0386
+        },
+        {
+          "id": "silent-catch",
+          "outcome": "negation",
+          "own_rule_rank": 2,
+          "own_negation_rank": 1,
+          "negation_outranks_rule": true,
+          "both_polarities_in_top_k": true,
+          "top_score": 0.8303,
+          "margin_rule_over_negation": -0.0049
+        },
+        {
+          "id": "write-retries",
+          "outcome": "negation",
+          "own_rule_rank": 2,
+          "own_negation_rank": 1,
+          "negation_outranks_rule": true,
+          "both_polarities_in_top_k": true,
+          "top_score": 0.8173,
+          "margin_rule_over_negation": -0.0009
+        },
+        {
+          "id": "queue-semantics",
+          "outcome": "wrong_subject",
+          "own_rule_rank": 7,
+          "own_negation_rank": 19,
+          "negation_outranks_rule": false,
+          "both_polarities_in_top_k": false,
+          "top_score": 0.8029,
+          "margin_rule_over_negation": 0.0186
+        },
+        {
+          "id": "cache-invalidation",
+          "outcome": "negation",
+          "own_rule_rank": 2,
+          "own_negation_rank": 1,
+          "negation_outranks_rule": true,
+          "both_polarities_in_top_k": true,
+          "top_score": 0.8321,
+          "margin_rule_over_negation": -0.0057
+        },
+        {
+          "id": "rate-limit-placement",
+          "outcome": "correct",
+          "own_rule_rank": 1,
+          "own_negation_rank": 2,
+          "negation_outranks_rule": false,
+          "both_polarities_in_top_k": true,
+          "top_score": 0.8661,
+          "margin_rule_over_negation": 0.0016
+        },
+        {
+          "id": "background-work",
+          "outcome": "negation",
+          "own_rule_rank": 2,
+          "own_negation_rank": 1,
+          "negation_outranks_rule": true,
+          "both_polarities_in_top_k": true,
+          "top_score": 0.7973,
+          "margin_rule_over_negation": -0.0038
+        },
+        {
+          "id": "realtime-transport",
+          "outcome": "negation",
+          "own_rule_rank": 2,
+          "own_negation_rank": 1,
+          "negation_outranks_rule": true,
+          "both_polarities_in_top_k": true,
+          "top_score": 0.8754,
+          "margin_rule_over_negation": -0.0174
+        },
+        {
+          "id": "api-versioning",
+          "outcome": "wrong_subject",
+          "own_rule_rank": 2,
+          "own_negation_rank": 4,
+          "negation_outranks_rule": false,
+          "both_polarities_in_top_k": false,
+          "top_score": 0.8331,
+          "margin_rule_over_negation": 0.002
+        },
+        {
+          "id": "graphql",
+          "outcome": "negation",
+          "own_rule_rank": 2,
+          "own_negation_rank": 1,
+          "negation_outranks_rule": true,
+          "both_polarities_in_top_k": true,
+          "top_score": 0.8895,
+          "margin_rule_over_negation": -0.0463
+        },
+        {
+          "id": "direct-upload",
+          "outcome": "negation",
+          "own_rule_rank": 2,
+          "own_negation_rank": 1,
+          "negation_outranks_rule": true,
+          "both_polarities_in_top_k": true,
+          "top_score": 0.86,
+          "margin_rule_over_negation": -0.045
+        },
+        {
+          "id": "service-boundaries",
+          "outcome": "wrong_subject",
+          "own_rule_rank": 12,
+          "own_negation_rank": 8,
+          "negation_outranks_rule": true,
+          "both_polarities_in_top_k": false,
+          "top_score": 0.7977,
+          "margin_rule_over_negation": -0.0049
+        },
+        {
+          "id": "runtime-deps",
+          "outcome": "negation",
+          "own_rule_rank": 4,
+          "own_negation_rank": 1,
+          "negation_outranks_rule": true,
+          "both_polarities_in_top_k": false,
+          "top_score": 0.8027,
+          "margin_rule_over_negation": -0.0163
+        },
+        {
+          "id": "dep-additions",
+          "outcome": "correct",
+          "own_rule_rank": 1,
+          "own_negation_rank": 2,
+          "negation_outranks_rule": false,
+          "both_polarities_in_top_k": true,
+          "top_score": 0.849,
+          "margin_rule_over_negation": 0.0267
+        },
+        {
+          "id": "node-version",
+          "outcome": "correct",
+          "own_rule_rank": 1,
+          "own_negation_rank": 2,
+          "negation_outranks_rule": false,
+          "both_polarities_in_top_k": true,
+          "top_score": 0.8544,
+          "margin_rule_over_negation": 0.021
+        },
+        {
+          "id": "docker-base",
+          "outcome": "negation",
+          "own_rule_rank": 2,
+          "own_negation_rank": 1,
+          "negation_outranks_rule": true,
+          "both_polarities_in_top_k": true,
+          "top_score": 0.8408,
+          "margin_rule_over_negation": -0.0246
+        },
+        {
+          "id": "orchestration",
+          "outcome": "correct",
+          "own_rule_rank": 1,
+          "own_negation_rank": 2,
+          "negation_outranks_rule": false,
+          "both_polarities_in_top_k": true,
+          "top_score": 0.8148,
+          "margin_rule_over_negation": 0.0029
+        },
+        {
+          "id": "infra-provisioning",
+          "outcome": "negation",
+          "own_rule_rank": 2,
+          "own_negation_rank": 1,
+          "negation_outranks_rule": true,
+          "both_polarities_in_top_k": true,
+          "top_score": 0.8148,
+          "margin_rule_over_negation": -0.0112
+        },
+        {
+          "id": "terraform-state",
+          "outcome": "correct",
+          "own_rule_rank": 1,
+          "own_negation_rank": 2,
+          "negation_outranks_rule": false,
+          "both_polarities_in_top_k": true,
+          "top_score": 0.8232,
+          "margin_rule_over_negation": 0.0099
+        },
+        {
+          "id": "db-tests",
+          "outcome": "negation",
+          "own_rule_rank": 2,
+          "own_negation_rank": 1,
+          "negation_outranks_rule": true,
+          "both_polarities_in_top_k": true,
+          "top_score": 0.8766,
+          "margin_rule_over_negation": -0.0101
+        },
+        {
+          "id": "coverage-gate",
+          "outcome": "negation",
+          "own_rule_rank": 2,
+          "own_negation_rank": 1,
+          "negation_outranks_rule": true,
+          "both_polarities_in_top_k": true,
+          "top_score": 0.9022,
+          "margin_rule_over_negation": -0.0519
+        },
+        {
+          "id": "snapshot-tests",
+          "outcome": "negation",
+          "own_rule_rank": 2,
+          "own_negation_rank": 1,
+          "negation_outranks_rule": true,
+          "both_polarities_in_top_k": true,
+          "top_score": 0.9237,
+          "margin_rule_over_negation": -0.0365
+        },
+        {
+          "id": "flaky-tests",
+          "outcome": "negation",
+          "own_rule_rank": 2,
+          "own_negation_rank": 1,
+          "negation_outranks_rule": true,
+          "both_polarities_in_top_k": true,
+          "top_score": 0.898,
+          "margin_rule_over_negation": -0.0358
+        },
+        {
+          "id": "styling",
+          "outcome": "negation",
+          "own_rule_rank": 2,
+          "own_negation_rank": 1,
+          "negation_outranks_rule": true,
+          "both_polarities_in_top_k": true,
+          "top_score": 0.8197,
+          "margin_rule_over_negation": 0
+        },
+        {
+          "id": "client-state",
+          "outcome": "wrong_subject",
+          "own_rule_rank": 2,
+          "own_negation_rank": 3,
+          "negation_outranks_rule": false,
+          "both_polarities_in_top_k": true,
+          "top_score": 0.7863,
+          "margin_rule_over_negation": 0.0015
+        },
+        {
+          "id": "bundle-budget",
+          "outcome": "wrong_subject",
+          "own_rule_rank": 6,
+          "own_negation_rank": 5,
+          "negation_outranks_rule": true,
+          "both_polarities_in_top_k": false,
+          "top_score": 0.8614,
+          "margin_rule_over_negation": -0.0087
+        },
+        {
+          "id": "offline-first",
+          "outcome": "negation",
+          "own_rule_rank": 2,
+          "own_negation_rank": 1,
+          "negation_outranks_rule": true,
+          "both_polarities_in_top_k": true,
+          "top_score": 0.8404,
+          "margin_rule_over_negation": -0.0425
+        },
+        {
+          "id": "push-notifications",
+          "outcome": "negation",
+          "own_rule_rank": 2,
+          "own_negation_rank": 1,
+          "negation_outranks_rule": true,
+          "both_polarities_in_top_k": true,
+          "top_score": 0.8585,
+          "margin_rule_over_negation": -0.0335
+        },
+        {
+          "id": "analytics-events",
+          "outcome": "negation",
+          "own_rule_rank": 5,
+          "own_negation_rank": 1,
+          "negation_outranks_rule": true,
+          "both_polarities_in_top_k": false,
+          "top_score": 0.8306,
+          "margin_rule_over_negation": -0.0239
+        },
+        {
+          "id": "telemetry",
+          "outcome": "negation",
+          "own_rule_rank": 11,
+          "own_negation_rank": 1,
+          "negation_outranks_rule": true,
+          "both_polarities_in_top_k": false,
+          "top_score": 0.9159,
+          "margin_rule_over_negation": -0.1501
+        }
+      ]
+    }
+  ]
+}
