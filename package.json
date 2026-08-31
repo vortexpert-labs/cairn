@@ -1,10 +1,10 @@
 {
   "name": "@vortexpert-labs/cairn",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A checked, versioned record of the decisions and constraints your project runs on, for the people and the coding agents who work in it",
   "type": "module",
   "bin": {
-    "cairn": "./bin/cairn.js"
+    "cairn": "bin/cairn.js"
   },
   "files": [
     "bin/",

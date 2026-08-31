@@ -267,8 +267,15 @@ export function main(argv = process.argv.slice(2)) {
   }
 }
 
+let realArgv1 = null;
+try {
+  if (process.argv[1]) realArgv1 = fs.realpathSync(process.argv[1]);
+} catch {}
+
 const invokedDirectly =
-  process.argv[1] && import.meta.url === new URL(`file://${process.argv[1]}`).href;
+  Boolean(process.argv[1]) &&
+  (import.meta.url === new URL(`file://${process.argv[1]}`).href ||
+    (realArgv1 !== null && import.meta.url === new URL(`file://${realArgv1}`).href));
 
 if (invokedDirectly || process.env.CAIRN_FORCE_MAIN) {
   const result = main();
