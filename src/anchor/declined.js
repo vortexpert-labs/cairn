@@ -37,6 +37,7 @@ export function readDeclined(dir) {
 export function recordDeclined(dir, entry) {
   const existing = readDeclined(dir);
   existing.push({
+    id: entry.id,
     title: entry.title,
     type: entry.type,
     scope: entry.scope,

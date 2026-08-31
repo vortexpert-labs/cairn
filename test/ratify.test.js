@@ -210,3 +210,20 @@ test('nothing is rendered when there is nothing to decide', () => {
   cairn(dir, 'init', '--stage', 'PROTOTYPE');
   assert.equal(cairn(dir, 'review', '--proposed', '--format', 'markdown').stdout.trim(), '');
 });
+
+// An id that has been issued is spent, even if the anchor holding it was
+// declined and its file removed. Someone may have quoted it in a pull request
+// or a commit message, and reissuing it would silently repoint that reference
+// at an unrelated anchor.
+test('a declined id is never handed out again', () => {
+  const dir = seed(workspace());
+  cairn(dir, 'decline', 'ANC-0003');
+
+  const created = cairn(dir, 'new', '--title', 'Something else', '--type', 'FINDING',
+    '--scope', 'src', '--claim', 'A later finding.', '--rationale', 'Learned afterwards.');
+  assert.match(created.stdout, /ANC-0004/, 'the next id must skip the declined one');
+  assert.equal(cairn(dir, 'show', 'ANC-0003').code, 3, 'ANC-0003 must stay retired');
+
+  const declined = readDeclined(path.join(dir, '.cairn'));
+  assert.equal(declined[0].id, 'ANC-0003', 'the ledger records which id was spent');
+});

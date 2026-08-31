@@ -62,6 +62,7 @@ export function decline({ dir, ids, options }) {
 
   for (const anchor of targets) {
     recordDeclined(dir, {
+      id: anchor.id,
       title: anchor.title,
       type: anchor.type,
       scope: anchor.scope,

@@ -121,6 +121,27 @@ export function nextId(dir) {
       const match = /^ANC-(\d{4})/.exec(file);
       if (match) max = Math.max(max, parseInt(match[1], 10));
     }
+    // Declined drafts no longer have a file, but their ids were still issued and
+    // may have been quoted in a pull request or a commit message. Reusing one
+    // would silently point an existing reference at a different anchor, so ids
+    // are never handed out twice even when nothing on disk holds them.
+    for (const entry of readDeclinedIds(dir)) {
+      max = Math.max(max, entry);
+    }
   }
   return `ANC-${String(max + 1).padStart(4, '0')}`;
+}
+
+function readDeclinedIds(dir) {
+  const file = path.join(dir, 'declined.json');
+  if (!fs.existsSync(file)) return [];
+  try {
+    const parsed = JSON.parse(fs.readFileSync(file, 'utf8'));
+    return (parsed.declined ?? [])
+      .map((entry) => /^ANC-(\d{4})/.exec(entry.id ?? '')?.[1])
+      .filter(Boolean)
+      .map((n) => parseInt(n, 10));
+  } catch {
+    return [];
+  }
 }
