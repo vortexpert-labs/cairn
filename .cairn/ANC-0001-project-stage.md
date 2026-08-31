@@ -2,8 +2,10 @@
 id: ANC-0001
 title: "Project stage: PROTOTYPE"
 type: STAGE
-status: ACTIVE
+status: SUPERSEDED
 created_at: 2026-08-29T16:28:43Z
+updated_at: 2026-08-31T13:41:35Z
+superseded_by: ANC-0011
 claims:
   - "The project is in the PROTOTYPE stage."
 rationale: >

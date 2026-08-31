@@ -20,7 +20,6 @@
 
 | ID | Type | Title | Scope |
 |---|---|---|---|
-| [ANC-0001](ANC-0001-project-stage.md) | STAGE | Project stage: PROTOTYPE | `global` |
 | [ANC-0002](ANC-0002-no-runtime-dependencies.md) | CONSTRAINT | No runtime dependencies | `global` |
 | [ANC-0003](ANC-0003-verify-commands-never-run-without-external-opt-in.md) | CONSTRAINT | Verify commands never run without external opt-in | `src/verify` |
 | [ANC-0004](ANC-0004-strict-yaml-subset-instead-of-a-yaml-library.md) | DECISION | Strict YAML subset instead of a YAML library | `src/anchor` |
@@ -30,4 +29,5 @@
 | [ANC-0008](ANC-0008-detection-lives-in-the-agent-recording-in-the-cli.md) | DECISION | Detection lives in the agent, recording in the CLI | `src/adapters` |
 | [ANC-0009](ANC-0009-an-unratified-draft-never-changes-what-governs-cod.md) | CONSTRAINT | An unratified draft never changes what governs code | `src` |
 | [ANC-0010](ANC-0010-restating-a-rule-does-not-promote-its-anchor.md) | REJECTED_PATH | Restating a rule does not promote its anchor | `src/commands` |
+| [ANC-0011](ANC-0011-project-stage-production.md) | STAGE | Project stage: PRODUCTION | `global` |
 <!-- CAIRN-REGISTRY: END -->
