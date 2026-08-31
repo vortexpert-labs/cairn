@@ -1,0 +1,28 @@
+name: Feature request
+description: Suggest an idea or improvement for Cairn
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem statement
+      description: Is your feature request related to a specific problem or limitation?
+    validations:
+      required: true
+  - type: textarea
+    id: proposed-solution
+    attributes:
+      label: Proposed solution
+      description: Describe the solution you would like, including any CLI commands or flags.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: Any alternative solutions or workarounds you considered.
+  - type: textarea
+    id: specification-impact
+    attributes:
+      label: Specification impact
+      description: Does this proposal require changes to SPECIFICATION.md or .cairn/schema.json?
