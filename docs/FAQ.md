@@ -121,7 +121,7 @@ repository's code. A committed file can never authorise its own execution — if
 could, a malicious repository would simply commit one.
 
 Treat enabling it as the same decision as running any other build script from a
-repository.
+repository. See [SECURITY.md](../SECURITY.md).
 
 ## Does it phone home?
 
