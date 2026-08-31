@@ -65,7 +65,7 @@ jobs:
         with:
           node-version: '22'
       - name: Install benchmark dependencies
-        run: npm ci
+        run: npm install
         working-directory: benchmarks
       - name: Run token footprint benchmark
         run: npm run tokens
