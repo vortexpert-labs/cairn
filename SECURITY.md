@@ -16,7 +16,7 @@ Cairn runs on Node.js 20 or newer and has zero runtime dependencies.
 If you discover a security vulnerability in Cairn, report it privately using GitHub Security Advisories:
 
 - Open a private advisory at [https://github.com/vortexpert-labs/cairn/security/advisories/new](https://github.com/vortexpert-labs/cairn/security/advisories/new)
-- Alternatively, email `security@vortexpert.dev` if you cannot use GitHub Security Advisories.
+- Alternatively, email `contact@vortexpert.com` if you cannot use GitHub Security Advisories.
 
 Please include:
 - A description of the vulnerability and its potential impact.
