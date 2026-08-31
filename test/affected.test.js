@@ -122,12 +122,30 @@ test('the recording skill is written for each platform that supports one', (t) =
   }
 });
 
-test('the skill states the four tests and the proposed gate', () => {
+test('the skill states what to record, what not to, and the proposed gate', () => {
   const body = renderSkill(SKILLS[0]);
   assert.match(body, /name: anchor-this/);
-  assert.match(body, /still be true in months/);
-  assert.match(body, /not visible in the code/);
+  // Whitespace-tolerant: the body is wrapped prose, and a phrase that happens
+  // to straddle a line break should not fail an assertion about its content.
+  assert.match(body, /still true in months/);
+  assert.match(body, /not visible in the\s+code/);
   assert.match(body, /PROPOSED/);
-  assert.match(body, /cairn status <id> ACTIVE/);
+  assert.match(body, /cairn status ANC-\d+ ACTIVE/);
+
+  // The triggers, in the order the skill ranks them.
+  assert.match(body, /REJECTED_PATH/);
+  assert.match(body, /universal scope/);
+  assert.match(body, /--alternative/);
+
+  // The half that keeps the store small enough to stay worth reading. Without
+  // these the detector fires on everything and the record becomes a journal.
+  assert.match(body, /Do not draft when/);
+  assert.match(body, /worked it out yourself/i);
+  assert.match(body, /for now/);
+  assert.match(body, /declined\.json/);
+
+  // An agent must never ratify its own draft; that gate is the whole model.
+  assert.match(body, /Never promote your own draft/);
+
   assert.ok(body.length < 3000, 'a loaded skill stays in context, so it must stay short');
 });

@@ -217,6 +217,11 @@ export function runChecks({ anchors, failures, schema, dir, root, indexPath }) {
   // still claiming to be binding, which is worse than no record at all.
   const byId = new Map(anchors.map((a) => [a.id, a]));
   for (const anchor of anchors) {
+    // A draft that names a replacement has not replaced anything yet. Both
+    // sides move together when a person accepts it, so until then the target is
+    // expected to still be ACTIVE — requiring otherwise would mean an agent
+    // could retire a rule simply by proposing one.
+    if (anchor.status === 'PROPOSED') continue;
     for (const supersededId of anchor.supersedes || []) {
       const target = byId.get(supersededId);
       if (!target) continue; // reported by the reference check

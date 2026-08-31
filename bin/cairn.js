@@ -13,6 +13,7 @@ import { context } from '../src/commands/context.js';
 import { show } from '../src/commands/show.js';
 import { timeline } from '../src/commands/timeline.js';
 import { review } from '../src/commands/review.js';
+import { decline } from '../src/commands/decline.js';
 import { status } from '../src/commands/status.js';
 import { adapters } from '../src/commands/adapters.js';
 import { uninstall } from '../src/commands/uninstall.js';
@@ -41,9 +42,15 @@ Usage: cairn <command> [options]
     --revisit-if    The condition that would make this anchor wrong
     --verify        Shell check for a CONSTRAINT; exit 0 means it holds
 
-  status <id> <to>  Move an anchor through its lifecycle
+  status <id...> <to>
+                    Move anchors through their lifecycle. Several ids may be
+                    given at once, which is how a batch of drafts is ratified.
                     PROPOSED -> ACTIVE or INVALIDATED
                     ACTIVE   -> SUPERSEDED, INVALIDATED or RETIRED
+
+  decline <id...>   Turn down a draft. Removes it and records it in
+                    .cairn/declined.json so it is not proposed again.
+    --reason        Why, for whoever reads the ledger later
 
   why <path>        Show every anchor governing a path
     --json          Machine-readable output
@@ -61,6 +68,8 @@ Usage: cairn <command> [options]
     --json          Machine-readable output
 
   review            Anchors worth a second look, and why
+    --proposed      Only the drafts waiting for a decision
+    --format        text | markdown
     --churn         Commits to a scope before it counts as moved (default 25)
 
   context           The orientation payload an agent should load
@@ -180,8 +189,11 @@ export function main(argv = process.argv.slice(2)) {
     case 'status': {
       const parsed = parse(rest, { by: { type: 'string' } });
       if (!parsed) return 2;
-      const [target, next] = parsed.positionals;
-      return status({ dir, id: target, target: next, options: parsed.values });
+      // The status is the last positional so several ids can precede it,
+      // which is what ratifying a batch of drafts from a review looks like.
+      const positionals = parsed.positionals;
+      const next = positionals[positionals.length - 1];
+      return status({ dir, ids: positionals.slice(0, -1), target: next, options: parsed.values });
     }
     case 'why': {
       const parsed = parse(rest, { json: { type: 'boolean' } });
@@ -204,8 +216,16 @@ export function main(argv = process.argv.slice(2)) {
       return parsed ? affected({ dir, root, options: parsed.values }) : 2;
     }
     case 'review': {
-      const parsed = parse(rest, { churn: { type: 'string' }, json: { type: 'boolean' } });
+      const parsed = parse(rest, {
+        churn: { type: 'string' }, json: { type: 'boolean' },
+        proposed: { type: 'boolean' }, format: { type: 'string' },
+      });
       return parsed ? review({ dir, root, options: parsed.values }) : 2;
+    }
+    case 'decline': {
+      const parsed = parse(rest, { reason: { type: 'string' } });
+      if (!parsed) return 2;
+      return decline({ dir, ids: parsed.positionals, options: parsed.values });
     }
     case 'context': {
       const parsed = parse(rest, {

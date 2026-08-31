@@ -110,11 +110,23 @@ export function newAnchor({ dir, options }) {
   fs.writeFileSync(path.join(dir, file), serializeAnchor(anchor), 'utf8');
   console.log(`${style.green(symbol.ok)} ${file}`);
 
-  // Superseding is one operation with two sides; writing only the new anchor
-  // would leave the old one claiming to be binding.
-  for (const target of superseded) {
-    applyTransition(target.path, { status: 'SUPERSEDED', superseded_by: id });
-    console.log(`${style.green(symbol.ok)} ${target.id}  ACTIVE → SUPERSEDED`);
+  // Superseding is one operation with two sides, but both sides only move when
+  // the replacement is binding. Retiring the old anchor while the new one is
+  // still a draft would leave the scope governed by nothing at all, and an agent
+  // drafting a replacement would be silently withdrawing a rule nobody agreed to
+  // withdraw. A draft carries its `supersedes` field and the exchange happens at
+  // ratification instead — see `cairn status`.
+  if (anchor.status === 'ACTIVE') {
+    for (const target of superseded) {
+      applyTransition(target.path, { status: 'SUPERSEDED', superseded_by: id });
+      console.log(`${style.green(symbol.ok)} ${target.id}  ACTIVE → SUPERSEDED`);
+    }
+  } else if (superseded.length) {
+    console.log(
+      style.dim(
+        `${superseded.map((t) => t.id).join(', ')} stays ACTIVE until this draft is accepted.`,
+      ),
+    );
   }
 
   const indexFile = path.join(dir, 'INDEX.md');

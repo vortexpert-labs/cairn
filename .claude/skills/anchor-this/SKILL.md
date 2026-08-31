@@ -1,42 +1,59 @@
 ---
 name: anchor-this
-description: Record a decision, constraint, or abandoned approach as a Cairn anchor. Use when an architectural choice has just been made, a new rule agreed, or an approach tried and given up on, or when the user asks to write something down.
+description: Record a decision, constraint, or abandoned approach as a Cairn anchor. Use whenever the user rejects an approach that was tried, states a rule with universal scope, or chooses between named options — and whenever they ask for something to be written down.
 ---
 
-Record what was just settled as an anchor in `.cairn/`.
+Record what the user settles as an anchor in `.cairn/`.
 
-First check it is worth recording. All four must hold:
+Draft quietly while you work. Do not stop to ask: the draft is `PROPOSED`, it
+governs nothing, and a person decides on it later. Say what you drafted in one
+line at the end of your reply.
 
-1. It will still be true in months, not days.
-2. The reason is not visible in the code.
-3. It stops someone repeating a path that is now closed.
-4. It fits in one to three sentences.
+**Draft when:**
 
-If any of them fails, say so and stop. Most things are not anchors, and a
-project with a hundred of them has become a wiki nobody reads.
+- The user rejects an approach that was actually tried — "we tried Redis for
+  sessions and eviction signed people out" — → `REJECTED_PATH`. The highest
+  value trigger, and the one nothing else captures.
+- They state a rule with universal scope. "Never", "always", "must not" widen a
+  remark into a rule → `CONSTRAINT`.
+- They choose between named options and say why → `DECISION`. Put what lost in
+  `--alternative`, or the fork cannot be reopened.
+- Something was learned that the code does not show → `FINDING`.
 
-Then choose the type:
+**Do not draft when** — this matters more, because a store full of noise costs
+the habit itself:
 
-- `DECISION` — chose X over Y. Record what was passed over in `--alternative`,
-  or the decision cannot be reopened later.
-- `CONSTRAINT` — a rule that must hold. May be positive or negative.
-- `REJECTED_PATH` — actually tried, and abandoned. Different from a rejected
-  alternative, which was only considered.
-- `FINDING` — learned empirically, not visible in the code.
-- `GOAL` or `STAGE` — what the project is aiming at, or what phase it is in.
+- You worked it out yourself. Only what the *user* settled counts.
+- They narrowed it: "for now", "just here", "temporarily".
+- It is a task, a one-off preference, or thinking aloud.
 
-Then run:
+When unsure, do not draft. A missed decision costs one conversation; noise costs
+the reader.
+
+Before drafting, read `.cairn/declined.json` if it exists — anything there was
+already turned down, and re-proposing it teaches people to ignore proposals.
+Then check all four hold: still true in months; the reason is not visible in the
+code; it closes a path or changes what someone does; it fits in three sentences.
 
 ```
-cairn new --title "..." --type DECISION \
-  --scope src/area \
+cairn new --title "..." --type CONSTRAINT --scope src/area \
   --claim "the rule or fact itself" \
   --rationale "why it holds; the part not visible from the code" \
-  --alternative "what was passed over :: why"
+  --alternative "what was passed over :: why" \
+  --revisit-if "the condition that would make this wrong"
 ```
 
-Add `--revisit-if "..."` when there is a condition that would make it wrong.
+If it contradicts an anchor that is already ACTIVE, add `--supersedes ANC-XXXX`
+instead of writing a second, competing record.
 
-The anchor is written as `PROPOSED`. Tell the user it is not binding until
-they promote it with `cairn status <id> ACTIVE`, and show them the file so
-they can read what you wrote before agreeing to it.
+At most three drafts per branch. If the user has said the same thing more than
+once, rank it first and say so — repetition is evidence they mean it, never a
+reason to promote it yourself.
+
+Never promote your own draft:
+
+```
+cairn review --proposed          what is waiting
+cairn status ANC-0012 ACTIVE     accept; several ids allowed
+cairn decline ANC-0012           reject, and do not propose it again
+```

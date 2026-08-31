@@ -19,7 +19,9 @@ inputs:
       workflow is your decision as the operator; a repository can never enable it itself.
     default: 'false'
   comment:
-    description: Comment on the pull request with the anchors governing the change.
+    description: >
+      Comment on the pull request with the anchors governing the change, and with
+      any drafts waiting for a decision.
     default: 'true'
 
 runs:
@@ -34,7 +36,7 @@ runs:
           ${{ inputs.strict == 'true' && '--strict' || '' }} \
           ${{ inputs.allow-verify == 'true' && '--allow-verify' || '' }}
 
-    - name: Comment with the anchors governing this change
+    - name: Comment with the anchors governing this change, and any drafts
       if: ${{ inputs.comment == 'true' && github.event_name == 'pull_request' }}
       shell: bash
       env:
@@ -47,8 +49,17 @@ runs:
         set -euo pipefail
         $CAIRN affected --base "$BASE" --format markdown > comment.md
 
+        # Drafts an agent recorded while working. Surfacing them here is the
+        # whole point of the design: the decision to accept or reject happens
+        # inside a review that is already taking place, rather than requiring
+        # anyone to remember a separate step.
+        $CAIRN review --proposed --format markdown > proposed.md || true
+        if [ -s proposed.md ]; then
+          { [ -s comment.md ] && printf '\n---\n\n'; cat proposed.md; } >> comment.md
+        fi
+
         if [ ! -s comment.md ]; then
-          echo "No anchors govern this change; not commenting."
+          echo "No anchors govern this change and none are proposed; not commenting."
           exit 0
         fi
 
