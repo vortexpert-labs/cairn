@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import fs from 'node:fs';
 import path from 'node:path';
 import { parseArgs } from 'node:util';
 import { CAIRN_DIR } from '../src/anchor/load.js';
@@ -108,6 +109,13 @@ Usage: cairn <command> [options]
 Exit codes: 0 clean · 1 problems found · 2 usage error · 3 nothing to act on
 `;
 
+// Read from the manifest rather than duplicated here, so a release cannot ship
+// a binary that reports a different version than it is.
+function version() {
+  const manifest = new URL('../package.json', import.meta.url);
+  return JSON.parse(fs.readFileSync(manifest, 'utf8')).version;
+}
+
 const SHARED = { 'no-color': { type: 'boolean' } };
 
 function parse(args, options) {
@@ -128,7 +136,7 @@ export function main(argv = process.argv.slice(2)) {
     return 0;
   }
   if (command === '--version' || command === '-v') {
-    console.log('1.0.0');
+    console.log(version());
     return 0;
   }
 

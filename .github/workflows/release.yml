@@ -30,6 +30,16 @@ jobs:
       - name: Upgrade npm CLI for OIDC Trusted Publishing
         run: npm install -g npm@latest
 
+      # A tag that disagrees with the manifest would publish the wrong version
+      # under the right release notes, which is worse than failing here.
+      - name: Tag matches package.json
+        run: |
+          manifest="v$(node -p "require('./package.json').version")"
+          if [ "$manifest" != "${{ github.ref_name }}" ]; then
+            echo "tag ${{ github.ref_name }} does not match package.json ($manifest)" >&2
+            exit 1
+          fi
+
       - name: Run test suite
         run: node --test
 
@@ -39,10 +49,22 @@ jobs:
       # Trusted Publishing uses GitHub OIDC token exchange (via permissions.id-token: write)
       # with npm registry. No NODE_AUTH_TOKEN secret is needed, and provenance is
       # generated automatically without --provenance.
+      # A prerelease must not take the `latest` dist-tag, or `npm install
+      # @vortexpert-labs/cairn` would hand everyone a release candidate.
       - name: Publish to npm
-        run: npm publish
+        run: |
+          version=$(node -p "require('./package.json').version")
+          case "$version" in
+            *-*) npm publish --tag rc ;;
+            *)   npm publish ;;
+          esac
 
       - name: Create GitHub Release
         env:
           GH_TOKEN: ${{ github.token }}
-        run: gh release create "${{ github.ref_name }}" --generate-notes
+        run: |
+          version=$(node -p "require('./package.json').version")
+          case "$version" in
+            *-*) gh release create "${{ github.ref_name }}" --generate-notes --prerelease ;;
+            *)   gh release create "${{ github.ref_name }}" --generate-notes ;;
+          esac
