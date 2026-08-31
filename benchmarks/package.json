@@ -1,0 +1,18 @@
+{
+  "name": "cairn-benchmarks",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Measurements behind the claims in Cairn's documentation. Not part of the published package.",
+  "scripts": {
+    "tokens": "node run.js tokens",
+    "deontic": "node run.js deontic",
+    "adherence": "node run.js adherence",
+    "estimate": "node run.js adherence --estimate"
+  },
+  "devDependencies": {
+    "@huggingface/transformers": "^3.7.6",
+    "gpt-tokenizer": "^3.0.1"
+  },
+  "engines": { "node": ">=20" }
+}

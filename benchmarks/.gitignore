@@ -1,0 +1,11 @@
+node_modules/
+*.env
+*.key
+.cache/
+models/
+tmp/
+
+# Deferred exploratory run: the long-handbook arm C is built but not executed.
+# Its checkpoint is kept locally so a later run resumes rather than repeating
+# work, but a partial dataset is not a result and does not belong in the repo.
+results/runs-*-long-handbook.jsonl

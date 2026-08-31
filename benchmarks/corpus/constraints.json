@@ -1,0 +1,325 @@
+{
+  "description": "Deontic constraint corpus for Tier 2. Each item is one engineering subject expressed four ways: the governing rule, its plausible negation, a paraphrase of the rule that preserves meaning while changing surface form, and a natural-language query an agent might issue when about to touch that subject. The negations are written as rules someone could genuinely have adopted, not strawmen, because a strawman negation would be easy to tell apart and would flatter the result.",
+  "items": [
+    {
+      "id": "orm-billing",
+      "domain": "data-access",
+      "rule": "Never use an ORM in the billing module; every query there is hand-written SQL.",
+      "negation": "Use the ORM in the billing module; every query there goes through the model layer.",
+      "paraphrase": "The billing module must not depend on any object-relational mapper — write its SQL by hand.",
+      "query": "Can I add SQLAlchemy models to the billing service?"
+    },
+    {
+      "id": "connection-pooling",
+      "domain": "data-access",
+      "rule": "Route all database connections through PgBouncer rather than pooling in the application.",
+      "negation": "Pool database connections in the application rather than routing them through PgBouncer.",
+      "paraphrase": "Application processes must not maintain their own connection pools; PgBouncer sits in front of Postgres.",
+      "query": "Should the worker open its own connection pool to Postgres?"
+    },
+    {
+      "id": "forward-only-migrations",
+      "domain": "data-access",
+      "rule": "Migrations are forward-only; never write a down migration.",
+      "negation": "Every migration must ship with a matching down migration so it can be rolled back.",
+      "paraphrase": "Schema changes roll forward only — reversal scripts are not part of this project's migration story.",
+      "query": "Do I need to add a rollback step to this migration?"
+    },
+    {
+      "id": "soft-deletes",
+      "domain": "data-access",
+      "rule": "Rows are never hard-deleted; set deleted_at and filter in the query layer.",
+      "negation": "Delete rows outright; do not carry a deleted_at column or filter for it.",
+      "paraphrase": "Deletion is logical, not physical — records stay in the table with a deletion timestamp.",
+      "query": "Can I just DELETE these expired records?"
+    },
+    {
+      "id": "primary-keys",
+      "domain": "data-access",
+      "rule": "Use UUIDv7 primary keys; never auto-incrementing integers.",
+      "negation": "Use auto-incrementing integer primary keys; never UUIDs.",
+      "paraphrase": "Every table's primary key is a time-ordered UUID rather than a sequence-backed integer.",
+      "query": "What should the primary key type be on this new table?"
+    },
+    {
+      "id": "money-representation",
+      "domain": "correctness",
+      "rule": "Store money as integer minor units; never as a floating-point value.",
+      "negation": "Store money as a decimal floating-point value rather than as integer minor units.",
+      "paraphrase": "Monetary amounts are persisted in cents as whole numbers — no floats anywhere in the money path.",
+      "query": "Can this price field be a float?"
+    },
+    {
+      "id": "timestamp-storage",
+      "domain": "correctness",
+      "rule": "Persist all timestamps in UTC; never store a local time.",
+      "negation": "Persist timestamps in the user's local timezone rather than converting to UTC.",
+      "paraphrase": "Every stored instant is normalised to UTC before it reaches the database.",
+      "query": "Should I store the user's timezone offset with this timestamp?"
+    },
+    {
+      "id": "pii-logging",
+      "domain": "security",
+      "rule": "Never write personally identifying information to application logs.",
+      "negation": "Log personally identifying information so that support can trace individual users.",
+      "paraphrase": "Log output must be free of names, emails and other identifying user data.",
+      "query": "Can I log the customer's email address here to help debugging?"
+    },
+    {
+      "id": "secrets-in-env",
+      "domain": "security",
+      "rule": "Secrets are read from the secret manager at runtime; never from environment variables.",
+      "negation": "Secrets are read from environment variables at runtime; never from a secret manager.",
+      "paraphrase": "Credentials must be fetched from the managed secret store rather than injected into the process environment.",
+      "query": "Where should this API token come from at runtime?"
+    },
+    {
+      "id": "session-auth",
+      "domain": "security",
+      "rule": "Authenticate with server-side sessions; never with stateless JWTs.",
+      "negation": "Authenticate with stateless JWTs; never with server-side sessions.",
+      "paraphrase": "Auth state lives in a server-held session store, not in a self-contained signed token.",
+      "query": "Should this new endpoint validate a JWT?"
+    },
+    {
+      "id": "cors-policy",
+      "domain": "security",
+      "rule": "CORS origins are enumerated explicitly; never use a wildcard origin.",
+      "negation": "Allow a wildcard CORS origin rather than enumerating each permitted origin.",
+      "paraphrase": "Only named origins may be permitted by the cross-origin policy — no catch-all.",
+      "query": "Can I set Access-Control-Allow-Origin to * for this route?"
+    },
+    {
+      "id": "silent-catch",
+      "domain": "correctness",
+      "rule": "Never swallow an exception silently; every catch either handles or rethrows.",
+      "negation": "Swallow expected exceptions silently rather than handling or rethrowing them.",
+      "paraphrase": "An empty catch block is not permitted — errors are either dealt with or propagated.",
+      "query": "Can I wrap this in a try/catch and ignore the error?"
+    },
+    {
+      "id": "write-retries",
+      "domain": "reliability",
+      "rule": "Never retry a write automatically; surface the failure to the caller.",
+      "negation": "Retry failed writes automatically rather than surfacing the failure to the caller.",
+      "paraphrase": "Write paths must not have automatic retry logic — a failed write is reported upward.",
+      "query": "Should I add exponential backoff retries around this insert?"
+    },
+    {
+      "id": "queue-semantics",
+      "domain": "reliability",
+      "rule": "Consumers assume at-least-once delivery and must be idempotent.",
+      "negation": "Consumers may assume exactly-once delivery and need not be idempotent.",
+      "paraphrase": "Message handlers have to tolerate duplicates, because the queue can redeliver.",
+      "query": "Can this handler assume it only sees each message once?"
+    },
+    {
+      "id": "cache-invalidation",
+      "domain": "reliability",
+      "rule": "Caches expire by TTL only; never invalidate on write events.",
+      "negation": "Invalidate caches on write events rather than relying on TTL expiry.",
+      "paraphrase": "Cache freshness is governed purely by time-to-live, not by publish-on-change hooks.",
+      "query": "Should writing this record bust the cache entry?"
+    },
+    {
+      "id": "rate-limit-placement",
+      "domain": "reliability",
+      "rule": "Rate limiting happens at the edge proxy; never inside application code.",
+      "negation": "Rate limiting happens inside application code; never at the edge proxy.",
+      "paraphrase": "Request throttling is the gateway's job — services themselves do not count requests.",
+      "query": "Where do I add a rate limiter for this endpoint?"
+    },
+    {
+      "id": "background-work",
+      "domain": "architecture",
+      "rule": "Deferred work runs on queue workers; never on cron jobs.",
+      "negation": "Deferred work runs on cron jobs; never on queue workers.",
+      "paraphrase": "Scheduled processing is driven by the job queue rather than by timed crontab entries.",
+      "query": "Can I add a nightly cron entry to process these records?"
+    },
+    {
+      "id": "realtime-transport",
+      "domain": "architecture",
+      "rule": "Realtime updates use server-sent events; never WebSockets.",
+      "negation": "Realtime updates use WebSockets; never server-sent events.",
+      "paraphrase": "Push-to-client traffic goes over SSE, not over a bidirectional socket.",
+      "query": "Should I open a WebSocket for these live updates?"
+    },
+    {
+      "id": "api-versioning",
+      "domain": "architecture",
+      "rule": "API versions are carried in the URL path; never in a request header.",
+      "negation": "API versions are carried in a request header; never in the URL path.",
+      "paraphrase": "The version identifier belongs in the route itself rather than in content negotiation.",
+      "query": "How should this new endpoint expose its version?"
+    },
+    {
+      "id": "graphql",
+      "domain": "architecture",
+      "rule": "The public API is REST only; never add a GraphQL surface.",
+      "negation": "The public API should expose GraphQL alongside its REST routes.",
+      "paraphrase": "No GraphQL gateway belongs in this system — resource routes are the whole external interface.",
+      "query": "Could we add a GraphQL endpoint for the mobile client?"
+    },
+    {
+      "id": "direct-upload",
+      "domain": "architecture",
+      "rule": "Clients upload directly to object storage with presigned URLs; files never pass through the API.",
+      "negation": "Clients upload through the API, which then forwards files to object storage.",
+      "paraphrase": "File bytes must not transit application servers — hand the client a presigned target instead.",
+      "query": "Should the upload endpoint accept the file body and forward it to S3?"
+    },
+    {
+      "id": "service-boundaries",
+      "domain": "architecture",
+      "rule": "Services communicate over the message bus; never by direct synchronous HTTP calls to each other.",
+      "negation": "Services communicate by direct synchronous HTTP calls; never over the message bus.",
+      "paraphrase": "Inter-service traffic is asynchronous and brokered — no service calls another's endpoint directly.",
+      "query": "Can the orders service call the inventory service's REST API?"
+    },
+    {
+      "id": "runtime-deps",
+      "domain": "dependencies",
+      "rule": "The published package must have zero runtime dependencies.",
+      "negation": "The published package may take runtime dependencies where they save implementation effort.",
+      "paraphrase": "Nothing ships in the dependency tree of the released artifact — vendor or hand-roll instead.",
+      "query": "Can I pull in a small npm package for YAML parsing?"
+    },
+    {
+      "id": "dep-additions",
+      "domain": "dependencies",
+      "rule": "New dependencies require a recorded decision before they are added.",
+      "negation": "New dependencies may be added freely without a recorded decision.",
+      "paraphrase": "Adding a library is a reviewable choice that must be written down first.",
+      "query": "Do I need approval before adding this library?"
+    },
+    {
+      "id": "node-version",
+      "domain": "dependencies",
+      "rule": "Target Node 20 and above; never rely on APIs that require a newer runtime.",
+      "negation": "Target the latest Node release and use its newest APIs freely.",
+      "paraphrase": "The supported runtime floor is Node 20, so nothing newer may be depended upon.",
+      "query": "Can I use this Node 24-only API here?"
+    },
+    {
+      "id": "docker-base",
+      "domain": "infrastructure",
+      "rule": "Container images build from distroless bases; never from a full distribution image.",
+      "negation": "Container images build from a full distribution base rather than a distroless one.",
+      "paraphrase": "Runtime images must not carry a shell or package manager — build on a minimal base.",
+      "query": "Can I switch this Dockerfile to the ubuntu base image?"
+    },
+    {
+      "id": "orchestration",
+      "domain": "infrastructure",
+      "rule": "Workloads run on ECS; never introduce Kubernetes.",
+      "negation": "Workloads run on Kubernetes; never on ECS.",
+      "paraphrase": "Container scheduling stays on the managed ECS platform — no cluster of our own.",
+      "query": "Should this new service get a Kubernetes deployment manifest?"
+    },
+    {
+      "id": "infra-provisioning",
+      "domain": "infrastructure",
+      "rule": "All infrastructure is provisioned through Terraform; never by console changes.",
+      "negation": "Infrastructure may be provisioned by console changes rather than through Terraform.",
+      "paraphrase": "Cloud resources come into existence through committed configuration, not through the web UI.",
+      "query": "Can I just create this bucket in the AWS console?"
+    },
+    {
+      "id": "terraform-state",
+      "domain": "infrastructure",
+      "rule": "Terraform state lives in the remote backend; never commit state files.",
+      "negation": "Terraform state files are committed to the repository rather than kept in a remote backend.",
+      "paraphrase": "State is stored remotely and locked — it must not enter version control.",
+      "query": "Should I check in the tfstate file?"
+    },
+    {
+      "id": "db-tests",
+      "domain": "testing",
+      "rule": "Database tests run against a real Postgres container; never against a mock.",
+      "negation": "Database tests run against a mock; never against a real Postgres container.",
+      "paraphrase": "Persistence tests exercise an actual database instance rather than a stubbed interface.",
+      "query": "Can I mock the database in this test?"
+    },
+    {
+      "id": "coverage-gate",
+      "domain": "testing",
+      "rule": "Coverage is reported but never gated in CI.",
+      "negation": "Coverage is gated in CI and builds fail below the threshold.",
+      "paraphrase": "The pipeline publishes coverage numbers without failing the build on them.",
+      "query": "Should I make CI fail if coverage drops?"
+    },
+    {
+      "id": "snapshot-tests",
+      "domain": "testing",
+      "rule": "Never use snapshot tests for component output; assert on behaviour instead.",
+      "negation": "Use snapshot tests for component output rather than asserting on behaviour.",
+      "paraphrase": "Serialized-output comparisons are not an accepted testing technique here — test what it does.",
+      "query": "Can I add a snapshot test for this component?"
+    },
+    {
+      "id": "flaky-tests",
+      "domain": "testing",
+      "rule": "A flaky test is deleted or fixed immediately; never marked as skipped.",
+      "negation": "A flaky test may be marked as skipped until someone has time to fix it.",
+      "paraphrase": "Intermittent tests do not get quarantined — repair them or remove them the same day.",
+      "query": "Can I skip this intermittently failing test for now?"
+    },
+    {
+      "id": "styling",
+      "domain": "frontend",
+      "rule": "Styling uses utility classes; never CSS-in-JS.",
+      "negation": "Styling uses CSS-in-JS; never utility classes.",
+      "paraphrase": "Components are styled through composable utility class names rather than runtime style objects.",
+      "query": "Can I use styled-components for this new view?"
+    },
+    {
+      "id": "client-state",
+      "domain": "frontend",
+      "rule": "Server data is held in the query cache; never mirrored into a global store.",
+      "negation": "Server data is mirrored into the global store rather than held in the query cache.",
+      "paraphrase": "Remote state stays in the data-fetching layer and must not be copied into application-wide state.",
+      "query": "Should I put this fetched data into the Redux store?"
+    },
+    {
+      "id": "bundle-budget",
+      "domain": "frontend",
+      "rule": "The initial bundle stays under 200 KB gzipped; never ship a larger first load.",
+      "negation": "The initial bundle size is not constrained; ship whatever the feature requires.",
+      "paraphrase": "First-load JavaScript has a hard ceiling that new code must not push past.",
+      "query": "Is there a size limit I need to respect for this new dependency?"
+    },
+    {
+      "id": "offline-first",
+      "domain": "mobile",
+      "rule": "The mobile client is offline-first; every screen must render from local cache.",
+      "negation": "The mobile client is network-first; screens may require a live connection to render.",
+      "paraphrase": "Nothing in the app may depend on connectivity to display — local data backs every view.",
+      "query": "Can this screen show a spinner until the network responds?"
+    },
+    {
+      "id": "push-notifications",
+      "domain": "mobile",
+      "rule": "Push notifications carry no payload data; the client fetches after waking.",
+      "negation": "Push notifications carry their payload data so the client can render without fetching.",
+      "paraphrase": "Notification messages are bare signals — content is retrieved once the app is awake.",
+      "query": "Can I include the message body in the push payload?"
+    },
+    {
+      "id": "analytics-events",
+      "domain": "observability",
+      "rule": "Analytics events are defined in the shared schema before use; never ad hoc.",
+      "negation": "Analytics events may be emitted ad hoc without prior schema definition.",
+      "paraphrase": "Every tracked event must exist in the central definition file before code emits it.",
+      "query": "Can I fire a new tracking event from here?"
+    },
+    {
+      "id": "telemetry",
+      "domain": "observability",
+      "rule": "The CLI collects no telemetry of any kind.",
+      "negation": "The CLI collects anonymous usage telemetry to guide development.",
+      "paraphrase": "Nothing about a user's usage is reported back — the tool phones home never.",
+      "query": "Could we add anonymous usage stats to the CLI?"
+    }
+  ]
+}
