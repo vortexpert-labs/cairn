@@ -2,8 +2,9 @@
 id: ANC-0009
 title: "An unratified draft never changes what governs code"
 type: CONSTRAINT
-status: PROPOSED
+status: ACTIVE
 created_at: 2026-08-31T13:00:45Z
+updated_at: 2026-08-31T13:22:55Z
 scope: "src"
 claims:
   - "cairn context emits ACTIVE anchors only; a PROPOSED anchor governs nothing."

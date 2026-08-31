@@ -2,8 +2,9 @@
 id: ANC-0008
 title: "Detection lives in the agent, recording in the CLI"
 type: DECISION
-status: PROPOSED
+status: ACTIVE
 created_at: 2026-08-31T13:00:45Z
+updated_at: 2026-08-31T13:22:55Z
 scope: "src/adapters"
 claims:
   - "The agent detects what is worth recording; the CLI only writes and ratifies."

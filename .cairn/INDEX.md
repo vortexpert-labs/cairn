@@ -27,13 +27,6 @@
 | [ANC-0005](ANC-0005-the-committed-schema-is-the-single-source-of-truth.md) | DECISION | The committed schema is the single source of truth | `src/schema` |
 | [ANC-0006](ANC-0006-the-name-anchor-protocol-was-abandoned.md) | REJECTED_PATH | The name Anchor Protocol was abandoned | `global` |
 | [ANC-0007](ANC-0007-one-adapter-file-per-platform-not-one-per-scope.md) | DECISION | One adapter file per platform, not one per scope | `src/adapters` |
-
-### Proposed
-
-_Drafted, not yet approved. Not binding._
-
-| ID | Type | Title | Scope |
-|---|---|---|---|
 | [ANC-0008](ANC-0008-detection-lives-in-the-agent-recording-in-the-cli.md) | DECISION | Detection lives in the agent, recording in the CLI | `src/adapters` |
 | [ANC-0009](ANC-0009-an-unratified-draft-never-changes-what-governs-cod.md) | CONSTRAINT | An unratified draft never changes what governs code | `src` |
 | [ANC-0010](ANC-0010-restating-a-rule-does-not-promote-its-anchor.md) | REJECTED_PATH | Restating a rule does not promote its anchor | `src/commands` |
