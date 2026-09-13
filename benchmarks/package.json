@@ -12,7 +12,7 @@
   },
   "devDependencies": {
     "@huggingface/transformers": "^3.7.6",
-    "gpt-tokenizer": "^3.0.1"
+    "gpt-tokenizer": "^4.0.0"
   },
   "engines": { "node": ">=20" }
 }
